@@ -1,24 +1,29 @@
+import "./LandingPage.css";
 import heroImg from '../assets/symbol.svg';
 
 function LandingPage({ onStart }) {
   return (
     <section id="center">
-      <div className="hero-icon">
-        <img src={heroImg} alt="journey" height="100" width="100" />
-      </div>
 
-      <div>
-        <h1>Germany Move Quest</h1>
-        <h2>Dein Weg nach Deutschland</h2>
+  <div className="landing-content">
+      <div className="landing-logo">
+        <div className="landing-logo-image">
+        <img src={heroImg} alt="journey"></img> 
+      </div></div>
+   </div>
 
-        <p>
+      
+        <div className="landing-title">Germany Move Quest</div>
+        <div className="landing-subtitle">Dein Weg nach Deutschland</div>
+
+        <div className="landing-tagline">
           Your companion for moving to and living in Germany.
-        </p>
+        </div>
 
         <button className="button-icon" onClick={onStart}>
           Begin Your Journey
         </button>
-      </div>
+      
     </section>
   );
 }
