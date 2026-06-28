@@ -84,9 +84,11 @@ h2 {
 }
 
 h1 {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-size: clamp(32px, 8vw, 56px);
+  line-height: 1.1;
   letter-spacing: -1.68px;
   margin: 32px 0;
+  
 }
 
 h2 {
