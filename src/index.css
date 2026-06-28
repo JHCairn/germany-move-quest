@@ -50,6 +50,16 @@
   }
 }
 
+  .button-icon {
+      
+      background: #0055A4;
+      color: white;
+      border-radius: 8px;
+      padding:  16px 28px;
+      border: none;
+      margin: 24px;    }
+
+
 body {
   margin: 0;
 }
@@ -74,14 +84,11 @@ h2 {
 }
 
 h1 {
-  font-size: 56px;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
   letter-spacing: -1.68px;
   margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
 }
+
 h2 {
   font-size: 24px;
   line-height: 118%;
