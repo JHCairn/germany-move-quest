@@ -31,3 +31,9 @@
 .sidebar-nav button:hover {
   background: var(--background);
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}

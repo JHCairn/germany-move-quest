@@ -15,3 +15,14 @@
   flex: 1;
   padding: 2rem;
 }
+
+@media (max-width: 768px) {
+  .app-layout {
+    display: block;
+  }
+
+  .app-main {
+    padding: 1.25rem;
+    padding-bottom: 5rem;
+  }
+}

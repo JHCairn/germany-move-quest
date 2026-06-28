@@ -57,3 +57,28 @@
   height: 100%;
   object-fit: contain;
 }
+
+@media (max-width: 768px) {
+  .header {
+    height: auto;
+    padding: 0.75rem 1rem;
+  }
+
+  .header-logo {
+    width: 42px;
+    height: 42px;
+  }
+
+  .header-app-title {
+    font-size: 1rem;
+  }
+
+  .header-tagline {
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .header-user {
+    display: none;
+  }
+}
