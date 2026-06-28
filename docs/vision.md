@@ -2,9 +2,9 @@
 
 ## Product Vision
 
-Germany Move Quest is a mobile application that helps people successfully relocate to Germany and settle into their new community.
+Germany Move Quest is a Progressive Web App that guides people through the complete journey of moving to and living in Germany. It begins with relocation planning and evolves into a long-term companion for everyday life, helping users manage practical tasks, discover their local community, and continue building their life in Germany.
 
-The application combines practical relocation task management with exploration, discovery, and gamification to make the relocation journey less overwhelming and more enjoyable.
+The application combines practical relocation action management with exploration, discovery, and gamification to make the relocation journey less overwhelming and more enjoyable.
 
 The app guides users through both essential administrative tasks and day-to-day living activities while providing a sense of progress, achievement, and accomplishment.
 
@@ -14,7 +14,7 @@ The app guides users through both essential administrative tasks and day-to-day 
 
 ## Primary User
 
-Individuals relocating to Germany who need help organizing relocation activities and establishing their new life.
+Individuals relocating to Germany who need help organizing relocation activities and establishing and living their new life.
 
 ## Initial User
 
@@ -24,9 +24,14 @@ The first user and design persona is an English-speaking expatriate relocating t
 
 # Core Principles
 
+## User Experience Philosophy
+
+The MVP follows a mobile-first, calm, guided experience inspired by modern consumer applications. The application should prioritize the user's next recommended action over presenting large lists of information, using progressive disclosure, visual progress indicators, and German-first terminology to reduce the cognitive load of relocation.
+
+
 ## Practical
 
-Help users complete real-world relocation activities.
+Help users complete real-world relocation and living activities.
 
 ## Personalized
 

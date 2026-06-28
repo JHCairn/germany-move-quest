@@ -1,0 +1,33 @@
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+
+  padding: 1.5rem 1rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-nav button {
+  text-align: left;
+  padding: 0.75rem 1rem;
+
+  border: none;
+  border-radius: var(--radius);
+
+  background: transparent;
+  color: var(--text);
+
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.sidebar-nav button:hover {
+  background: var(--background);
+}

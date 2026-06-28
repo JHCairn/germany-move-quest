@@ -1,38 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/symbol.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import LandingPage from './pages/LandingPage';
+import AppShell from './components/AppShell';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [started, setStarted] = useState(false);
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero-icon">
-          <img src={heroImg} alt="journey" height="100" width="100" />
-        </div>
-        <div>
-          <h1>Germany Move Quest</h1>
+  if (!started) {
+    return <LandingPage onStart={() => setStarted(true)} />;
+  }
 
-          <h2>Dein Weg nach Deutschland</h2>
-
-          <p>Your personal guide to relocating
-            and settling into Germany.</p>
-
-          <button className="button-icon">
-            Begin Your Journey
-          </button>
-
-        </div>
-
-      </section>
-
-
-
-    </>
-  )
+  return <AppShell />;
 }
 
-export default App
+export default App;
