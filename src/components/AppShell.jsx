@@ -14,7 +14,7 @@ function AppShell() {
 
         <main className="app-main">
           <h1>Journey</h1>
-          <p>Good morning, Julie.</p>
+          <p>{getGreeting()}, Julie.</p>
           <p>Current stage: Preparing to Move</p>
         </main>
       </div>
@@ -22,6 +22,20 @@ function AppShell() {
       <BottomNav />
     </div>
   );
+}
+
+function getGreeting() {
+  const hour = new Date().getHours();
+
+  if (hour < 12) {
+    return "Good morning";
+  }
+
+  if (hour < 18) {
+    return "Good afternoon";
+  }
+
+  return "Good evening";
 }
 
 export default AppShell;

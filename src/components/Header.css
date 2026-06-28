@@ -76,9 +76,17 @@
   .header-tagline {
     font-size: 0.75rem;
     line-height: 1.2;
+    max-width: 220px;
   }
 
   .header-user {
     display: none;
   }
+
+  .header-text {
+  align-items: flex-start;
+  text-align: left;
+}
+
+
 }
