@@ -75,13 +75,21 @@
 
   .landing-title {
     font-size: clamp(2rem, 10vw, 3rem);
+     text-align: center;
   }
 
   .landing-subtitle {
     font-size: 1.1rem;
+    text-align: center;
   }
 
   .landing-tagline {
     font-size: 1rem;
+    text-align: center;
   }
+
+  .landing-content {
+  text-align: center;
+}
+
 }
