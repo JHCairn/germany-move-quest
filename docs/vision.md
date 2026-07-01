@@ -6,6 +6,8 @@ Germany Move Quest is a Progressive Web App that guides people through the compl
 
 The application combines practical relocation action management with exploration, discovery, and gamification to make the relocation journey less overwhelming and more enjoyable.
 
+Germany Move Quest personalizes each user's relocation journey. Rather than presenting a fixed checklist, the application adapts recommendations based on the user's profile, relocation stage, completed activities, and changing circumstances.
+
 The app guides users through both essential administrative tasks and day-to-day living activities while providing a sense of progress, achievement, and accomplishment.
 
 ---

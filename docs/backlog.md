@@ -225,3 +225,14 @@ Ideas worth remembering but not currently planned.
 - What determines a Journey Stage?
 - How should quest dependencies be represented?
 - Should Actions have due dates or suggested dates?
+
+## Dumping Ground
+below items are things I just wanted to capture so I did not forget them. They are not necessarily scoped correctly for the backlog, but I don't want to worry about organizing them right now. I just want them out of my head. Some may be duplicative. That's ok for now. 
+
+-  Build onboarding/profile wizard
+-  Add applicability rules
+-  Add dependency engine
+-  Support recurring actions
+-  Add local storage
+-  Add notifications
+-  
