@@ -235,4 +235,6 @@ below items are things I just wanted to capture so I did not forget them. They a
 -  Support recurring actions
 -  Add local storage
 -  Add notifications
+-  accessibility
+-  
 -  

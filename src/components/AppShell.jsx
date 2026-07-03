@@ -5,18 +5,7 @@ import Sidebar from "./Sidebar";
 import BottomNav from "./BottomNav";
 import JourneyPage from "../pages/JourneyPage";
 
-function getGreeting() {
-  const hour = new Date().getHours();
-
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-
-  return "Good evening";
-}
-
 function AppShell() {
-  const greeting = getGreeting();
-
   return (
     <div className="app-shell">
       <Header />
@@ -25,7 +14,7 @@ function AppShell() {
         <Sidebar />
 
         <main className="app-main">
-          <JourneyPage greeting={greeting} />
+          <JourneyPage />
         </main>
       </div>
 
@@ -33,4 +22,5 @@ function AppShell() {
     </div>
   );
 }
+
 export default AppShell;
