@@ -1,3 +1,5 @@
+import "./QuestProgressCard.css";
+
 function QuestProgressCard({ progress }) {
   return (
     <article className="dashboard-card wide-card quest-progress-card">
