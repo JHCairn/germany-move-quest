@@ -1,16 +1,45 @@
 function QuestProgressCard({ progress }) {
   return (
-    <article className="dashboard-card wide-card">
+    <article className="dashboard-card wide-card quest-progress-card">
       <p className="card-eyebrow">Quest Progress</p>
 
-      <h2>{progress.percentComplete}% Complete</h2>
+      <div className="quest-stage-progress-list">
+        {progress.progressByStage.map((stage) => {
+          const questLabel =
+            stage.totalStageQuestCount === 1 ? "quest" : "quests";
 
-      <p>
-        {progress.completedQuests} of {progress.totalQuests} applicable quests
-        completed.
-      </p>
+          return (
+            <div
+              className={`quest-stage-progress-row ${
+                stage.isCurrent ? "current" : "upcoming"
+              }`}
+              key={stage.stageId}
+            >
+              <div className="quest-stage-progress-header">
+                <div className="quest-stage-title">
+                  <strong>{stage.german}</strong>
+                  <span>· {stage.english}</span>
+                </div>
 
-      <p>{progress.activeQuests} currently active.</p>
+                <span className="quest-stage-count">
+                  {stage.isCurrent
+                    ? `${stage.completedCount} / ${stage.applicableCount}`
+                    : `Upcoming · ${stage.totalStageQuestCount} ${questLabel}`}
+                </span>
+              </div>
+
+              {stage.isCurrent && (
+                <div className="quest-progress-bar">
+                  <div
+                    className="quest-progress-fill"
+                    style={{ width: `${stage.percentComplete}%` }}
+                  />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </article>
   );
 }

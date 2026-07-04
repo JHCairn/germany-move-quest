@@ -1,0 +1,79 @@
+.quest-stage-progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.quest-stage-progress-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quest-stage-progress-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+
+.quest-stage-progress-header strong {
+  color: #0f172a;
+}
+
+.quest-stage-progress-header span {
+  color: #64748b;
+}
+
+.quest-stage-count {
+  white-space: nowrap;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.quest-progress-bar {
+  height: 0.55rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+
+.quest-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: #2563eb;
+}
+
+
+
+.quest-stage-progress-row.upcoming {
+  padding: 0.5rem 0;
+}
+
+.quest-stage-progress-row.upcoming .quest-stage-title strong {
+  font-size: 0.95rem;
+}
+
+.quest-stage-progress-row.upcoming .quest-stage-title span,
+.quest-stage-progress-row.upcoming .quest-stage-count {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.quest-stage-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.quest-stage-title strong {
+  color: #0f172a;
+}
+
+.quest-stage-title span {
+  font-size: 0.9rem;
+  color: #64748b;
+}

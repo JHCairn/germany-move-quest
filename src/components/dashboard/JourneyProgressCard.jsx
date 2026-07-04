@@ -12,8 +12,6 @@ function JourneyProgressCard({ journey }) {
     (stage) => stage.id === journey.currentStageId
   );
 
-  const currentStage = journey.stages[currentIndex];
-
   return (
     <article className="dashboard-card wide-card journey-progress-card">
       <p className="card-eyebrow">Journey Progress</p>

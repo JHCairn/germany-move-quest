@@ -2,11 +2,10 @@ export const sampleJourney = {
   user: {
     firstName: "Julie",
   },
-  stage: {
-    name: "Preparing to Move",
-    description: "Planning, paperwork, purchases, and preparation before arrival.",
-  },
-  progress: {
+ 
+ currentStageId: "preparing",
+  
+    progress: {
     percent: 12,
     completed: 12,
     total: 100,
@@ -28,4 +27,4 @@ export const sampleJourney = {
     "Move date",
     "Anmeldung window",
   ],
-};
+}; 

@@ -1,6 +1,7 @@
 import "./JourneyPage.css";
 import { getGreeting } from "../utils/greeting";
 
+import { sampleJourney } from "../data/sampleJourneyData";
 import { quests } from "../data/sampleQuests";
 import { stages } from "../data/stages";
 import { buildJourneyModel } from "../services/questEngine";
@@ -11,10 +12,10 @@ import QuestProgressCard from "../components/dashboard/QuestProgressCard";
 import MilestonesCard from "../components/dashboard/MilestonesCard";
 
 function JourneyPage() {
-  const journey = buildJourneyModel({
-    quests,
-    stages,
-    currentStageId: "preparing",
+const journey = buildJourneyModel({
+  quests,
+  stages,
+  currentStageId: sampleJourney.currentStageId,
   });
 
   return (

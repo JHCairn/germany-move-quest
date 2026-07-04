@@ -38,7 +38,7 @@
   height: 1rem;
   margin: 0 auto 0.55rem;
   border-radius: 999px;
-  border: 2px solid #cbd5e1;
+  border-color: #d8dee9;
   background: #ffffff;
   color: #ffffff;
   display: flex;
@@ -53,14 +53,20 @@
   border-color: #2563eb;
 }
 
+.timeline-stage:has(.timeline-marker.completed)::after {
+  background: #2563eb;
+}
+
 .timeline-marker.current {
   width: 1.2rem;
   height: 1.2rem;
   border-width: 3px;
   border-color: #2563eb;
   background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+
+  transform: translateY(-2px);
 }
+
 
 .timeline-label {
   display: flex;
