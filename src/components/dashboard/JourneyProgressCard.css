@@ -1,0 +1,107 @@
+.journey-progress-card {
+  overflow: hidden;
+}
+
+.journey-timeline {
+  display: flex;
+  justify-content: space-between;
+  gap: 0;
+  margin-top: 2rem;
+}
+
+.timeline-stage {
+  position: relative;
+  flex: 1;
+  text-align: center;
+}
+
+.timeline-stage:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 3.1rem;
+  left: 50%;
+  width: 100%;
+  height: 3px;
+  background: #cbd5e1;
+  z-index: 0;
+}
+
+.timeline-icon {
+  font-size: 1.7rem;
+  margin-bottom: 0.65rem;
+}
+
+.timeline-marker {
+  position: relative;
+  z-index: 1;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: 0 auto 0.75rem;
+  border-radius: 999px;
+  border: 3px solid #cbd5e1;
+  background: #ffffff;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.timeline-marker.completed {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.timeline-marker.current {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.12);
+}
+
+.timeline-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.timeline-label strong {
+  font-size: 0.95rem;
+  line-height: 1.2;
+  color: #0f172a;
+}
+
+.timeline-label small {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.current-stage-line {
+  margin-top: 1.75rem;
+  text-align: center;
+  color: #475569;
+}
+
+.current-stage-line strong {
+  color: #2563eb;
+}
+
+.german-accent-line {
+  display: flex;
+  height: 4px;
+  margin: 1.5rem -1.5rem -1.5rem;
+}
+
+.german-accent-line span {
+  flex: 1;
+}
+
+.german-accent-line .black {
+  background: #111827;
+}
+
+.german-accent-line .red {
+  background: #ef4444;
+}
+
+.german-accent-line .gold {
+  background: #fbbf24;
+}

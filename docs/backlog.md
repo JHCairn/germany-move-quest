@@ -237,4 +237,17 @@ below items are things I just wanted to capture so I did not forget them. They a
 -  Add notifications
 -  accessibility
 -  
+
+## Future enhancement: Seasonal & Lifestyle Quests
+
+Once someone reaches Living, the app could occasionally surface optional quests like:
+
+🌸 Visit a local Frühlingsfest
+🚴 Cycle around Lake Starnberg
+🎄 Visit a Christmas market
+🥨 Experience Oktoberfest
+🥾 Complete your first Alpine hike
+🚆 Take a weekend trip using the Deutschlandticket
+
+Those aren't chores—they're experiences.
 -  

@@ -5,8 +5,7 @@ import { quests } from "../data/sampleQuests";
 import { stages } from "../data/stages";
 import { buildJourneyModel } from "../services/questEngine";
 
-import StageCard from "../components/dashboard/StageCard";
-import ProgressCard from "../components/dashboard/ProgressCard";
+import JourneyProgressCard from "../components/dashboard/JourneyProgressCard";
 import RecommendationCard from "../components/dashboard/RecommendationCard";
 import QuestProgressCard from "../components/dashboard/QuestProgressCard";
 import MilestonesCard from "../components/dashboard/MilestonesCard";
@@ -26,8 +25,7 @@ function JourneyPage() {
       </div>
 
       <div className="journey-grid">
-        <StageCard stage={journey.currentStage} />
-        <ProgressCard />
+        <JourneyProgressCard journey={journey.journeyProgress} />
         <RecommendationCard quest={journey.recommendedQuest} />
         <QuestProgressCard progress={journey.progress} />
         <MilestonesCard quests={journey.upcomingMilestones} />

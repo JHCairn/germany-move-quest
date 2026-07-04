@@ -1,12 +1,5 @@
 export const stages = [
   {
-    id: "planning",
-    german: "Planung",
-    english: "Planning",
-    description:
-      "Research Germany, understand the relocation process, and make your moving plans.",
-  },
-  {
     id: "preparing",
     german: "Vor dem Umzug",
     english: "Preparing to Move",
@@ -28,10 +21,10 @@ export const stages = [
       "Set up your home, utilities, services, and everyday life.",
   },
   {
-    id: "established",
-    german: "Angekommen",
-    english: "Established",
-    description:
-      "Your move is complete and Germany feels like home.",
+  id: "living",
+  german: "Leben in Deutschland",
+  english: "Living in Germany",
+  description:
+    "Build your everyday life in Germany and feel at home.",
   },
-];
+];  

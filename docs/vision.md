@@ -2,6 +2,8 @@
 
 ## Product Vision
 
+Germany Move Quest begins once the user has decided to relocate to Germany. It guides them from preparation through arrival, settling in, and ultimately living comfortably in Germany. The app is not intended to help users decide whether to move; it is designed to help them successfully complete the move.
+
 Germany Move Quest is a Progressive Web App that guides people through the complete journey of moving to and living in Germany. It begins with relocation planning and evolves into a long-term companion for everyday life, helping users manage practical tasks, discover their local community, and continue building their life in Germany.
 
 The application combines practical relocation action management with exploration, discovery, and gamification to make the relocation journey less overwhelming and more enjoyable.
@@ -9,6 +11,7 @@ The application combines practical relocation action management with exploration
 Germany Move Quest personalizes each user's relocation journey. Rather than presenting a fixed checklist, the application adapts recommendations based on the user's profile, relocation stage, completed activities, and changing circumstances.
 
 The app guides users through both essential administrative tasks and day-to-day living activities while providing a sense of progress, achievement, and accomplishment.
+
 
 ---
 
