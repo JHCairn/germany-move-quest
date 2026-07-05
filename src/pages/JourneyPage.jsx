@@ -1,19 +1,10 @@
-import { useMemo, useState } from "react";
-
 import "./JourneyPage.css";
 
 import { getGreeting } from "../utils/greeting";
 
-import { questCatalog } from "../data/questCatalog";
-import { stages } from "../data/stages";
-import { users, defaultUser } from "../data/users";
-
-import { buildJourneyModel } from "../services/questEngine";
-
 import JourneyProgressCard from "../components/dashboard/JourneyProgressCard";
 import RecommendationCard from "../components/dashboard/RecommendationCard";
 import QuestProgressCard from "../components/dashboard/QuestProgressCard";
-import MilestonesCard from "../components/dashboard/MilestonesCard";
 
 import PersonaSwitcher from "../components/developer/PersonaSwitcher";
 
@@ -25,36 +16,20 @@ import PersonaSwitcher from "../components/developer/PersonaSwitcher";
  *
  * Responsibility
  * --------------
- * Select the active test persona and build the user's Journey
- * Model from that persona's facts.
+ * Renders the user's journey dashboard from the derived Journey
+ * Model.
  *
- * This page deliberately contains almost no business logic.
- *
- * Consumes:
- *   - User facts
- *   - Quest Catalog
- *   - Stages
- *
- * Produces:
- *   - Dashboard UI from the derived Journey Model
+ * The page no longer builds the Journey Model itself. That allows
+ * other pages to share the same selected test persona.
  */
 
-function JourneyPage() {
-  const [selectedUserId, setSelectedUserId] = useState(defaultUser.id);
-
-  const selectedUser =
-    users.find((user) => user.id === selectedUserId) ?? defaultUser;
-
-  const journey = useMemo(
-    () =>
-      buildJourneyModel({
-        user: selectedUser,
-        questCatalog,
-        stages,
-      }),
-    [selectedUser]
-  );
-
+function JourneyPage({
+  journey,
+  users,
+  selectedUser,
+  selectedUserId,
+  onSelectedUserChange,
+}) {
   return (
     <section className="journey-page">
       <div className="journey-header">
@@ -68,7 +43,7 @@ function JourneyPage() {
           users={users}
           selectedUserId={selectedUserId}
           selectedUser={selectedUser}
-          onChange={setSelectedUserId}
+          onChange={onSelectedUserChange}
         />
       </div>
 
@@ -76,7 +51,7 @@ function JourneyPage() {
         <JourneyProgressCard journey={journey.journeyProgress} />
         <RecommendationCard quest={journey.recommendedQuest} />
         <QuestProgressCard progress={journey.progress} />
-        <MilestonesCard quests={journey.upcomingMilestones} />
+        
       </div>
     </section>
   );

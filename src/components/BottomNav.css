@@ -26,3 +26,7 @@
     cursor: pointer;
   }
 }
+.bottom-nav button.active {
+  color: var(--primary);
+  font-weight: 700;
+}

@@ -1,0 +1,133 @@
+.quests-page {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.quests-header {
+  margin-bottom: 2rem;
+}
+
+.quests-header h1 {
+  margin: 0 0 0.5rem;
+  color: var(--text);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.quests-header p {
+  margin: 0;
+  color: var(--text-light);
+}
+
+.quest-section {
+  margin-top: 1.5rem;
+}
+
+.quest-section-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-end;
+
+  margin-bottom: 0.75rem;
+}
+
+.quest-section-header h2 {
+  margin: 0 0 0.25rem;
+  color: var(--text);
+  font-size: 1.35rem;
+}
+
+.quest-section-header p {
+  margin: 0;
+  color: var(--text-light);
+}
+
+.quest-section-header span {
+  flex-shrink: 0;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.quest-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.quest-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+}
+
+.quest-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.quest-card-eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--text-light);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.quest-card h3 {
+  margin: 0 0 0.35rem;
+  color: var(--text);
+  font-size: 1.15rem;
+}
+
+.quest-card p {
+  margin: 0;
+  color: var(--text-light);
+}
+
+.quest-card-description {
+  margin-top: 1rem !important;
+}
+
+.quest-state-pill {
+  align-self: flex-start;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: var(--background);
+  color: var(--text-light);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.quest-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  margin-top: 1rem;
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+
+.quest-card-meta span {
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  background: var(--background);
+}
+
+@media (max-width: 768px) {
+  .quest-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .quest-card-header {
+    flex-direction: column;
+  }
+}

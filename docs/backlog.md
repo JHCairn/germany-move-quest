@@ -251,3 +251,10 @@ Once someone reaches Living, the app could occasionally surface optional quests 
 
 Those aren't chores—they're experiences.
 -  
+## UI Polish - Dashboard
+
+- Reduce vertical spacing in Quest Progress
+- Tighten "Things to Keep on the Radar"
+- Review Journey Progress labels on mobile
+- Review card padding across the dashboard
+- Review typography scale on small phones

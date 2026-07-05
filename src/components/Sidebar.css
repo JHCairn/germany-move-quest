@@ -37,3 +37,13 @@
     display: none;
   }
 }
+.sidebar-nav button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar-nav button.active {
+  background: var(--background);
+  font-weight: 700;
+}
