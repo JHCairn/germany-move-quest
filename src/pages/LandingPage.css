@@ -93,3 +93,17 @@
 }
 
 }
+.developer-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.developer-tools label {
+  font-weight: 600;
+}
+
+.developer-tools select {
+  padding: 0.35rem 0.5rem;
+}

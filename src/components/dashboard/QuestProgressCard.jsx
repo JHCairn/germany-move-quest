@@ -26,7 +26,7 @@ function QuestProgressCard({ progress }) {
                 <span className="quest-stage-count">
                   {stage.isCurrent
                     ? `${stage.completedCount} / ${stage.applicableCount}`
-                    : `Upcoming · ${stage.totalStageQuestCount} ${questLabel}`}
+                    : `${stage.stageDisplayLabel} · ${stage.totalStageQuestCount} quests`}
                 </span>
               </div>
 

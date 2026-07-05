@@ -77,14 +77,6 @@ function isQuestInFutureStage(quest, currentStageId) {
 // Applicability Helpers
 // ============================================================
 
-/**
- * Product Decision
- * ----------------
- * Applicability is derived from the user's profile.
- *
- * This is intentionally simple for now. Later, this can evolve
- * into a more generic eligibility system without changing the UI.
- */
 function isQuestApplicableToUser(quest, user) {
   const lifeSituation = user.lifeSituation ?? {};
   const interests = user.interests ?? [];
@@ -104,13 +96,6 @@ function isQuestApplicableToUser(quest, user) {
       return interests.includes("golf");
 
     case "dog-registration":
-      /**
-       * We currently only know whether a user has pets.
-       * We do not yet know pet type.
-       *
-       * Until the user profile can distinguish dog/cat/other,
-       * do not automatically include dog-specific quests.
-       */
       return false;
 
     default:
@@ -125,10 +110,12 @@ function isQuestApplicableToUser(quest, user) {
 function getDerivedQuestState({ quest, user, currentStageId }) {
   const isApplicable = isQuestApplicableToUser(quest, user);
   const isCompleted = user.completedQuestIds?.includes(quest.id) ?? false;
+
   const isActive =
     isApplicable &&
     !isCompleted &&
     isQuestInCurrentOrPastStage(quest, currentStageId);
+
   const isUpcoming =
     isApplicable &&
     !isCompleted &&
@@ -156,33 +143,14 @@ function deriveQuest(quest, user, currentStageId) {
     currentStageId,
   });
 
-  const isApplicable = state !== "not-applicable";
-  const isCompleted = state === "completed";
-  const isActive = state === "active";
-  const isUpcoming = state === "upcoming";
-
   return {
     ...quest,
-
-    /**
-     * New preferred derived state.
-     *
-     * Use this going forward when building new components.
-     */
     state,
-
-    /**
-     * Compatibility status.
-     *
-     * Existing dashboard components may still expect status-like
-     * labels. New code should prefer state/isActive/isUpcoming/etc.
-     */
     status: state === "upcoming" ? "next" : state,
-
-    isApplicable,
-    isCompleted,
-    isActive,
-    isUpcoming,
+    isApplicable: state !== "not-applicable",
+    isCompleted: state === "completed",
+    isActive: state === "active",
+    isUpcoming: state === "upcoming",
   };
 }
 
@@ -204,26 +172,98 @@ function getPriorityScore(priority) {
   return 0;
 }
 
-function sortByRecommendationOrder(a, b) {
-  const priorityDifference =
-    getPriorityScore(b.priority) - getPriorityScore(a.priority);
+function sortByRecommendationOrder(currentStageId) {
+  return function compareRecommendedQuests(a, b) {
+    /**
+     * Recommendation Decision
+     * -----------------------
+     * Active quests can include unfinished quests from previous
+     * stages. Those should remain visible, but recommendations
+     * should feel anchored to where the user is now.
+     */
 
-  if (priorityDifference !== 0) {
-    return priorityDifference;
-  }
+    const aIsCurrentStage = a.stage === currentStageId;
+    const bIsCurrentStage = b.stage === currentStageId;
 
-  return (a.order ?? 999) - (b.order ?? 999);
+    if (aIsCurrentStage && !bIsCurrentStage) {
+      return -1;
+    }
+
+    if (!aIsCurrentStage && bIsCurrentStage) {
+      return 1;
+    }
+
+    const priorityDifference =
+      getPriorityScore(b.priority) - getPriorityScore(a.priority);
+
+    if (priorityDifference !== 0) {
+      return priorityDifference;
+    }
+
+    return (a.order ?? 999) - (b.order ?? 999);
+  };
 }
 
-function getRecommendedQuests(activeQuests, limit = 3) {
-  return [...activeQuests].sort(sortByRecommendationOrder).slice(0, limit);
+function getRecommendedQuests(activeQuests, currentStageId, limit = 3) {
+  return [...activeQuests]
+    .sort(sortByRecommendationOrder(currentStageId))
+    .slice(0, limit);
 }
 
 // ============================================================
 // Progress Helpers
 // ============================================================
 
-function buildProgress({ stages, derivedQuests, activeQuests, completedQuests }) {
+function getStageDisplayState({
+  stageId,
+  currentStageId,
+  completedCount,
+  applicableCount,
+}) {
+  const stageIndex = getStageIndex(stageId);
+  const currentStageIndex = getStageIndex(currentStageId);
+
+  if (applicableCount > 0 && completedCount === applicableCount) {
+    return "completed";
+  }
+
+  if (stageIndex < currentStageIndex) {
+    return "remaining";
+  }
+
+  if (stageIndex === currentStageIndex) {
+    return "active";
+  }
+
+  return "upcoming";
+}
+
+function getStageDisplayLabel(stageDisplayState) {
+  switch (stageDisplayState) {
+    case "completed":
+      return "Completed";
+
+    case "remaining":
+      return "Remaining";
+
+    case "active":
+      return "Active";
+
+    case "upcoming":
+      return "Upcoming";
+
+    default:
+      return "";
+  }
+}
+
+function buildProgress({
+  stages,
+  currentStageId,
+  derivedQuests,
+  activeQuests,
+  completedQuests,
+}) {
   const applicableQuests = derivedQuests.filter((quest) => quest.isApplicable);
 
   const totalQuests = applicableQuests.length;
@@ -238,21 +278,30 @@ function buildProgress({ stages, derivedQuests, activeQuests, completedQuests })
       (quest) => quest.stage === stage.id
     );
 
+    const applicableCount = applicableStageQuests.length;
+    const completedStageCount = completedStageQuests.length;
+
+    const stageDisplayState = getStageDisplayState({
+      stageId: stage.id,
+      currentStageId,
+      completedCount: completedStageCount,
+      applicableCount,
+    });
+
     return {
       stageId: stage.id,
       german: stage.german,
       english: stage.english,
-      isCurrent: false,
-      applicableCount: applicableStageQuests.length,
-      totalStageQuestCount: applicableStageQuests.length,
-      completedCount: completedStageQuests.length,
+      isCurrent: stage.id === currentStageId,
+      applicableCount,
+      totalStageQuestCount: applicableCount,
+      completedCount: completedStageCount,
+      stageDisplayState,
+      stageDisplayLabel: getStageDisplayLabel(stageDisplayState),
       percentComplete:
-        applicableStageQuests.length === 0
+        applicableCount === 0
           ? 0
-          : Math.round(
-              (completedStageQuests.length / applicableStageQuests.length) *
-                100
-            ),
+          : Math.round((completedStageCount / applicableCount) * 100),
     };
   });
 
@@ -265,16 +314,6 @@ function buildProgress({ stages, derivedQuests, activeQuests, completedQuests })
         ? 0
         : Math.round((completedCount / totalQuests) * 100),
     progressByStage,
-  };
-}
-
-function markCurrentStage(progress, currentStageId) {
-  return {
-    ...progress,
-    progressByStage: progress.progressByStage.map((stageProgress) => ({
-      ...stageProgress,
-      isCurrent: stageProgress.stageId === currentStageId,
-    })),
   };
 }
 
@@ -291,43 +330,23 @@ export function buildJourneyModel({ user, questCatalog, stages }) {
     );
   }
 
-  /**
-   * Step 1:
-   * Create one enriched quest collection.
-   *
-   * Every downstream view is derived from this collection.
-   */
   const derivedQuests = deriveQuests(questCatalog, user, currentStageId);
 
-  /**
-   * Step 2:
-   * Build the user's journey collections.
-   */
   const applicableQuests = derivedQuests.filter((quest) => quest.isApplicable);
   const activeQuests = derivedQuests.filter((quest) => quest.isActive);
   const upcomingQuests = derivedQuests.filter((quest) => quest.isUpcoming);
   const completedQuests = derivedQuests.filter((quest) => quest.isCompleted);
 
-  /**
-   * Step 3:
-   * Build recommendations.
-   */
-  const recommendedQuests = getRecommendedQuests(activeQuests);
+  const recommendedQuests = getRecommendedQuests(activeQuests, currentStageId);
   const recommendedQuest = recommendedQuests[0] ?? null;
 
-  /**
-   * Step 4:
-   * Build progress.
-   */
-  const progress = markCurrentStage(
-    buildProgress({
-      stages,
-      derivedQuests,
-      activeQuests,
-      completedQuests,
-    }),
-    currentStageId
-  );
+  const progress = buildProgress({
+    stages,
+    currentStageId,
+    derivedQuests,
+    activeQuests,
+    completedQuests,
+  });
 
   const currentStage = stages.find((stage) => stage.id === currentStageId);
 
@@ -341,15 +360,7 @@ export function buildJourneyModel({ user, questCatalog, stages }) {
     user,
     currentStage,
     journeyProgress,
-
-    /**
-     * New preferred collection.
-     */
     derivedQuests,
-
-    /**
-     * Existing and near-term UI collections.
-     */
     questCatalog: derivedQuests,
     applicableQuests,
     activeQuests,
@@ -361,10 +372,7 @@ export function buildJourneyModel({ user, questCatalog, stages }) {
 
     /**
      * Temporary compatibility alias.
-     *
-     * JourneyPage currently passes journey.upcomingMilestones to
-     * MilestonesCard. We should rename that in the next small cleanup.
      */
-    upcomingMilestones: getRecommendedQuests(upcomingQuests, 3),
+    upcomingMilestones: getRecommendedQuests(upcomingQuests, currentStageId, 3),
   };
 }
