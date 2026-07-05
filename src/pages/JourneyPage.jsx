@@ -1,10 +1,10 @@
 import "./JourneyPage.css";
 import { getGreeting } from "../utils/greeting";
 
-import { sampleJourney } from "../data/sampleJourneyData";
-import { quests } from "../data/sampleQuests";
+import { questCatalog } from "../data/questCatalog";
 import { stages } from "../data/stages";
 import { buildJourneyModel } from "../services/questEngine";
+import { defaultUser } from "../data/users";
 
 import JourneyProgressCard from "../components/dashboard/JourneyProgressCard";
 import RecommendationCard from "../components/dashboard/RecommendationCard";
@@ -13,10 +13,10 @@ import MilestonesCard from "../components/dashboard/MilestonesCard";
 
 function JourneyPage() {
 const journey = buildJourneyModel({
-  quests,
+  user: defaultUser,
+  questCatalog,
   stages,
-  currentStageId: sampleJourney.currentStageId,
-  });
+});
 
   return (
     <section className="journey-page">

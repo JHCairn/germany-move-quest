@@ -230,3 +230,64 @@ Recommendation Engine
 4. Actions / Home Items = Things to accomplish.
 5. User State = What have you already done?
 6. Recommendation Engine = What should you focus on next?
+
+
+
+
+# 3 core domain objects of the app
+## Quest Catalog
+
+This answers:What can exist?
+
+It is the master library of all possible relocation quests.
+
+questCatalog.js
+
+## User
+
+This answers: Who is this person?
+
+Initially:
+
+current stage
+life situation
+interests
+completed quests
+
+Eventually:
+
+preferences
+language
+notifications
+onboarding choices
+etc.
+users/
+  user001.js
+
+## Quest Engine
+
+This answers: Given this user, what should they see?
+
+It derives:
+
+applicable quests
+active quests
+recommended quests
+progress
+milestones
+dashboard cards
+
+
+
+## Journey is the engine's output
+
+Right now we have:
+
+const journey = buildJourneyModel(...);
+
+I actually love that.
+
+The app is still about a Journey.
+
+The catalog, user and engine are just how we calculate it.
+
