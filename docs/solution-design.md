@@ -291,3 +291,27 @@ The app is still about a Journey.
 
 The catalog, user and engine are just how we calculate it.
 
+
+
+## Architectural rule
+
+1. The application stores facts, not conclusions.
+
+### Facts:
+
+- The quest belongs to the "Preparing" stage.
+- Julie has a cat.
+- Julie has completed "Bankkonto."
+- A toaster is in the Kitchen category.
+- Julie selected "Toaster."
+
+### Conclusions:
+
+- This quest is active.
+- This quest is recommended.
+- This item is outstanding.
+- Julie has acquired 42% of her selected home inventory.
+
+Those are never stored.
+
+They're always derived.
