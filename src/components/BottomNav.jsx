@@ -10,24 +10,31 @@ import { navigationItems } from "../data/navigation";
  *
  * Responsibility
  * --------------
- * Renders mobile navigation and reports page selections to the
- * app shell.
+ * Renders the primary mobile navigation and reports page
+ * selections back to the app shell.
+ *
+ * Icons are supplied by the Navigation Catalog. This component
+ * simply renders the icon component associated with each page.
  */
 
 function BottomNav({ currentPageId, onPageChange }) {
   return (
     <nav className="bottom-nav" aria-label="Primary navigation">
-      {navigationItems.map((item) => (
-        <button
-          key={item.id}
-          type="button"
-          className={item.id === currentPageId ? "active" : ""}
-          onClick={() => onPageChange(item.id)}
-          aria-label={item.label}
-        >
-          <span aria-hidden="true">{item.icon}</span>
-        </button>
-      ))}
+      {navigationItems.map((item) => {
+        const Icon = item.icon;
+
+        return (
+          <button
+            key={item.id}
+            type="button"
+            className={item.id === currentPageId ? "active" : ""}
+            onClick={() => onPageChange(item.id)}
+            aria-label={item.label}
+          >
+            <Icon size={20} strokeWidth={2} aria-hidden="true" />
+          </button>
+        );
+      })}
     </nav>
   );
 }

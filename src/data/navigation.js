@@ -11,6 +11,8 @@
  * This is product/navigation structure, not user state.
  */
 
+import { icons } from "./icons";
+
 export const pageIds = {
   JOURNEY: "journey",
   QUESTS: "quests",
@@ -21,22 +23,22 @@ export const pageIds = {
 export const navigationItems = [
   {
     id: pageIds.JOURNEY,
-    icon: "🏠",
-    label: "Journey",
+    icon: icons.journey,
+    label: "Reise",
   },
   {
     id: pageIds.QUESTS,
-    icon: "🧭",
-    label: "Quests",
+    icon: icons.quests,
+    label: "Aufgaben",
   },
   {
     id: pageIds.HOME_SETUP,
-    icon: "🏡",
-    label: "Home Setup",
+    icon: icons.home,
+    label: "Zuhause",
   },
   {
     id: pageIds.PROFILE,
-    icon: "👤",
-    label: "Profile",
+    icon: icons.profile,
+    label: "Über mich",
   },
 ];

@@ -15,8 +15,14 @@
 }
 
 .sidebar-nav button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  width: 100%;
+
   text-align: left;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1rem;
 
   border: none;
   border-radius: var(--radius);
@@ -26,24 +32,25 @@
 
   font-size: 1rem;
   cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-nav button svg {
+  flex-shrink: 0;
 }
 
 .sidebar-nav button:hover {
   background: var(--background);
 }
 
+.sidebar-nav button.active {
+  background: var(--background);
+  font-weight: 700;
+}
+
 @media (max-width: 768px) {
   .sidebar {
     display: none;
   }
-}
-.sidebar-nav button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.sidebar-nav button.active {
-  background: var(--background);
-  font-weight: 700;
 }
