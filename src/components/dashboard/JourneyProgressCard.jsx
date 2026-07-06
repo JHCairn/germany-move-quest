@@ -1,11 +1,21 @@
 import "./JourneyProgressCard.css";
 
-const stageIcons = {
-  preparing: "🧳",
-  "just-arrived": "🏠",
-  "settling-in": "🛋️",
-  living: "❤️",
-};
+import { Check } from "lucide-react";
+
+/**
+ * ============================================================
+ * Germany Move Quest
+ * Journey Progress Card
+ * ============================================================
+ *
+ * Responsibility
+ * --------------
+ * Renders the user's progress through the high-level relocation
+ * journey stages.
+ *
+ * Stage metadata (labels and icons) comes from the Stage Catalog
+ * through the Journey Model.
+ */
 
 function JourneyProgressCard({ journey }) {
   const currentIndex = journey.stages.findIndex(
@@ -18,12 +28,22 @@ function JourneyProgressCard({ journey }) {
 
       <div className="journey-timeline">
         {journey.stages.map((stage, index) => {
+          const Icon = stage.icon;
+
           const isCompleted = index < currentIndex;
           const isCurrent = index === currentIndex;
 
+          const iconSize = stage.id === "living" ? 32 : 28;
+
           return (
             <div className="timeline-stage" key={stage.id}>
-              <div className="timeline-icon">{stageIcons[stage.id]}</div>
+              <div className="timeline-icon">
+                <Icon
+                  size={iconSize}
+                  strokeWidth={2}
+                  aria-hidden="true"
+                />
+              </div>
 
               <div
                 className={[
@@ -32,19 +52,24 @@ function JourneyProgressCard({ journey }) {
                   isCurrent ? "current" : "",
                 ].join(" ")}
               >
-                {isCompleted ? "✓" : ""}
+                {isCompleted && (
+                  <Check
+                    size={12}
+                    strokeWidth={3}
+                    aria-hidden="true"
+                  />
+                )}
               </div>
 
               <div className="timeline-label">
-                <strong>{stage.german}</strong>
-                <small>{stage.english}</small>
+                <strong>{stage.germanLabel}</strong>
+                <small>{stage.englishLabel}</small>
               </div>
             </div>
           );
         })}
       </div>
 
-      
       <div className="german-accent-line">
         <span className="black"></span>
         <span className="red"></span>

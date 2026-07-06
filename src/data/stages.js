@@ -1,30 +1,40 @@
+import { icons } from "./icons";
+
+/**
+ * ============================================================
+ * Germany Move Quest
+ * Journey Stages
+ * ============================================================
+ *
+ * Product catalog describing the high-level relocation journey.
+ *
+ * Stage IDs are stable identifiers used throughout the application.
+ * Labels and icons are presentation metadata.
+ */
+
 export const stages = [
   {
     id: "preparing",
-    german: "Vor dem Umzug",
-    english: "Preparing to Move",
-    description:
-      "Planning, paperwork, purchases, and preparation before arrival.",
+    germanLabel: "Vor dem Umzug",
+    englishLabel: "Preparing to Move",
+    icon: icons.stages.preparing,
   },
   {
     id: "just-arrived",
-    german: "Frisch angekommen",
-    english: "Just Arrived",
-    description:
-      "Complete the essential registration and settlement tasks after arriving.",
+    germanLabel: "Frisch angekommen",
+    englishLabel: "Just Arrived",
+    icon: icons.stages["just-arrived"],
   },
   {
     id: "settling-in",
-    german: "Einrichten",
-    english: "Settling In",
-    description:
-      "Set up your home, utilities, services, and everyday life.",
+    germanLabel: "Einrichten",
+    englishLabel: "Settling In",
+    icon: icons.stages["settling-in"],
   },
   {
-  id: "living",
-  german: "Leben in Deutschland",
-  english: "Living in Germany",
-  description:
-    "Build your everyday life in Germany and feel at home.",
+    id: "living",
+    germanLabel: "Leben in Deutschland",
+    englishLabel: "Living in Germany",
+    icon: icons.stages.living,
   },
-];  
+];

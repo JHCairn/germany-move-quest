@@ -31,7 +31,7 @@ function BottomNav({ currentPageId, onPageChange }) {
             onClick={() => onPageChange(item.id)}
             aria-label={item.label}
           >
-            <Icon size={20} strokeWidth={2} aria-hidden="true" />
+            <Icon size={22} strokeWidth={2} aria-hidden="true" />
           </button>
         );
       })}
