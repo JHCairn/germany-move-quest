@@ -290,8 +290,8 @@ function buildProgress({
 
     return {
       stageId: stage.id,
-      german: stage.german,
-      english: stage.english,
+      germanLabel: stage.germanLabel,
+      englishLabel: stage.englishLabel,
       isCurrent: stage.id === currentStageId,
       applicableCount,
       totalStageQuestCount: applicableCount,

@@ -19,8 +19,8 @@ function QuestProgressCard({ progress }) {
             >
               <div className="quest-stage-progress-header">
                 <div className="quest-stage-title">
-                  <strong>{stage.german}</strong>
-                  <span>· {stage.english}</span>
+                  <strong>{stage.germanLabel}</strong>
+                  <span>· {stage.englishLabel}</span>
                 </div>
 
                 <span className="quest-stage-count">
