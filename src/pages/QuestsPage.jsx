@@ -12,11 +12,20 @@ import QuestCard from "../components/quests/QuestCard";
  * --------------
  * Renders the full quest workspace from the derived Journey Model.
  *
- * The dashboard answers "what should I do next?"
- * This page answers "show me all of my quests."
+ * This page does not decide whether a quest is completed,
+ * applicable, current, previous, or upcoming.
+ *
+ * It receives a derived journey model from the Quest Engine and
+ * passes user intent back upward through callbacks.
  */
 
-function QuestSection({ title, description, quests }) {
+function QuestSection({
+  title,
+  description,
+  quests,
+  onCompleteQuest,
+  onReopenQuest,
+}) {
   if (quests.length === 0) {
     return null;
   }
@@ -34,55 +43,60 @@ function QuestSection({ title, description, quests }) {
 
       <div className="quest-list">
         {quests.map((quest) => (
-          <QuestCard key={quest.id} quest={quest} />
+          <QuestCard
+            key={quest.id}
+            quest={quest}
+            onComplete={onCompleteQuest}
+            onReopen={onReopenQuest}
+          />
         ))}
       </div>
     </section>
   );
 }
 
-function QuestsPage({ journey }) {
-  const remainingQuests = journey.activeQuests.filter(
-    (quest) => quest.stage !== journey.currentStage?.id
-  );
-
-  const currentStageQuests = journey.activeQuests.filter(
-    (quest) => quest.stage === journey.currentStage?.id
-  );
-
+function QuestsPage({ journey, onCompleteQuest, onReopenQuest }) {
   return (
     <section className="quests-page">
       <div className="quests-header">
         <p className="journey-eyebrow">Quests</p>
         <h1>Aufgaben für deinen Umzug</h1>
         <p>
-          Review active, remaining, upcoming, and completed quests for this
-          test persona.
+          Review active, remaining, upcoming, and completed quests for this test
+          persona.
         </p>
       </div>
 
       <QuestSection
-        title="Active"
+        title="Current Stage"
         description="Quests that match the current journey stage."
-        quests={currentStageQuests}
+        quests={journey.currentStageQuests}
+        onCompleteQuest={onCompleteQuest}
+        onReopenQuest={onReopenQuest}
       />
 
       <QuestSection
-        title="Remaining"
+        title="Previous Stages"
         description="Earlier-stage quests that are still incomplete."
-        quests={remainingQuests}
+        quests={journey.previousStageQuests}
+        onCompleteQuest={onCompleteQuest}
+        onReopenQuest={onReopenQuest}
       />
 
       <QuestSection
         title="Upcoming"
         description="Future quests to keep on the radar."
         quests={journey.upcomingQuests}
+        onCompleteQuest={onCompleteQuest}
+        onReopenQuest={onReopenQuest}
       />
 
       <QuestSection
         title="Completed"
         description="Quests already marked as finished."
         quests={journey.completedQuests}
+        onCompleteQuest={onCompleteQuest}
+        onReopenQuest={onReopenQuest}
       />
     </section>
   );

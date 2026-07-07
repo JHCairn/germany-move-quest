@@ -14,6 +14,7 @@ import { stages } from "../data/stages";
 import { users, defaultUser } from "../data/users";
 import { pageIds } from "../data/navigation";
 
+import { completeQuest, reopenQuest } from "../actions";
 import { buildJourneyModel } from "../services/questEngine";
 
 /**
@@ -24,18 +25,37 @@ import { buildJourneyModel } from "../services/questEngine";
  *
  * Responsibility
  * --------------
- * Owns app-level navigation and the currently selected test
- * persona.
+ * Owns app-level navigation and the currently selected test persona.
  *
- * The shell builds the Journey Model once and passes it to pages.
+ * This is also the first place where user facts become editable.
+ *
+ * Important architecture rule:
+ *
+ *   Actions update facts.
+ *   Engines derive meaning.
+ *   Pages render the derived model.
+ *
+ * Completing or reopening a quest does not directly update the Dashboard,
+ * the Quests page, progress counts, recommendations, or quest groups.
+ *
+ * It only changes the selected user's completedQuestIds fact.
+ *
+ * Once that fact changes, React re-renders, the Quest Engine runs again,
+ * and every page receives a fresh Journey Model.
  */
 
 function AppShell() {
   const [currentPageId, setCurrentPageId] = useState(pageIds.JOURNEY);
   const [selectedUserId, setSelectedUserId] = useState(defaultUser.id);
 
+  /**
+   * User facts are copied into React state so actions can update them
+   * without mutating the original sample persona catalog.
+   */
+  const [appUsers, setAppUsers] = useState(users);
+
   const selectedUser =
-    users.find((user) => user.id === selectedUserId) ?? defaultUser;
+    appUsers.find((user) => user.id === selectedUserId) ?? defaultUser;
 
   const journey = useMemo(
     () =>
@@ -47,17 +67,39 @@ function AppShell() {
     [selectedUser]
   );
 
+  function updateSelectedUser(updateUser) {
+    setAppUsers((currentUsers) =>
+      currentUsers.map((user) =>
+        user.id === selectedUserId ? updateUser(user) : user
+      )
+    );
+  }
+
+  function handleCompleteQuest(questId) {
+    updateSelectedUser((user) => completeQuest(user, questId));
+  }
+
+  function handleReopenQuest(questId) {
+    updateSelectedUser((user) => reopenQuest(user, questId));
+  }
+
   function renderCurrentPage() {
     switch (currentPageId) {
       case pageIds.QUESTS:
-        return <QuestsPage journey={journey} />;
+        return (
+          <QuestsPage
+            journey={journey}
+            onCompleteQuest={handleCompleteQuest}
+            onReopenQuest={handleReopenQuest}
+          />
+        );
 
       case pageIds.JOURNEY:
       default:
         return (
           <JourneyPage
             journey={journey}
-            users={users}
+            users={appUsers}
             selectedUser={selectedUser}
             selectedUserId={selectedUserId}
             onSelectedUserChange={setSelectedUserId}

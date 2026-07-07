@@ -396,6 +396,7 @@ function buildProgress({
 
     const applicableCount = applicableStageQuests.length;
     const completedStageCount = completedStageQuests.length;
+    const remainingStageCount = applicableCount - completedStageCount;
 
     const stageDisplayState = getStageDisplayState({
       stageId: stage.id,
@@ -408,12 +409,18 @@ function buildProgress({
       stageId: stage.id,
       germanLabel: stage.germanLabel,
       englishLabel: stage.englishLabel,
+
       isCurrent: stage.id === currentStageId,
+
       applicableCount,
       totalStageQuestCount: applicableCount,
+
       completedCount: completedStageCount,
+      remainingCount: remainingStageCount,
+
       stageDisplayState,
       stageDisplayLabel: getStageDisplayLabel(stageDisplayState),
+
       percentComplete:
         applicableCount === 0
           ? 0
@@ -438,9 +445,11 @@ function buildProgress({
       totalQuests === 0
         ? 0
         : Math.round((completedCount / totalQuests) * 100),
+
     progressByStage,
   };
 }
+
 
 // ============================================================
 // Public API

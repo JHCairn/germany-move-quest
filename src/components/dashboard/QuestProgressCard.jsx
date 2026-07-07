@@ -12,9 +12,8 @@ function QuestProgressCard({ progress }) {
 
           return (
             <div
-              className={`quest-stage-progress-row ${
-                stage.isCurrent ? "current" : "upcoming"
-              }`}
+              className={`quest-stage-progress-row ${stage.isCurrent ? "current" : "upcoming"
+                }`}
               key={stage.stageId}
             >
               <div className="quest-stage-progress-header">
@@ -24,9 +23,7 @@ function QuestProgressCard({ progress }) {
                 </div>
 
                 <span className="quest-stage-count">
-                  {stage.isCurrent
-                    ? `${stage.completedCount} / ${stage.applicableCount}`
-                    : `${stage.stageDisplayLabel} · ${stage.totalStageQuestCount} quests`}
+                  {`${stage.stageDisplayLabel} · ${stage.completedCount} / ${stage.applicableCount}`}
                 </span>
               </div>
 

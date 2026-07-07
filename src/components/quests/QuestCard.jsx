@@ -8,12 +8,14 @@
  * --------------
  * Renders a single derived quest.
  *
- * This component consumes the presentation-ready quest produced
- * by the Quest Engine. It does not decide applicability, status,
- * priority, or recommendation order.
+ * This component does not know how completion is stored.
+ * It does not update user facts directly.
+ * It simply exposes the user's intent through callbacks.
  */
 
-function QuestCard({ quest }) {
+function QuestCard({ quest, onComplete, onReopen }) {
+  const isCompleted = quest.state === "completed";
+
   return (
     <article className={`quest-card quest-card-${quest.state}`}>
       <div className="quest-card-header">
@@ -32,6 +34,20 @@ function QuestCard({ quest }) {
         <span>{quest.priority} priority</span>
         <span>{quest.estimatedTime}</span>
         {quest.dueLabel && <span>{quest.dueLabel}</span>}
+      </div>
+
+      <div className="quest-card-actions">
+        {isCompleted ? (
+          <button type="button" onClick={() => onReopen(quest.id)}>
+            Wieder öffnen
+            <span>Reopen</span>
+          </button>
+        ) : (
+          <button type="button" onClick={() => onComplete(quest.id)}>
+            Als erledigt markieren
+            <span>Mark Complete</span>
+          </button>
+        )}
       </div>
     </article>
   );

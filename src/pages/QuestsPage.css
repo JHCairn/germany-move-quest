@@ -131,3 +131,30 @@
     flex-direction: column;
   }
 }
+.quest-card-actions {
+  margin-top: 1rem;
+}
+
+.quest-card-actions button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  border: none;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  background: #2563eb;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.quest-card-actions button span {
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.quest-card-actions button:hover {
+  background: #1d4ed8;
+}
