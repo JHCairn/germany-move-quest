@@ -38,14 +38,32 @@ function QuestCard({ quest, onComplete, onReopen }) {
 
       <div className="quest-card-actions">
         {isCompleted ? (
-          <button type="button" onClick={() => onReopen(quest.id)}>
-            Wieder öffnen
-            <span>Reopen</span>
+          <button
+            type="button"
+            className="quest-action-button quest-action-button-secondary"
+            onClick={() => onReopen(quest.id)}
+          >
+            <span className="quest-action-primary">
+              ↺ Wieder öffnen
+            </span>
+
+            <span className="quest-action-translation">
+              Reopen
+            </span>
           </button>
         ) : (
-          <button type="button" onClick={() => onComplete(quest.id)}>
-            Als erledigt markieren
-            <span>Mark Complete</span>
+          <button
+            type="button"
+            className="quest-action-button quest-action-button-primary"
+            onClick={() => onComplete(quest.id)}
+          >
+            <span className="quest-action-primary">
+              ✓ Erledigen
+            </span>
+
+            <span className="quest-action-translation">
+              Complete
+            </span>
           </button>
         )}
       </div>

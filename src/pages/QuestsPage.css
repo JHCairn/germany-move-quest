@@ -121,6 +121,72 @@
   background: var(--background);
 }
 
+/**
+ * ============================================================
+ * Quest Actions
+ * ============================================================
+ *
+ * These buttons intentionally have a lower visual weight than
+ * the quest title.
+ *
+ * Completing a quest is a lightweight state change rather than
+ * primary navigation, so the buttons are styled more like
+ * compact action chips than large call-to-action buttons.
+ *
+ * The bilingual treatment remains throughout the application,
+ * with the German action first and the English translation
+ * directly underneath.
+ */
+
+.quest-card-actions {
+  margin-top: 1rem;
+}
+
+.quest-action-button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.05rem;
+
+  border: none;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.quest-action-primary {
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.quest-action-translation {
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.1;
+  opacity: 0.9;
+}
+
+.quest-action-button-primary {
+  background: #2563eb;
+}
+
+.quest-action-button-primary:hover {
+  background: #1d4ed8;
+}
+
+.quest-action-button-secondary {
+  background: #64748b;
+}
+
+.quest-action-button-secondary:hover {
+  background: #475569;
+}
+
 @media (max-width: 768px) {
   .quest-section-header {
     align-items: flex-start;
@@ -130,31 +196,4 @@
   .quest-card-header {
     flex-direction: column;
   }
-}
-.quest-card-actions {
-  margin-top: 1rem;
-}
-
-.quest-card-actions button {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.15rem;
-  border: none;
-  border-radius: 999px;
-  padding: 0.65rem 1rem;
-  background: #2563eb;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.quest-card-actions button span {
-  font-size: 0.85rem;
-  font-weight: 500;
-  opacity: 0.9;
-}
-
-.quest-card-actions button:hover {
-  background: #1d4ed8;
 }

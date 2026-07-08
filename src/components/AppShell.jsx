@@ -5,6 +5,7 @@ import "./AppShell.css";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import BottomNav from "./BottomNav";
+import Toast from "./Toast";
 
 import JourneyPage from "../pages/JourneyPage";
 import QuestsPage from "../pages/QuestsPage";
@@ -42,11 +43,15 @@ import { buildJourneyModel } from "../services/questEngine";
  *
  * Once that fact changes, React re-renders, the Quest Engine runs again,
  * and every page receives a fresh Journey Model.
+ *
+ * Toast feedback is intentionally kept here in the shell because it is
+ * temporary presentation feedback, not user data and not derived model state.
  */
 
 function AppShell() {
   const [currentPageId, setCurrentPageId] = useState(pageIds.JOURNEY);
   const [selectedUserId, setSelectedUserId] = useState(defaultUser.id);
+  const [toastMessage, setToastMessage] = useState("");
 
   /**
    * User facts are copied into React state so actions can update them
@@ -67,6 +72,14 @@ function AppShell() {
     [selectedUser]
   );
 
+  function showToast(message) {
+    setToastMessage(message);
+
+    window.setTimeout(() => {
+      setToastMessage("");
+    }, 2000);
+  }
+
   function updateSelectedUser(updateUser) {
     setAppUsers((currentUsers) =>
       currentUsers.map((user) =>
@@ -77,6 +90,7 @@ function AppShell() {
 
   function handleCompleteQuest(questId) {
     updateSelectedUser((user) => completeQuest(user, questId));
+    showToast("✓ Done");
   }
 
   function handleReopenQuest(questId) {
@@ -125,6 +139,8 @@ function AppShell() {
         currentPageId={currentPageId}
         onPageChange={setCurrentPageId}
       />
+
+      <Toast message={toastMessage} />
     </div>
   );
 }
