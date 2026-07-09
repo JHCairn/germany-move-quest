@@ -222,3 +222,17 @@ Potential future enhancements include:
 * Task dependencies and prerequisites (although I might want to include in MVP)
 
 These ideas are intentionally out of scope for the initial MVP.
+
+# Architectural Principles
+- Store facts. Derive everything else.
+- Catalogs define what the app knows.
+- User data stores only user-provided facts.
+- Engines derive applicability, recommendations, progress, etc.
+- Presentation simply renders view models.
+
+# Content Principles
+- Use English for guidance.
+- Use German for real-world terminology.
+- Whenever a German term is introduced, accompany it with its English equivalent.
+- Don't introduce German just for the sake of teaching German.
+

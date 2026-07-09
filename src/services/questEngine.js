@@ -93,33 +93,73 @@ function getStageRelation(questStageId, currentStageId) {
 }
 
 // ============================================================
+// User Fact Helpers
+// ============================================================
+
+function getAboutFacts(user) {
+  /**
+   * User Fact Boundary
+   * ------------------
+   * The Quest Engine consumes stored user facts from one clear
+   * location: user.facts.about.
+   *
+   * This keeps legacy structures such as lifeSituation out of the
+   * engine and prevents old user shapes from quietly surviving.
+   *
+   * If a fact is missing, the engine treats it as false/unknown
+   * rather than storing derived defaults on the user.
+   */
+  return user.facts?.about ?? {};
+}
+
+// ============================================================
 // Applicability Helpers
 // ============================================================
 
 function isQuestApplicableToUser(quest, user) {
-  const lifeSituation = user.lifeSituation ?? {};
-  const interests = user.interests ?? [];
+  const about = getAboutFacts(user);
 
-  switch (quest.id) {
-    case "pet-travel":
-      return lifeSituation.hasPets === true;
+  const rules = quest.applicableWhen;
 
-    case "childcare":
-    case "school-registration":
-      return lifeSituation.hasChildren === true;
-
-    case "car":
-      return lifeSituation.hasCar === true;
-
-    case "golf-club":
-      return interests.includes("golf");
-
-    case "dog-registration":
-      return false;
-
-    default:
-      return true;
+  /**
+   * No applicableWhen rules means this quest is relevant to
+   * every relocation journey.
+   */
+  if (!rules) {
+    return true;
   }
+
+  return rules.every((rule) => {
+    switch (rule.factId) {
+      case "havePets":
+        return about.havePets === rule.value;
+      
+      case "haveDog":
+        return about.haveDog === rule.value;
+
+      case "haveChildren":
+        return about.haveChildren === rule.value;
+
+      case "haveCar":
+        return about.haveCar === rule.value;
+
+      case "needFurniture":
+        return about.needFurniture === rule.value;
+
+      case "needKitchen":
+        return about.needKitchen === rule.value;
+
+      case "housingType":
+        return about.housingType === rule.value;
+
+
+      default:
+        console.warn(
+          `Unknown applicableWhen factId "${rule.factId}" for quest "${quest.id}".`
+        );
+        return true;
+    }
+  });
 }
 
 function getApplicableQuests(questCatalog, user) {
@@ -131,7 +171,7 @@ function getApplicableQuests(questCatalog, user) {
    * The UI does not need a "not applicable" section because those
    * quests are not part of this user's relocation experience.
    *
-   * If the user later changes Profile facts, the engine will run
+   * If the user later changes About You facts, the engine will run
    * again and the applicable quest set will be recalculated.
    */
   return questCatalog.filter((quest) => isQuestApplicableToUser(quest, user));
@@ -151,8 +191,7 @@ function getQuestPresentationState({ isCompleted, stageRelation }) {
    * "not completed and in the current or a previous stage."
    *
    * It does not mean the user is blocked from completing future
-   * quests. Future quests remain visible and can become completed
-   * once the interaction layer is added.
+   * quests. Future quests remain visible and can become completed.
    */
   if (isCompleted) {
     return "completed";
@@ -170,6 +209,7 @@ function deriveQuest(quest, user, currentStageId) {
   const isCompleted = completedQuestIds.includes(quest.id);
   const stageRelation = getStageRelation(quest.stage, currentStageId);
   const stageOffset = getStageOffset(quest.stage, currentStageId);
+
   const state = getQuestPresentationState({
     isCompleted,
     stageRelation,
@@ -449,7 +489,6 @@ function buildProgress({
     progressByStage,
   };
 }
-
 
 // ============================================================
 // Public API

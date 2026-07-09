@@ -70,19 +70,26 @@ export const questCatalog = [
       "Decide how belongings will be moved, what travels with you, and what can wait until after arrival.",
   },
   {
-    id: "pet-travel",
-    title: "Haustier-Einreise",
-    subtitle: "Pet travel preparation",
-    category: "Pets",
-    stage: "preparing",
-    priority: "medium",
-    order: 60,
-    dueLabel: "Before travel",
-    estimatedTime: "30–60 min",
-    actionLabel: "Prepare pet travel documents",
-    description:
-      "Check pet passport, rabies vaccination timing, transport crate, and airline or travel requirements.",
-  },
+  id: "pet-travel",
+  title: "Haustier-Einreise",
+  subtitle: "Pet travel preparation",
+  category: "Pets",
+  stage: "preparing",
+  priority: "medium",
+  order: 60,
+  dueLabel: "Before travel",
+  estimatedTime: "30–60 min",
+  actionLabel: "Prepare pet travel documents",
+  description:
+    "Check pet passport, rabies vaccination timing, transport crate, and airline or travel requirements.",
+
+  applicableWhen: [
+    {
+      factId: "havePets",
+      value: true,
+    },
+  ],
+},
   {
     id: "anmeldung",
     title: "Anmeldung",
@@ -236,6 +243,13 @@ export const questCatalog = [
     actionLabel: "Plan home essentials",
     description:
       "Prioritize furniture, lighting, kitchen items, cleaning supplies, and delivery timing for your new home.",
+
+      applicableWhen: [
+  {
+    factId: "needFurniture",
+    value: true,
+  },
+],
   },
   {
     id: "german-learning",
@@ -292,6 +306,13 @@ export const questCatalog = [
     actionLabel: "Review school registration",
     description:
       "Relevant if you have school-age children and need to understand local school registration.",
+
+      applicableWhen: [
+  {
+    factId: "haveChildren",
+    value: true,
+  },
+],
   },
   {
     id: "childcare",
@@ -306,6 +327,13 @@ export const questCatalog = [
     actionLabel: "Research childcare options",
     description:
       "Relevant if you need daycare, kindergarten, after-school care, or other childcare support.",
+
+      applicableWhen: [
+  {
+    factId: "haveChildren",
+    value: true,
+  },
+],
   },
   {
     id: "car",
@@ -320,6 +348,13 @@ export const questCatalog = [
     actionLabel: "Review driving requirements",
     description:
       "Only applicable if you plan to drive or purchase a car in Germany.",
+
+      applicableWhen: [
+  {
+    factId: "haveCar",
+    value: true,
+  },
+],
   },
   {
     id: "dog-registration",
@@ -334,7 +369,16 @@ export const questCatalog = [
     actionLabel: "Register your dog",
     description:
       "Relevant if you move with a dog and need to register it with the local municipality.",
+
+      applicableWhen: [
+  {
+    factId: "haveDog",
+    value: true,
   },
+],
+  },
+  /*
+  This is planned for a future release, but not yet implemented in the current prototype.
   {
     id: "golf-club",
     title: "Golfclub finden",
@@ -349,4 +393,6 @@ export const questCatalog = [
     description:
       "Relevant if golf is one of your interests and you want to explore clubs or courses nearby.",
   },
+*/
+
 ];

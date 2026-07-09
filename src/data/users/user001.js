@@ -9,8 +9,6 @@
  * Never consumed by the Quest Engine.
  */
 
-
-
 export const user001 = {
   id: "user001",
   name: "Julie",
@@ -18,16 +16,36 @@ export const user001 = {
 
   currentStageId: "preparing",
 
-  lifeSituation: {
-    isBuyingHome: true,
-    isRentingHome: false,
-    hasCar: false,
-    hasPets: true,
-    hasChildren: false,
-    isEuCitizen: true,
-  },
+  // Facts represent the user's current situation.
+  // The Quest Engine derives applicability from these values.
+  // Do not duplicate this information elsewhere in the user model.
 
-  interests: ["language", "cycling", "local-life"],
+  facts: {
+    about: {
+      havePets: true,
+      haveDog: false,
+      haveChildren: false,
+      haveCar: false,
+      housingType: "buying",
+      needKitchen: true,
+      needFurniture: true,
+      },
+
+    milestones: {
+      moveDate: {
+        plannedDate: "2026-09-01",
+        actualDate: "",
+      },
+      keyHandover: {
+        plannedDate: "2026-07-08",
+        actualDate: "2026-07-08",
+      },
+      anmeldung: {
+        plannedDate: "2026-07-20",
+        actualDate: "",
+      },
+    },
+  },
 
   completedQuestIds: ["bank"],
 };

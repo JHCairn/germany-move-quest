@@ -62,8 +62,7 @@ function QuestsPage({ journey, onCompleteQuest, onReopenQuest }) {
         <p className="journey-eyebrow">Quests</p>
         <h1>Aufgaben für deinen Umzug</h1>
         <p>
-          Review active, remaining, upcoming, and completed quests for this test
-          persona.
+          Review active, remaining, upcoming, and completed quests.
         </p>
       </div>
 
