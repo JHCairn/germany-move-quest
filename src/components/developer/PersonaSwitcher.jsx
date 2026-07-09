@@ -22,8 +22,7 @@ function PersonaSwitcher({ users, selectedUserId, selectedUser, onChange }) {
   return (
     <section className="developer-tools">
       <div className="developer-tools-row">
-        <label htmlFor="persona-select">Test Persona</label>
-
+        
         <select
           id="persona-select"
           value={selectedUserId}

@@ -6,8 +6,6 @@ import JourneyProgressCard from "../components/dashboard/JourneyProgressCard";
 import RecommendationCard from "../components/dashboard/RecommendationCard";
 import QuestProgressCard from "../components/dashboard/QuestProgressCard";
 
-import PersonaSwitcher from "../components/developer/PersonaSwitcher";
-
 /**
  * ============================================================
  * Germany Move Quest
@@ -19,17 +17,11 @@ import PersonaSwitcher from "../components/developer/PersonaSwitcher";
  * Renders the user's journey dashboard from the derived Journey
  * Model.
  *
- * The page no longer builds the Journey Model itself. That allows
- * other pages to share the same selected test persona.
+ * Persona selection now lives in the shared Header because the
+ * selected user is app-level state, not Journey-page state.
  */
 
-function JourneyPage({
-  journey,
-  users,
-  selectedUser,
-  selectedUserId,
-  onSelectedUserChange,
-}) {
+function JourneyPage({ journey, selectedUser }) {
   return (
     <section className="journey-page">
       <div className="journey-header">
@@ -38,20 +30,12 @@ function JourneyPage({
         <h1>
           {getGreeting()}, {selectedUser.name}.
         </h1>
-
-        <PersonaSwitcher
-          users={users}
-          selectedUserId={selectedUserId}
-          selectedUser={selectedUser}
-          onChange={onSelectedUserChange}
-        />
       </div>
 
       <div className="journey-grid">
         <JourneyProgressCard journey={journey.journeyProgress} />
         <RecommendationCard quest={journey.recommendedQuest} />
         <QuestProgressCard progress={journey.progress} />
-        
       </div>
     </section>
   );

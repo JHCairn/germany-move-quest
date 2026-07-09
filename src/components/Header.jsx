@@ -1,5 +1,8 @@
 import heroImg from "../assets/symbol.svg";
+import PersonaSwitcher from "../components/developer/PersonaSwitcher";
+
 import "./Header.css";
+import { User } from "lucide-react";
 
 /**
  * ============================================================
@@ -9,10 +12,19 @@ import "./Header.css";
  *
  * Responsibility
  * --------------
- * Renders the application brand and current selected user.
+ * Renders the application brand, current selected user, and the
+ * developer persona switcher.
+ *
+ * The selected user is app-level state, so the switcher belongs in
+ * the shared header rather than on a single page.
  */
 
-function Header({ selectedUser }) {
+function Header({
+  users,
+  selectedUser,
+  selectedUserId,
+  onSelectedUserChange,
+}) {
   return (
     <header className="header">
       <div className="header-brand">
@@ -28,10 +40,26 @@ function Header({ selectedUser }) {
         </div>
       </div>
 
+      
       <div className="header-user">
-        <span>👤</span>
-        <span>{selectedUser.name}</span>
-      </div>
+    <div className="header-user-name">
+
+<div className="header-user-name">
+  <User size={20} strokeWidth={2} />
+  <span>{selectedUser.name}</span>
+</div>
+  </div>
+
+  <div className="header-user-switcher">
+    <PersonaSwitcher
+      users={users}
+      selectedUserId={selectedUserId}
+      selectedUser={selectedUser}
+      onChange={onSelectedUserChange}
+    />
+  </div>
+</div>
+      
     </header>
   );
 }

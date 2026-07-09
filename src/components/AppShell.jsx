@@ -124,7 +124,12 @@ function AppShell() {
 
   return (
     <div className="app-shell">
-      <Header selectedUser={selectedUser} />
+      <Header
+  users={appUsers}
+  selectedUser={selectedUser}
+  selectedUserId={selectedUserId}
+  onSelectedUserChange={setSelectedUserId}
+/>
 
       <div className="app-layout">
         <Sidebar
