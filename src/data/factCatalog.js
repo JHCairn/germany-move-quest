@@ -1,14 +1,32 @@
 /**
+ * ============================================================
+ * Germany Move Quest
  * Fact Catalog
+ * ============================================================
  *
- * This file defines the facts the app knows how to collect.
+ * Responsibility
+ * --------------
+ * Defines the facts the application knows how to collect.
  *
  * The catalog contains definitions only:
  * - what question to ask
  * - what type of answer is expected
- * - which conceptual group the fact belongs to
+ * - how facts should be conceptually grouped
  *
- * It must not contain user-specific values.
+ * It must never contain user-specific values.
+ *
+ * Architecture
+ * ------------
+ *
+ * Catalogs
+ *     ↓
+ * User Facts
+ *     ↓
+ * Quest Engine
+ *     ↓
+ * Journey Model
+ *     ↓
+ * Presentation
  *
  * Architectural principle:
  * Store facts. Derive everything else.
@@ -18,25 +36,31 @@ export const factCatalog = {
   about: [
     {
       id: "havePets",
-      group: "about",
+      section: "Household",
       type: "boolean",
       question: "Do you have pets?",
     },
     {
-      id: "haveChildren",
-      group: "about",
+      id: "haveDog",
+      section: "Household",
       type: "boolean",
-      question: "Do you have children?",
+      question: "Do you have a dog?",
     },
     {
       id: "haveCar",
-      group: "about",
+      section: "Household",
       type: "boolean",
       question: "Do you have a car?",
     },
     {
+      id: "haveChildren",
+      section: "Family",
+      type: "boolean",
+      question: "Do you have children?",
+    },
+    {
       id: "housingType",
-      group: "about",
+      section: "Home",
       type: "select",
       question: "Are you renting or buying?",
       options: [
@@ -46,21 +70,15 @@ export const factCatalog = {
     },
     {
       id: "needKitchen",
-      group: "about",
+      section: "Home",
       type: "boolean",
       question: "Do you need a kitchen?",
     },
     {
       id: "needFurniture",
-      group: "about",
+      section: "Home",
       type: "boolean",
       question: "Do you need major furniture?",
-    },
-    {
-      id: "haveDog",
-      group: "about",
-      type: "boolean",
-      question: "Do you have a dog?",
     },
   ],
 

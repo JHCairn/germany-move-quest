@@ -9,8 +9,10 @@ import Toast from "./Toast";
 
 import JourneyPage from "../pages/JourneyPage";
 import QuestsPage from "../pages/QuestsPage";
+import AboutYouPage from "../pages/AboutYouPage";
 
 import { questCatalog } from "../data/questCatalog";
+import { factCatalog } from "../data/factCatalog";
 import { stages } from "../data/stages";
 import { users, defaultUser } from "../data/users";
 import { pageIds } from "../data/navigation";
@@ -26,26 +28,39 @@ import { buildJourneyModel } from "../services/questEngine";
  *
  * Responsibility
  * --------------
- * Owns app-level navigation and the currently selected test persona.
+ * Owns app-level navigation, editable user facts, and the
+ * currently selected test persona.
  *
- * This is also the first place where user facts become editable.
+ * Architecture
+ * ------------
+ *
+ * Catalogs
+ *     ↓
+ * User Facts
+ *     ↓
+ * Quest Engine
+ *     ↓
+ * Journey Model
+ *     ↓
+ * Presentation
  *
  * Important architecture rule:
  *
  *   Actions update facts.
  *   Engines derive meaning.
- *   Pages render the derived model.
+ *   Pages render stored facts or the derived Journey Model.
  *
- * Completing or reopening a quest does not directly update the Dashboard,
- * the Quests page, progress counts, recommendations, or quest groups.
+ * Completing or reopening a quest does not directly update the
+ * Dashboard, Quests page, progress counts, recommendations, or
+ * quest groups.
  *
  * It only changes the selected user's completedQuestIds fact.
  *
- * Once that fact changes, React re-renders, the Quest Engine runs again,
- * and every page receives a fresh Journey Model.
+ * Once that fact changes, React re-renders, the Quest Engine runs
+ * again, and every page receives a fresh Journey Model.
  *
- * Toast feedback is intentionally kept here in the shell because it is
- * temporary presentation feedback, not user data and not derived model state.
+ * Toast feedback is intentionally kept here because it is
+ * temporary presentation state, not user data.
  */
 
 function AppShell() {
@@ -108,6 +123,14 @@ function AppShell() {
           />
         );
 
+      case pageIds.ABOUT_YOU:
+        return (
+          <AboutYouPage
+            facts={factCatalog.about}
+            userFacts={selectedUser.facts.about}
+          />
+        );
+
       case pageIds.JOURNEY:
       default:
         return (
@@ -125,11 +148,11 @@ function AppShell() {
   return (
     <div className="app-shell">
       <Header
-  users={appUsers}
-  selectedUser={selectedUser}
-  selectedUserId={selectedUserId}
-  onSelectedUserChange={setSelectedUserId}
-/>
+        users={appUsers}
+        selectedUser={selectedUser}
+        selectedUserId={selectedUserId}
+        onSelectedUserChange={setSelectedUserId}
+      />
 
       <div className="app-layout">
         <Sidebar

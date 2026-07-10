@@ -1,0 +1,41 @@
+.fact-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.fact-row:last-child {
+  border-bottom: 0;
+}
+
+.fact-row-question {
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.fact-row-value {
+  flex-shrink: 0;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .fact-row {
+    align-items: flex-start;
+    padding: 0.9rem 1rem;
+    gap: 1rem;
+  }
+
+  .fact-row-question {
+    font-size: 0.95rem;
+  }
+
+  .fact-row-value {
+    font-size: 0.85rem;
+  }
+}

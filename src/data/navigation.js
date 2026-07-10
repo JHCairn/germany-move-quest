@@ -17,7 +17,7 @@ export const pageIds = {
   JOURNEY: "journey",
   QUESTS: "quests",
   HOME_SETUP: "home-setup",
-  PROFILE: "profile",
+  ABOUT_YOU: "about-you",
 };
 
 export const navigationItems = [
@@ -37,7 +37,7 @@ export const navigationItems = [
     label: "Zuhause",
   },
   {
-    id: pageIds.PROFILE,
+    id: pageIds.ABOUT_YOU,
     icon: icons.profile,
     label: "Über mich",
   },

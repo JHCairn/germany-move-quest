@@ -1,0 +1,45 @@
+.about-you-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-you-header {
+  margin-bottom: 1.5rem;
+}
+
+.about-you-eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.about-you-header h1 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+.about-you-header > p:last-child {
+  margin: 0.65rem 0 0;
+  max-width: 640px;
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+.about-you-sections {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .about-you-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .about-you-header {
+    margin-bottom: 1rem;
+  }
+}
