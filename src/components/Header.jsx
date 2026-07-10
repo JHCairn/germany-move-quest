@@ -34,32 +34,28 @@ function Header({
 
         <div className="header-text">
           <div className="header-app-title">Germany Move Quest</div>
+
           <div className="header-tagline">
             Your companion for moving to and living in Germany.
           </div>
         </div>
       </div>
 
-      
       <div className="header-user">
-    <div className="header-user-name">
+        <div className="header-user-name">
+          <User size={20} strokeWidth={2} />
+          <span>{selectedUser.name}</span>
+        </div>
 
-<div className="header-user-name">
-  <User size={20} strokeWidth={2} />
-  <span>{selectedUser.name}</span>
-</div>
-  </div>
-
-  <div className="header-user-switcher">
-    <PersonaSwitcher
-      users={users}
-      selectedUserId={selectedUserId}
-      selectedUser={selectedUser}
-      onChange={onSelectedUserChange}
-    />
-  </div>
-</div>
-      
+        <div className="header-user-switcher">
+          <PersonaSwitcher
+            users={users}
+            selectedUserId={selectedUserId}
+            selectedUser={selectedUser}
+            onChange={onSelectedUserChange}
+          />
+        </div>
+      </div>
     </header>
   );
 }

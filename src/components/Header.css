@@ -99,8 +99,9 @@
 
 @media (max-width: 768px) {
   .header {
-    height: auto;
     padding: 0.75rem 1rem;
+    align-items: flex-start;
+    gap: 1rem;
   }
 
   .header-logo {
@@ -113,17 +114,30 @@
   }
 
   .header-tagline {
-    font-size: 0.75rem;
-    line-height: 1.2;
-    max-width: 220px;
-  }
-
-  .header-user {
     display: none;
   }
 
   .header-text {
     align-items: flex-start;
     text-align: left;
+  }
+
+  .header-user {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.25rem;
+  }
+
+  .header-user-name {
+    font-size: 0.85rem;
+  }
+
+  .header-user-switcher {
+    font-size: 0.8rem;
+  }
+
+  .header-user-switcher select {
+    font-size: 0.8rem;
+    max-width: 120px;
   }
 }
