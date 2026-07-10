@@ -1,5 +1,7 @@
 .boolean-fact-editor {
   display: inline-flex;
+  flex: 0 0 auto;
+  width: 9rem;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 0.65rem;
@@ -7,14 +9,19 @@
 }
 
 .boolean-fact-option {
-  min-width: 4rem;
-  padding: 0.55rem 0.85rem;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 0.55rem 0.75rem;
   border: 0;
   background: transparent;
   color: var(--text-light);
   font: inherit;
   font-size: 0.9rem;
   font-weight: 600;
+  line-height: 1;
   cursor: pointer;
 }
 
@@ -45,8 +52,12 @@
 }
 
 @media (max-width: 768px) {
+  .boolean-fact-editor {
+    width: 8.5rem;
+  }
+
   .boolean-fact-option {
-    min-width: 4.25rem;
-    padding: 0.65rem 0.9rem;
+    min-height: 2.75rem;
+    padding: 0.6rem 0.7rem;
   }
 }
