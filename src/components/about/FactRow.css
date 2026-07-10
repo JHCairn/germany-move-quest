@@ -1,6 +1,5 @@
 .fact-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 1.5rem;
 
@@ -13,12 +12,16 @@
 }
 
 .fact-row-question {
+  flex: 1;
+  min-width: 0;
+
   color: var(--text);
   line-height: 1.4;
 }
 
 .fact-row-value {
-  flex-shrink: 0;
+  flex: 0 0 auto;
+
   color: var(--text-light);
   font-size: 0.9rem;
   font-weight: 700;
@@ -26,16 +29,19 @@
 
 @media (max-width: 768px) {
   .fact-row {
-    align-items: flex-start;
+    align-items: center;
+    gap: 0.75rem;
     padding: 0.9rem 1rem;
-    gap: 1rem;
   }
 
   .fact-row-question {
+    flex: 1;
+    min-width: 0;
     font-size: 0.95rem;
   }
 
   .fact-row-value {
+    flex: 0 0 auto;
     font-size: 0.85rem;
   }
 }
