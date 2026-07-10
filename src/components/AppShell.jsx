@@ -17,7 +17,12 @@ import { stages } from "../data/stages";
 import { users, defaultUser } from "../data/users";
 import { pageIds } from "../data/navigation";
 
-import { completeQuest, reopenQuest } from "../actions";
+import {
+  completeQuest,
+  reopenQuest,
+  updateAboutFact,
+} from "../actions";
+
 import { buildJourneyModel } from "../services/questEngine";
 
 /**
@@ -112,6 +117,16 @@ function AppShell() {
     updateSelectedUser((user) => reopenQuest(user, questId));
   }
 
+  /**
+   * Update a single About You fact.
+   *
+   * The action knows where facts are stored.
+   * AppShell simply applies the updated user returned by the action.
+   */
+  function handleUpdateFact(factId, value) {
+    updateSelectedUser((user) => updateAboutFact(user, factId, value));
+  }
+
   function renderCurrentPage() {
     switch (currentPageId) {
       case pageIds.QUESTS:
@@ -128,6 +143,7 @@ function AppShell() {
           <AboutYouPage
             facts={factCatalog.about}
             userFacts={selectedUser.facts.about}
+            onUpdateFact={handleUpdateFact}
           />
         );
 

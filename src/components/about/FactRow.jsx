@@ -1,5 +1,7 @@
 import "./FactRow.css";
 
+import BooleanFactEditor from "../facts/BooleanFactEditor";
+
 /**
  * ============================================================
  * Germany Move Quest
@@ -8,26 +10,15 @@ import "./FactRow.css";
  *
  * Responsibility
  * --------------
- * Renders one fact definition and its currently stored value.
+ * Renders one fact definition together with the appropriate editor
+ * for that fact type.
  *
- * This first implementation is intentionally read-only. Editing
- * controls will be added here later so the page and section
- * components remain generic.
+ * FactRow decides which editor to render based on the Fact Catalog.
+ * It does not own user state and does not understand the structure
+ * of the user object.
  */
 
 function getDisplayValue(fact, value) {
-  if (fact.type === "boolean") {
-    if (value === true) {
-      return "Yes";
-    }
-
-    if (value === false) {
-      return "No";
-    }
-
-    return "Not answered";
-  }
-
   if (fact.type === "select") {
     const selectedOption = fact.options?.find(
       (option) => option.value === value
@@ -39,14 +30,33 @@ function getDisplayValue(fact, value) {
   return value || "Not answered";
 }
 
-function FactRow({ fact, value }) {
+function FactRow({ fact, value, onUpdateFact }) {
+  function renderEditor() {
+    switch (fact.type) {
+      case "boolean":
+        return (
+          <BooleanFactEditor
+            value={value}
+            onChange={(newValue) => onUpdateFact(fact.id, newValue)}
+          />
+        );
+
+      default:
+        return (
+          <span className="fact-row-value">
+            {getDisplayValue(fact, value)}
+          </span>
+        );
+    }
+  }
+
   return (
     <div className="fact-row">
-      <span className="fact-row-question">{fact.question}</span>
-
-      <span className="fact-row-value">
-        {getDisplayValue(fact, value)}
+      <span className="fact-row-question">
+        {fact.question}
       </span>
+
+      {renderEditor()}
     </div>
   );
 }

@@ -16,7 +16,12 @@ import "./FactSection.css";
  * does not decide which facts belong together.
  */
 
-function FactSection({ title, facts, userFacts }) {
+function FactSection({
+  title,
+  facts,
+  userFacts,
+  onUpdateFact,
+}) {
   return (
     <section className="fact-section">
       <h2>{title}</h2>
@@ -27,6 +32,7 @@ function FactSection({ title, facts, userFacts }) {
             key={fact.id}
             fact={fact}
             value={userFacts?.[fact.id]}
+            onUpdateFact={onUpdateFact}
           />
         ))}
       </div>

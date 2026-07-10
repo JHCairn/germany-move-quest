@@ -48,13 +48,19 @@ function groupFactsBySection(facts) {
   }, {});
 }
 
-function AboutYouPage({ facts, userFacts }) {
+function AboutYouPage({
+  facts,
+  userFacts,
+  onUpdateFact,
+}) {
   const sections = groupFactsBySection(facts);
 
   return (
     <section className="about-you-page">
       <header className="about-you-header">
-        <p className="about-you-eyebrow">Über mich · About You</p>
+        <p className="about-you-eyebrow">
+          Über mich · About You
+        </p>
 
         <h1>Tell us about your situation</h1>
 
@@ -64,14 +70,17 @@ function AboutYouPage({ facts, userFacts }) {
       </header>
 
       <div className="about-you-sections">
-        {Object.entries(sections).map(([sectionName, sectionFacts]) => (
-          <FactSection
-            key={sectionName}
-            title={sectionName}
-            facts={sectionFacts}
-            userFacts={userFacts}
-          />
-        ))}
+        {Object.entries(sections).map(
+          ([sectionName, sectionFacts]) => (
+            <FactSection
+              key={sectionName}
+              title={sectionName}
+              facts={sectionFacts}
+              userFacts={userFacts}
+              onUpdateFact={onUpdateFact}
+            />
+          )
+        )}
       </div>
     </section>
   );

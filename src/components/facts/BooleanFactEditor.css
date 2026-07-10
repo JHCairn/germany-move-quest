@@ -1,0 +1,52 @@
+.boolean-fact-editor {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  background: var(--surface);
+}
+
+.boolean-fact-option {
+  min-width: 4rem;
+  padding: 0.55rem 0.85rem;
+  border: 0;
+  background: transparent;
+  color: var(--text-light);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.boolean-fact-option + .boolean-fact-option {
+  border-left: 1px solid var(--border);
+}
+
+.boolean-fact-option:hover:not(:disabled):not(.is-selected) {
+  background: var(--surface-muted);
+  color: var(--text);
+}
+
+.boolean-fact-option.is-selected {
+  background: var(--primary);
+  color: white;
+}
+
+.boolean-fact-option:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.boolean-fact-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .boolean-fact-option {
+    min-width: 4.25rem;
+    padding: 0.65rem 0.9rem;
+  }
+}
