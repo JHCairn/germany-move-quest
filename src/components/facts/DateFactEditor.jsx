@@ -10,22 +10,12 @@ import "./DateFactEditor.css";
  * --------------
  * Edits a single date value.
  *
- * This component has no knowledge of:
+ * The browser's native date input remains responsible for
+ * opening the platform date picker.
  *
- * - the user object
- * - fact IDs
- * - About You
- * - milestones
- * - planned versus actual dates
- * - quest applicability
- * - React state ownership
- *
- * It simply receives a value and reports the next valid value
- * through onChange().
- *
- * Date values use the browser-standard YYYY-MM-DD format, so
- * minimum and maximum values can be compared directly without
- * parsing them into JavaScript Date objects.
+ * The surrounding component owns the visible presentation so
+ * the field has a consistent size and appearance across desktop
+ * and mobile browsers.
  */
 
 function DateFactEditor({
@@ -42,8 +32,6 @@ function DateFactEditor({
   function handleChange(event) {
     const newValue = event.target.value;
 
-    // An empty value is valid because users must always be able
-    // to clear a previously entered date.
     if (!newValue) {
       onChange("");
       return;
@@ -60,7 +48,12 @@ function DateFactEditor({
     onChange(newValue);
   }
 
-  function handleClear() {
+  function handleClear(event) {
+    // Prevent the clear interaction from also opening the date
+    // picker beneath the button.
+    event.preventDefault();
+    event.stopPropagation();
+
     onChange("");
   }
 
@@ -68,10 +61,17 @@ function DateFactEditor({
     <div
       className={`date-fact-editor-container ${
         currentValue ? "has-value" : "is-empty"
-      }`}
+      } ${disabled ? "is-disabled" : ""}`}
     >
+      <span
+        className="date-fact-editor-display"
+        aria-hidden="true"
+      >
+        {currentValue || emptyLabel}
+      </span>
+
       <input
-        className="date-fact-editor"
+        className="date-fact-editor-input"
         type="date"
         value={currentValue}
         disabled={disabled}
@@ -80,15 +80,6 @@ function DateFactEditor({
         aria-label={ariaLabel}
         onChange={handleChange}
       />
-
-      {!currentValue && (
-        <span
-          className="date-fact-editor-placeholder"
-          aria-hidden="true"
-        >
-          {emptyLabel}
-        </span>
-      )}
 
       {currentValue && !disabled && (
         <button
