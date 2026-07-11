@@ -1,4 +1,17 @@
+.date-fact-editor-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.4rem;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
 .date-fact-editor {
+  display: block;
+
   width: 100%;
   min-width: 0;
   max-width: 100%;
@@ -31,9 +44,48 @@
   opacity: 0.6;
 }
 
+.date-fact-editor-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: transparent;
+  color: var(--text-light);
+
+  font: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.date-fact-editor-clear:hover {
+  background: var(--surface-muted);
+  color: var(--text);
+}
+
+.date-fact-editor-clear:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 @media (max-width: 768px) {
   .date-fact-editor {
     min-height: 2.75rem;
     padding: 0.6rem 0.7rem;
+  }
+
+  .date-fact-editor-clear {
+    width: 2.25rem;
+    height: 2.25rem;
   }
 }
