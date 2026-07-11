@@ -32,6 +32,15 @@ function MilestoneRow({
   const plannedDate = value?.plannedDate ?? "";
   const actualDate = value?.actualDate ?? "";
 
+  // Build today's date in local time to avoid UTC timezone
+  // offsets producing yesterday or tomorrow.
+  const today = new Date();
+  const maxActualDate = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0"),
+  ].join("-");
+
   return (
     <div className="milestone-row">
       <div className="milestone-row-heading">
@@ -71,6 +80,7 @@ function MilestoneRow({
 
           <DateFactEditor
             value={actualDate}
+            max={maxActualDate}
             onChange={(newValue) =>
               onUpdateMilestone(
                 milestone.id,

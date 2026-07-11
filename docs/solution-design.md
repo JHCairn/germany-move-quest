@@ -315,3 +315,85 @@ The catalog, user and engine are just how we calculate it.
 Those are never stored.
 
 They're always derived.
+
+
+
+# Architectural decisions made
+
+
+## ✅ Actionability
+
+A quest can be:
+
+Applicable
+Actionable
+Completed
+
+These are distinct concepts.
+
+Milestones primarily drive actionability, not applicability.
+
+## ✅ Reality beats UI
+
+When a real-world milestone has an Actual Date, the Quest Engine may derive that the corresponding quest is already completed.
+
+We start with:
+
+Anmeldung milestone
+        ↓
+Anmeldung quest
+
+using:
+
+isQuestCompletedByMilestone()
+
+## ✅ Actual dates
+
+Product rule:
+
+Planned dates may be any date.
+Actual dates may not be in the future.
+
+Implementation:
+
+DateFactEditor remains generic.
+MilestoneRow supplies max={today} only for Actual fields.
+
+## ✅ Dashboard
+
+The dashboard now has a genuine call to action:
+
+Go to Quests
+
+No fake "Open Quest" until deep-linking actually exists.
+
+## ✅ Home Needs
+
+This was the biggest discovery today.
+
+Not for implementation yet.
+
+But we now have a clear vision.
+
+HomeInventoryCatalog
+        ↓
+About You
+"What do you still need?"
+
+        ↓
+neededHomeItemIds
+
+        ↓
+Home Needs page
+
+The important product decision:
+
+We ask:
+
+"Do you still need this for your new home?"
+
+We do not ask:
+
+"Do you own this?"
+
+That completely changes the nature of the feature.

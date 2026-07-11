@@ -15,6 +15,8 @@ import "./DateFactEditor.css";
  * - the user object
  * - fact IDs
  * - About You
+ * - milestones
+ * - planned versus actual dates
  * - quest applicability
  * - React state ownership
  *
@@ -26,6 +28,7 @@ function DateFactEditor({
   value,
   onChange,
   disabled = false,
+  max,
 }) {
   return (
     <input
@@ -33,6 +36,7 @@ function DateFactEditor({
       type="date"
       value={value ?? ""}
       disabled={disabled}
+      max={max}
       onChange={(event) => onChange(event.target.value)}
     />
   );
