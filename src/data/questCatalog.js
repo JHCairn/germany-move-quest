@@ -160,7 +160,10 @@ export const questCatalog = [
     description:
       "Set up a German mobile number or eSIM if you need one for local services and two-factor authentication.",
   },
-{
+
+/* 
+/will deal with this later as it is not always needed so we have to think about how to make it conditional
+  {
     id: "lighting-installation",
     title: "Deckenbeleuchtung",
     subtitle: "Lighting installation",
@@ -174,6 +177,9 @@ export const questCatalog = [
     description:
       "Install ceiling lights once you have access to the apartment and can coordinate entry with the installer.",
   },
+*/
+
+
   {
     id: "kitchen-installation",
     title: "Küchenmontage",
@@ -216,6 +222,9 @@ export const questCatalog = [
       },
     ],
   },
+
+  /*
+  /* will deal with this later as it is not always needed so we have to think about how to make it conditional
   {
     id: "wardrobe-installation",
     title: "Kleiderschrankmontage",
@@ -237,6 +246,7 @@ export const questCatalog = [
       },
     ],
   },
+  */
 
   {
     id: "furniture-basics",

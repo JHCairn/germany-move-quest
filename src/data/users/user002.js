@@ -46,5 +46,13 @@ export const user002 = {
     },
   },
 
-    completedQuestIds: ["krankenkasse", "bank"],
+    completedQuestIds: 
+  ["important-documents",
+"school-registration",
+"krankenkasse",
+"moving-budget",
+"moving-logistics",
+"tax-id",
+"electricity",
+"furniture-delivery"],
 };

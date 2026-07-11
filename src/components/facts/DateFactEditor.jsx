@@ -8,15 +8,47 @@ import "./DateFactEditor.css";
  *
  * Responsibility
  * --------------
- * Edits a single date value.
+ * Generic editor for a single date value.
  *
- * The browser's native date input remains responsible for
- * opening the platform date picker.
+ * Responsibilities:
+ * - Opens the native platform date picker
+ * - Displays a friendly formatted date
+ * - Supports optional min/max constraints
+ * - Allows the date to be cleared
  *
- * The surrounding component owns the visible presentation so
- * the field has a consistent size and appearance across desktop
- * and mobile browsers.
+ * It has no knowledge of:
+ *
+ * - milestones
+ * - About You
+ * - quests
+ * - the user model
  */
+
+function formatDisplayDate(value) {
+  if (!value) {
+    return "";
+  }
+
+  const parts = value.split("-");
+
+  if (parts.length !== 3) {
+    return value;
+  }
+
+  const [year, month, day] = parts.map(Number);
+
+  const date = new Date(year, month - 1, day);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
 
 function DateFactEditor({
   value,
@@ -49,8 +81,6 @@ function DateFactEditor({
   }
 
   function handleClear(event) {
-    // Prevent the clear interaction from also opening the date
-    // picker beneath the button.
     event.preventDefault();
     event.stopPropagation();
 
@@ -60,14 +90,16 @@ function DateFactEditor({
   return (
     <div
       className={`date-fact-editor-container ${
-        currentValue ? "has-value" : "is-empty"
-      } ${disabled ? "is-disabled" : ""}`}
+        disabled ? "is-disabled" : ""
+      }`}
     >
       <span
         className="date-fact-editor-display"
         aria-hidden="true"
       >
-        {currentValue || emptyLabel}
+        {currentValue
+          ? formatDisplayDate(currentValue)
+          : emptyLabel}
       </span>
 
       <input
@@ -83,9 +115,9 @@ function DateFactEditor({
 
       {currentValue && !disabled && (
         <button
-          className="date-fact-editor-clear"
           type="button"
-          aria-label={`Clear ${ariaLabel.toLowerCase()}`}
+          className="date-fact-editor-clear"
+          aria-label={`Clear ${ariaLabel}`}
           title="Clear date"
           onClick={handleClear}
         >

@@ -199,6 +199,8 @@ function isQuestActionable(quest, user) {
     milestones.keyHandover?.actualDate
   );
 
+  
+
   /**
    * Actionability Decision
    * ----------------------
@@ -225,6 +227,40 @@ function isQuestActionable(quest, user) {
       return true;
   }
 }
+
+// ============================================================
+// Completion Helpers
+// ============================================================
+
+function isQuestCompletedByMilestone(quest, user) {
+  const milestones = getMilestoneFacts(user);
+
+  /**
+   * Milestone Completion
+   * --------------------
+   * Some real-world outcomes are already recorded as milestone
+   * facts.
+   *
+   * Those milestones are the authoritative source of truth and
+   * should derive quest completion rather than duplicating state
+   * inside completedQuestIds.
+   *
+   * Start with explicit mappings. Generalisation can wait until
+   * we have multiple proven examples.
+   */
+  switch (quest.id) {
+    case "anmeldung":
+      return Boolean(
+        milestones.anmeldung?.actualDate
+      );
+
+    default:
+      return false;
+  }
+}
+
+
+
 
 // ============================================================
 // Quest Derivation
@@ -256,7 +292,10 @@ function getQuestPresentationState({ isCompleted, stageRelation }) {
 function deriveQuest(quest, user, currentStageId) {
   const completedQuestIds = user.completedQuestIds ?? [];
 
-  const isCompleted = completedQuestIds.includes(quest.id);
+  const isCompleted =
+  completedQuestIds.includes(quest.id) ||
+  isQuestCompletedByMilestone(quest, user);
+  
   const isActionable = isQuestActionable(quest, user);
 
   const stageRelation = getStageRelation(

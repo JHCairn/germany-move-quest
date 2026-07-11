@@ -47,5 +47,7 @@ export const user001 = {
     },
   },
 
-  completedQuestIds: ["bank"],
+  completedQuestIds: 
+  ["important-documents",
+"bank"],
 };
