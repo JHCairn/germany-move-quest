@@ -78,7 +78,7 @@ function MilestoneRow({
 
         <div className="milestone-date-field">
           <span className="milestone-date-label">
-            Actual
+            Actual · Today or earlier
           </span>
 
           <DateFactEditor

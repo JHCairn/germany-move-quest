@@ -35,13 +35,14 @@ function DateFactEditor({
   min,
   max,
   ariaLabel = "Date",
+  emptyLabel = "Select date",
 }) {
   const currentValue = value ?? "";
 
   function handleChange(event) {
     const newValue = event.target.value;
 
-    // An empty value is always valid because users must be able
+    // An empty value is valid because users must always be able
     // to clear a previously entered date.
     if (!newValue) {
       onChange("");
@@ -64,7 +65,11 @@ function DateFactEditor({
   }
 
   return (
-    <div className="date-fact-editor-container">
+    <div
+      className={`date-fact-editor-container ${
+        currentValue ? "has-value" : "is-empty"
+      }`}
+    >
       <input
         className="date-fact-editor"
         type="date"
@@ -75,6 +80,15 @@ function DateFactEditor({
         aria-label={ariaLabel}
         onChange={handleChange}
       />
+
+      {!currentValue && (
+        <span
+          className="date-fact-editor-placeholder"
+          aria-hidden="true"
+        >
+          {emptyLabel}
+        </span>
+      )}
 
       {currentValue && !disabled && (
         <button

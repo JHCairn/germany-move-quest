@@ -1,8 +1,5 @@
 .date-fact-editor-container {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.4rem;
+  position: relative;
 
   width: 100%;
   min-width: 0;
@@ -17,17 +14,21 @@
   max-width: 100%;
   box-sizing: border-box;
 
-  padding: 0.55rem 0.75rem;
+  padding: 0.65rem 2.75rem;
 
   border: 1px solid var(--border);
   border-radius: 0.65rem;
 
   background: var(--surface);
   color: var(--text);
+  -webkit-text-fill-color: var(--text);
 
   font: inherit;
   font-size: 0.9rem;
   line-height: 1.2;
+  text-align: center;
+
+  cursor: pointer;
 }
 
 .date-fact-editor:hover:not(:disabled) {
@@ -35,6 +36,7 @@
 }
 
 .date-fact-editor:focus-visible {
+  border-color: var(--primary);
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
@@ -44,14 +46,36 @@
   opacity: 0.6;
 }
 
+.date-fact-editor-placeholder {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.65rem 2.75rem;
+
+  color: var(--text-light);
+
+  font-size: 0.9rem;
+  line-height: 1.2;
+
+  pointer-events: none;
+}
+
 .date-fact-editor-clear {
+  position: absolute;
+  top: 50%;
+  right: 0.45rem;
+  transform: translateY(-50%);
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
   width: 2rem;
   height: 2rem;
-  flex: 0 0 auto;
 
   padding: 0;
 
@@ -75,13 +99,19 @@
 
 .date-fact-editor-clear:focus-visible {
   outline: 2px solid var(--primary);
-  outline-offset: 2px;
+  outline-offset: 1px;
 }
 
 @media (max-width: 768px) {
   .date-fact-editor {
-    min-height: 2.75rem;
-    padding: 0.6rem 0.7rem;
+    min-height: 3rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+  }
+
+  .date-fact-editor-placeholder {
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
   }
 
   .date-fact-editor-clear {
