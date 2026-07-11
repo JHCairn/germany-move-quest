@@ -9,6 +9,8 @@
  *   Store facts. Derive everything else.
  *
  * About You facts describe the user's current situation.
+ * Milestones store related planned and actual dates.
+ *
  * Quest applicability and all journey meaning are derived later by the
  * Quest Engine.
  */
@@ -36,6 +38,49 @@ export function updateAboutFact(user, factId, value) {
       about: {
         ...currentAboutFacts,
         [factId]: value,
+      },
+    },
+  };
+}
+
+/**
+ * Update one date field within a milestone.
+ *
+ * A milestone contains two related date facts:
+ * - plannedDate
+ * - actualDate
+ *
+ * This action knows where milestone values are stored so presentation
+ * components do not need to understand the user object's structure.
+ *
+ * The original user object and nested milestone objects are not mutated.
+ */
+export function updateMilestoneDate(
+  user,
+  milestoneId,
+  field,
+  value
+) {
+  const currentMilestones = user.facts?.milestones ?? {};
+  const currentMilestone = currentMilestones[milestoneId] ?? {
+    plannedDate: "",
+    actualDate: "",
+  };
+
+  if (currentMilestone[field] === value) {
+    return user;
+  }
+
+  return {
+    ...user,
+    facts: {
+      ...user.facts,
+      milestones: {
+        ...currentMilestones,
+        [milestoneId]: {
+          ...currentMilestone,
+          [field]: value,
+        },
       },
     },
   };

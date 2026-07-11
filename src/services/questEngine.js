@@ -24,6 +24,7 @@
  * This means the catalog does not store:
  *   - completed
  *   - applicable
+ *   - actionable
  *   - recommended
  *   - stage relation
  *   - presentation groups
@@ -112,13 +113,24 @@ function getAboutFacts(user) {
   return user.facts?.about ?? {};
 }
 
+function getMilestoneFacts(user) {
+  /**
+   * Milestone Fact Boundary
+   * -----------------------
+   * Milestones remain stored as dates under user.facts.milestones.
+   *
+   * The Quest Engine derives whether those dates make a quest
+   * actionable. No separate milestone status is stored.
+   */
+  return user.facts?.milestones ?? {};
+}
+
 // ============================================================
 // Applicability Helpers
 // ============================================================
 
 function isQuestApplicableToUser(quest, user) {
   const about = getAboutFacts(user);
-
   const rules = quest.applicableWhen;
 
   /**
@@ -133,7 +145,7 @@ function isQuestApplicableToUser(quest, user) {
     switch (rule.factId) {
       case "havePets":
         return about.havePets === rule.value;
-      
+
       case "haveDog":
         return about.haveDog === rule.value;
 
@@ -151,7 +163,6 @@ function isQuestApplicableToUser(quest, user) {
 
       case "housingType":
         return about.housingType === rule.value;
-
 
       default:
         console.warn(
@@ -175,6 +186,44 @@ function getApplicableQuests(questCatalog, user) {
    * again and the applicable quest set will be recalculated.
    */
   return questCatalog.filter((quest) => isQuestApplicableToUser(quest, user));
+}
+
+// ============================================================
+// Actionability Helpers
+// ============================================================
+
+function isQuestActionable(quest, user) {
+  const milestones = getMilestoneFacts(user);
+
+  const hasApartmentKeys = Boolean(
+    milestones.keyHandover?.actualDate
+  );
+
+  /**
+   * Actionability Decision
+   * ----------------------
+   * Applicability answers whether a quest belongs in this user's
+   * relocation journey.
+   *
+   * Actionability answers whether the user can realistically act
+   * on it now.
+   *
+   * A quest may be applicable without yet being actionable.
+   *
+   * These home setup quests remain visible before key handover,
+   * but they are not recommendation candidates until apartment
+   * access has actually been received.
+   */
+  switch (quest.id) {
+    case "lighting-installation":
+    case "kitchen-installation":
+    case "furniture-delivery":
+    case "wardrobe-installation":
+      return hasApartmentKeys;
+
+    default:
+      return true;
+  }
 }
 
 // ============================================================
@@ -206,9 +255,19 @@ function getQuestPresentationState({ isCompleted, stageRelation }) {
 
 function deriveQuest(quest, user, currentStageId) {
   const completedQuestIds = user.completedQuestIds ?? [];
+
   const isCompleted = completedQuestIds.includes(quest.id);
-  const stageRelation = getStageRelation(quest.stage, currentStageId);
-  const stageOffset = getStageOffset(quest.stage, currentStageId);
+  const isActionable = isQuestActionable(quest, user);
+
+  const stageRelation = getStageRelation(
+    quest.stage,
+    currentStageId
+  );
+
+  const stageOffset = getStageOffset(
+    quest.stage,
+    currentStageId
+  );
 
   const state = getQuestPresentationState({
     isCompleted,
@@ -225,6 +284,7 @@ function deriveQuest(quest, user, currentStageId) {
      * They should never be persisted to the user record.
      */
     isCompleted,
+    isActionable,
     stageRelation,
     stageOffset,
 
@@ -250,7 +310,10 @@ function deriveQuest(quest, user, currentStageId) {
 }
 
 function deriveQuests(questCatalog, user, currentStageId) {
-  const applicableQuests = getApplicableQuests(questCatalog, user);
+  const applicableQuests = getApplicableQuests(
+    questCatalog,
+    user
+  );
 
   return applicableQuests.map((quest) =>
     deriveQuest(quest, user, currentStageId)
@@ -263,13 +326,17 @@ function deriveQuests(questCatalog, user, currentStageId) {
 
 function getCurrentStageQuests(derivedQuests) {
   return derivedQuests.filter(
-    (quest) => !quest.isCompleted && quest.stageRelation === "current"
+    (quest) =>
+      !quest.isCompleted &&
+      quest.stageRelation === "current"
   );
 }
 
 function getPreviousStageQuests(derivedQuests) {
   return derivedQuests.filter(
-    (quest) => !quest.isCompleted && quest.stageRelation === "previous"
+    (quest) =>
+      !quest.isCompleted &&
+      quest.stageRelation === "previous"
   );
 }
 
@@ -277,7 +344,10 @@ function getUpcomingQuests(derivedQuests) {
   return derivedQuests.filter(
     (quest) =>
       !quest.isCompleted &&
-      (quest.stageRelation === "next" || quest.stageRelation === "future")
+      (
+        quest.stageRelation === "next" ||
+        quest.stageRelation === "future"
+      )
   );
 }
 
@@ -292,7 +362,9 @@ function getCompletedQuests(derivedQuests) {
    *
    * This collection is derived and should never be persisted.
    */
-  return derivedQuests.filter((quest) => quest.isCompleted);
+  return derivedQuests.filter(
+    (quest) => quest.isCompleted
+  );
 }
 
 // ============================================================
@@ -351,7 +423,8 @@ function sortByRecommendationOrder(a, b) {
   }
 
   const priorityDifference =
-    getPriorityScore(b.priority) - getPriorityScore(a.priority);
+    getPriorityScore(b.priority) -
+    getPriorityScore(a.priority);
 
   if (priorityDifference !== 0) {
     return priorityDifference;
@@ -361,8 +434,23 @@ function sortByRecommendationOrder(a, b) {
 }
 
 function getRecommendedQuests(quests, limit = 3) {
+  /**
+   * Recommendation Eligibility
+   * --------------------------
+   * A recommended quest must be:
+   *   - incomplete
+   *   - actionable
+   *
+   * Non-actionable quests remain in the user's journey and remain
+   * visible in quest lists. They are excluded only from current
+   * recommendations.
+   */
   return [...quests]
-    .filter((quest) => !quest.isCompleted)
+    .filter(
+      (quest) =>
+        !quest.isCompleted &&
+        quest.isActionable
+    )
     .sort(sortByRecommendationOrder)
     .slice(0, limit);
 }
@@ -378,9 +466,14 @@ function getStageDisplayState({
   applicableCount,
 }) {
   const stageIndex = getStageIndex(stageId);
-  const currentStageIndex = getStageIndex(currentStageId);
+  const currentStageIndex = getStageIndex(
+    currentStageId
+  );
 
-  if (applicableCount > 0 && completedCount === applicableCount) {
+  if (
+    applicableCount > 0 &&
+    completedCount === applicableCount
+  ) {
     return "completed";
   }
 
@@ -426,17 +519,24 @@ function buildProgress({
   const completedCount = completedQuests.length;
 
   const progressByStage = stages.map((stage) => {
-    const applicableStageQuests = applicableQuests.filter(
-      (quest) => quest.stage === stage.id
-    );
+    const applicableStageQuests =
+      applicableQuests.filter(
+        (quest) => quest.stage === stage.id
+      );
 
-    const completedStageQuests = completedQuests.filter(
-      (quest) => quest.stage === stage.id
-    );
+    const completedStageQuests =
+      completedQuests.filter(
+        (quest) => quest.stage === stage.id
+      );
 
-    const applicableCount = applicableStageQuests.length;
-    const completedStageCount = completedStageQuests.length;
-    const remainingStageCount = applicableCount - completedStageCount;
+    const applicableCount =
+      applicableStageQuests.length;
+
+    const completedStageCount =
+      completedStageQuests.length;
+
+    const remainingStageCount =
+      applicableCount - completedStageCount;
 
     const stageDisplayState = getStageDisplayState({
       stageId: stage.id,
@@ -459,12 +559,18 @@ function buildProgress({
       remainingCount: remainingStageCount,
 
       stageDisplayState,
-      stageDisplayLabel: getStageDisplayLabel(stageDisplayState),
+      stageDisplayLabel:
+        getStageDisplayLabel(stageDisplayState),
 
       percentComplete:
         applicableCount === 0
           ? 0
-          : Math.round((completedStageCount / applicableCount) * 100),
+          : Math.round(
+              (
+                completedStageCount /
+                applicableCount
+              ) * 100
+            ),
     };
   });
 
@@ -479,12 +585,16 @@ function buildProgress({
      * this means incomplete quests from the current or previous
      * stages.
      */
-    activeQuests: currentStageQuests.length + previousStageQuests.length,
+    activeQuests:
+      currentStageQuests.length +
+      previousStageQuests.length,
 
     percentComplete:
       totalQuests === 0
         ? 0
-        : Math.round((completedCount / totalQuests) * 100),
+        : Math.round(
+            (completedCount / totalQuests) * 100
+          ),
 
     progressByStage,
   };
@@ -494,7 +604,11 @@ function buildProgress({
 // Public API
 // ============================================================
 
-export function buildJourneyModel({ user, questCatalog, stages }) {
+export function buildJourneyModel({
+  user,
+  questCatalog,
+  stages,
+}) {
   const currentStageId = user.currentStageId;
 
   if (!isKnownStage(currentStageId)) {
@@ -503,7 +617,11 @@ export function buildJourneyModel({ user, questCatalog, stages }) {
     );
   }
 
-  const derivedQuests = deriveQuests(questCatalog, user, currentStageId);
+  const derivedQuests = deriveQuests(
+    questCatalog,
+    user,
+    currentStageId
+  );
 
   /**
    * Derived Quest Collections
@@ -511,15 +629,24 @@ export function buildJourneyModel({ user, questCatalog, stages }) {
    * These are presentation-ready groups derived from:
    *   - quest catalog knowledge
    *   - user facts
+   *   - milestone facts
    *   - current journey stage
    *
    * They should not be stored on the user.
    */
   const applicableQuests = derivedQuests;
-  const currentStageQuests = getCurrentStageQuests(derivedQuests);
-  const previousStageQuests = getPreviousStageQuests(derivedQuests);
-  const upcomingQuests = getUpcomingQuests(derivedQuests);
-  const completedQuests = getCompletedQuests(derivedQuests);
+
+  const currentStageQuests =
+    getCurrentStageQuests(derivedQuests);
+
+  const previousStageQuests =
+    getPreviousStageQuests(derivedQuests);
+
+  const upcomingQuests =
+    getUpcomingQuests(derivedQuests);
+
+  const completedQuests =
+    getCompletedQuests(derivedQuests);
 
   /**
    * Compatibility Group
@@ -543,8 +670,13 @@ export function buildJourneyModel({ user, questCatalog, stages }) {
     ...upcomingQuests,
   ];
 
-  const recommendedQuests = getRecommendedQuests(recommendationCandidates);
-  const recommendedQuest = recommendedQuests[0] ?? null;
+  const recommendedQuests =
+    getRecommendedQuests(
+      recommendationCandidates
+    );
+
+  const recommendedQuest =
+    recommendedQuests[0] ?? null;
 
   const progress = buildProgress({
     stages,
@@ -555,7 +687,9 @@ export function buildJourneyModel({ user, questCatalog, stages }) {
     previousStageQuests,
   });
 
-  const currentStage = stages.find((stage) => stage.id === currentStageId);
+  const currentStage = stages.find(
+    (stage) => stage.id === currentStageId
+  );
 
   const journeyProgress = {
     currentStageId,
@@ -588,6 +722,5 @@ export function buildJourneyModel({ user, questCatalog, stages }) {
      */
     questCatalog: derivedQuests,
     activeQuests,
-    upcomingMilestones: getRecommendedQuests(upcomingQuests),
   };
 }

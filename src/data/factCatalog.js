@@ -6,7 +6,8 @@
  *
  * Responsibility
  * --------------
- * Defines the facts the application knows how to collect.
+ * Defines the single-value facts the application knows how to
+ * collect.
  *
  * The catalog contains definitions only:
  * - what question to ask
@@ -15,7 +16,17 @@
  *
  * It must never contain user-specific values.
  *
- * Section labels and display order belong to the
+ * Display order
+ * -------------
+ * Facts render in the order they appear in this file.
+ * The catalog itself is the source of truth for display order.
+ *
+ * Therefore:
+ * - do not introduce an explicit order property
+ * - insert new facts where they logically belong
+ * - keep related facts grouped together
+ *
+ * Section labels and section display order belong to the
  * Fact Section Catalog. Facts reference sections only by
  * stable section ID.
  *
@@ -91,28 +102,6 @@ export const factCatalog = {
       sectionId: "home",
       type: "boolean",
       question: "Do you need major furniture?",
-    },
-  ],
-
-  milestones: [
-    {
-      id: "moveDate",
-      group: "milestones",
-      type: "milestone",
-      title: "Move to Germany",
-    },
-    {
-      id: "keyHandover",
-      group: "milestones",
-      type: "milestone",
-      title: "Apartment key handover",
-    },
-    {
-      id: "anmeldung",
-      group: "milestones",
-      type: "milestone",
-      title: "Anmeldung",
-      subtitle: "Register your address",
     },
   ],
 };

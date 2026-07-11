@@ -146,6 +146,120 @@ export const questCatalog = [
     description:
       "Check whether electricity is already arranged or whether you need to choose a provider.",
   },
+{
+    id: "mobile-phone",
+    title: "Mobilfunkvertrag",
+    subtitle: "Mobile phone plan",
+    category: "Utilities",
+    stage: "just-arrived",
+    priority: "medium",
+    order: 50,
+    dueLabel: "After arrival",
+    estimatedTime: "20–30 min",
+    actionLabel: "Choose a mobile plan",
+    description:
+      "Set up a German mobile number or eSIM if you need one for local services and two-factor authentication.",
+  },
+{
+    id: "lighting-installation",
+    title: "Deckenbeleuchtung",
+    subtitle: "Lighting installation",
+    category: "Housing",
+    stage: "just-arrived",
+    priority: "medium",
+    order: 52,
+    dueLabel: "After key handover",
+    estimatedTime: "Varies",
+    actionLabel: "Arrange lighting installation",
+    description:
+      "Install ceiling lights once you have access to the apartment and can coordinate entry with the installer.",
+  },
+  {
+    id: "kitchen-installation",
+    title: "Küchenmontage",
+    subtitle: "Kitchen installation",
+    category: "Housing",
+    stage: "just-arrived",
+    priority: "high",
+    order: 54,
+    dueLabel: "After key handover",
+    estimatedTime: "Varies",
+    actionLabel: "Coordinate kitchen installation",
+    description:
+      "Coordinate kitchen delivery and installation once you have access to the apartment.",
+
+    applicableWhen: [
+      {
+        factId: "needKitchen",
+        value: true,
+      },
+    ],
+  },
+  {
+    id: "furniture-delivery",
+    title: "Möbellieferung",
+    subtitle: "Furniture delivery",
+    category: "Housing",
+    stage: "just-arrived",
+    priority: "medium",
+    order: 56,
+    dueLabel: "After key handover",
+    estimatedTime: "Varies",
+    actionLabel: "Coordinate furniture delivery",
+    description:
+      "Schedule and receive furniture deliveries once someone can provide access to the apartment.",
+
+    applicableWhen: [
+      {
+        factId: "needFurniture",
+        value: true,
+      },
+    ],
+  },
+  {
+    id: "wardrobe-installation",
+    title: "Kleiderschrankmontage",
+    subtitle: "Wardrobe installation",
+    category: "Housing",
+    stage: "just-arrived",
+    priority: "medium",
+    order: 58,
+    dueLabel: "After key handover",
+    estimatedTime: "Varies",
+    actionLabel: "Arrange wardrobe installation",
+    description:
+      "Assemble or install wardrobes once you have access to the apartment.",
+
+    applicableWhen: [
+      {
+        factId: "needFurniture",
+        value: true,
+      },
+    ],
+  },
+
+  {
+    id: "furniture-basics",
+    title: "Möbel & Grundausstattung",
+    subtitle: "Furniture and essentials",
+    category: "Housing",
+    stage: "just-arrived",
+    priority: "medium",
+    order: 60,
+    dueLabel: "After move-in",
+    estimatedTime: "1–2 hrs",
+    actionLabel: "Plan home essentials",
+    description:
+      "Prioritize furniture, lighting, kitchen items, cleaning supplies, and delivery timing for your new home.",
+
+      applicableWhen: [
+  {
+    factId: "needFurniture",
+    value: true,
+  },
+],
+  },
+// settling in stage items below for readability, not because they must be here
   {
     id: "internet",
     title: "Internetanschluss",
@@ -160,20 +274,7 @@ export const questCatalog = [
     description:
       "Order home internet service and schedule the installation appointment.",
   },
-  {
-    id: "mobile-phone",
-    title: "Mobilfunkvertrag",
-    subtitle: "Mobile phone plan",
-    category: "Utilities",
-    stage: "just-arrived",
-    priority: "medium",
-    order: 50,
-    dueLabel: "After arrival",
-    estimatedTime: "20–30 min",
-    actionLabel: "Choose a mobile plan",
-    description:
-      "Set up a German mobile number or eSIM if you need one for local services and two-factor authentication.",
-  },
+  
   {
     id: "hausarzt",
     title: "Hausarzt",
@@ -230,27 +331,10 @@ export const questCatalog = [
     description:
       "Review local transport zones, ticket options, apps, and regular routes for daily life.",
   },
-  {
-    id: "furniture-basics",
-    title: "Möbel & Grundausstattung",
-    subtitle: "Furniture and essentials",
-    category: "Housing",
-    stage: "settling-in",
-    priority: "medium",
-    order: 60,
-    dueLabel: "After move-in",
-    estimatedTime: "1–2 hrs",
-    actionLabel: "Plan home essentials",
-    description:
-      "Prioritize furniture, lighting, kitchen items, cleaning supplies, and delivery timing for your new home.",
+  
+// living stage items below for readability, not because they must be here
 
-      applicableWhen: [
-  {
-    factId: "needFurniture",
-    value: true,
-  },
-],
-  },
+
   {
     id: "german-learning",
     title: "Deutsch lernen",

@@ -17,11 +17,18 @@ import QuestProgressCard from "../components/dashboard/QuestProgressCard";
  * Renders the user's journey dashboard from the derived Journey
  * Model.
  *
- * Persona selection now lives in the shared Header because the
+ * Persona selection lives in the shared Header because the
  * selected user is app-level state, not Journey-page state.
+ *
+ * Navigation remains owned by AppShell. JourneyPage receives
+ * navigation callbacks and passes them to presentation components.
  */
 
-function JourneyPage({ journey, selectedUser }) {
+function JourneyPage({
+  journey,
+  selectedUser,
+  onGoToQuests,
+}) {
   return (
     <section className="journey-page">
       <div className="journey-header">
@@ -34,7 +41,12 @@ function JourneyPage({ journey, selectedUser }) {
 
       <div className="journey-grid">
         <JourneyProgressCard journey={journey.journeyProgress} />
-        <RecommendationCard quest={journey.recommendedQuest} />
+
+        <RecommendationCard
+          quest={journey.recommendedQuest}
+          onGoToQuests={onGoToQuests}
+        />
+
         <QuestProgressCard progress={journey.progress} />
       </div>
     </section>

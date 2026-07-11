@@ -1,6 +1,8 @@
 import "./AboutYouPage.css";
 
 import FactSection from "../components/about/FactSection";
+import MilestoneSection from "../components/about/MilestoneSection";
+
 import { factSectionCatalog } from "../data/factSectionCatalog";
 
 /**
@@ -11,34 +13,15 @@ import { factSectionCatalog } from "../data/factSectionCatalog";
  *
  * Responsibility
  * --------------
- * Renders the user facts defined by the Fact Catalog.
+ * Renders the facts and milestones used to personalize the
+ * selected user's journey.
  *
- * The Fact Section Catalog controls:
- * - section display order
- * - German section labels
- * - English section labels
+ * Ordinary single-value facts render through FactSection.
+ * Structured milestone facts render through MilestoneSection.
  *
- * The Fact Catalog controls:
- * - which facts exist
- * - which section each fact belongs to
- *
- * This page assembles those catalogs for presentation. It does
- * not define facts, section labels, or quest applicability.
- *
- * Architecture
- * ------------
- *
- * Catalogs
- *     ↓
- * User Facts
- *     ↓
- * Actions
- *     ↓
- * Quest Engine
- *     ↓
- * Journey Model
- *     ↓
- * Presentation
+ * This page assembles catalogs and user values for presentation.
+ * It does not define facts, own user state, or derive journey
+ * meaning.
  *
  * Architectural principle:
  * Store facts. Derive everything else.
@@ -48,6 +31,10 @@ function AboutYouPage({
   facts,
   userFacts,
   onUpdateFact,
+  milestoneSection,
+  milestones,
+  milestoneValues,
+  onUpdateMilestone,
 }) {
   return (
     <section className="about-you-page">
@@ -85,6 +72,13 @@ function AboutYouPage({
             />
           );
         })}
+
+        <MilestoneSection
+          section={milestoneSection}
+          milestones={milestones}
+          milestoneValues={milestoneValues}
+          onUpdateMilestone={onUpdateMilestone}
+        />
       </div>
     </section>
   );

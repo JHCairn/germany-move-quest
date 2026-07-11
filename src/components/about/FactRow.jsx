@@ -2,6 +2,7 @@ import "./FactRow.css";
 
 import BooleanFactEditor from "../facts/BooleanFactEditor";
 import SelectFactEditor from "../facts/SelectFactEditor";
+import DateFactEditor from "../facts/DateFactEditor";
 
 /**
  * ============================================================
@@ -51,6 +52,14 @@ function FactRow({ fact, value, onUpdateFact }) {
           <SelectFactEditor
             value={value}
             options={fact.options}
+            onChange={(newValue) => onUpdateFact(fact.id, newValue)}
+          />
+        );
+
+      case "date":
+        return (
+          <DateFactEditor
+            value={value}
             onChange={(newValue) => onUpdateFact(fact.id, newValue)}
           />
         );

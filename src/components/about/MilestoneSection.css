@@ -1,0 +1,29 @@
+.milestone-section {
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+
+  background: var(--surface);
+}
+
+.milestone-section h2 {
+  margin: 0;
+  padding: 1rem 1.25rem;
+
+  border-bottom: 1px solid var(--border);
+
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.milestone-section-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .milestone-section h2 {
+    padding: 0.85rem 1rem;
+  }
+}

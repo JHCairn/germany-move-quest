@@ -1,2 +1,6 @@
 export { completeQuest, reopenQuest } from "./questActions";
-export { updateAboutFact } from "./userActions";
+
+export {
+  updateAboutFact,
+  updateMilestoneDate,
+} from "./userActions";

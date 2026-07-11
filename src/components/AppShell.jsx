@@ -13,6 +13,7 @@ import AboutYouPage from "../pages/AboutYouPage";
 
 import { questCatalog } from "../data/questCatalog";
 import { factCatalog } from "../data/factCatalog";
+import { milestoneCatalog } from "../data/milestoneCatalog";
 import { stages } from "../data/stages";
 import { users, defaultUser } from "../data/users";
 import { pageIds } from "../data/navigation";
@@ -21,6 +22,7 @@ import {
   completeQuest,
   reopenQuest,
   updateAboutFact,
+  updateMilestoneDate,
 } from "../actions";
 
 import { buildJourneyModel } from "../services/questEngine";
@@ -36,33 +38,11 @@ import { buildJourneyModel } from "../services/questEngine";
  * Owns app-level navigation, editable user facts, and the
  * currently selected test persona.
  *
- * Architecture
- * ------------
- *
- * Catalogs
- *     ↓
- * User Facts
- *     ↓
- * Quest Engine
- *     ↓
- * Journey Model
- *     ↓
- * Presentation
- *
  * Important architecture rule:
  *
  *   Actions update facts.
  *   Engines derive meaning.
  *   Pages render stored facts or the derived Journey Model.
- *
- * Completing or reopening a quest does not directly update the
- * Dashboard, Quests page, progress counts, recommendations, or
- * quest groups.
- *
- * It only changes the selected user's completedQuestIds fact.
- *
- * Once that fact changes, React re-renders, the Quest Engine runs
- * again, and every page receives a fresh Journey Model.
  *
  * Toast feedback is intentionally kept here because it is
  * temporary presentation state, not user data.
@@ -117,14 +97,29 @@ function AppShell() {
     updateSelectedUser((user) => reopenQuest(user, questId));
   }
 
-  /**
-   * Update a single About You fact.
-   *
-   * The action knows where facts are stored.
-   * AppShell simply applies the updated user returned by the action.
-   */
   function handleUpdateFact(factId, value) {
-    updateSelectedUser((user) => updateAboutFact(user, factId, value));
+    updateSelectedUser((user) =>
+      updateAboutFact(user, factId, value)
+    );
+  }
+
+  function handleUpdateMilestone(
+    milestoneId,
+    field,
+    value
+  ) {
+    updateSelectedUser((user) =>
+      updateMilestoneDate(
+        user,
+        milestoneId,
+        field,
+        value
+      )
+    );
+  }
+
+  function handleGoToQuests() {
+    setCurrentPageId(pageIds.QUESTS);
   }
 
   function renderCurrentPage() {
@@ -144,6 +139,10 @@ function AppShell() {
             facts={factCatalog.about}
             userFacts={selectedUser.facts.about}
             onUpdateFact={handleUpdateFact}
+            milestoneSection={milestoneCatalog.section}
+            milestones={milestoneCatalog.milestones}
+            milestoneValues={selectedUser.facts.milestones}
+            onUpdateMilestone={handleUpdateMilestone}
           />
         );
 
@@ -152,10 +151,8 @@ function AppShell() {
         return (
           <JourneyPage
             journey={journey}
-            users={appUsers}
             selectedUser={selectedUser}
-            selectedUserId={selectedUserId}
-            onSelectedUserChange={setSelectedUserId}
+            onGoToQuests={handleGoToQuests}
           />
         );
     }
