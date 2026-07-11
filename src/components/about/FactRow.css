@@ -19,12 +19,22 @@
   line-height: 1.4;
 }
 
+.fact-row-editor {
+  flex: 0 0 11rem;
+  width: 11rem;
+}
+
+.fact-row-editor > * {
+  width: 100%;
+}
+
 .fact-row-value {
-  flex: 0 0 auto;
+  display: block;
 
   color: var(--text-light);
   font-size: 0.9rem;
   font-weight: 700;
+  text-align: right;
 }
 
 @media (max-width: 768px) {
@@ -40,8 +50,12 @@
     font-size: 0.95rem;
   }
 
+  .fact-row-editor {
+    flex-basis: 11rem;
+    width: 11rem;
+  }
+
   .fact-row-value {
-    flex: 0 0 auto;
     font-size: 0.85rem;
   }
 }

@@ -1,59 +1,66 @@
-.boolean-fact-editor {
+.select-fact-editor {
   display: inline-flex;
-  flex: 0 0 auto;
+  width: 100%;
   overflow: hidden;
+
   border: 1px solid var(--border);
   border-radius: 0.65rem;
+
   background: var(--surface);
 }
 
-.boolean-fact-option {
+.select-fact-option {
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: center;
   min-width: 0;
-  padding: 0.55rem 0.75rem;
+
+  padding: 0.55rem 0.9rem;
+
   border: 0;
   background: transparent;
+
   color: var(--text-light);
+
   font: inherit;
   font-size: 0.9rem;
   font-weight: 600;
   line-height: 1;
+
   cursor: pointer;
 }
 
-.boolean-fact-option + .boolean-fact-option {
+.select-fact-option + .select-fact-option {
   border-left: 1px solid var(--border);
 }
 
-.boolean-fact-option:hover:not(:disabled):not(.is-selected) {
+.select-fact-option:hover:not(:disabled):not(.is-selected) {
   background: var(--surface-muted);
   color: var(--text);
 }
 
-.boolean-fact-option.is-selected {
+.select-fact-option.is-selected {
   background: var(--primary);
   color: white;
 }
 
-.boolean-fact-option:focus-visible {
+.select-fact-option:focus-visible {
   position: relative;
   z-index: 1;
+
   outline: 2px solid var(--primary);
   outline-offset: -2px;
 }
 
-.boolean-fact-option:disabled {
+.select-fact-option:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
 
 @media (max-width: 768px) {
-  
-  .boolean-fact-option {
+  .select-fact-option {
     min-height: 2.75rem;
-    padding: 0.6rem 0.7rem;
+    padding: 0.6rem 0.75rem;
   }
 }

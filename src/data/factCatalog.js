@@ -11,9 +11,13 @@
  * The catalog contains definitions only:
  * - what question to ask
  * - what type of answer is expected
- * - how facts should be conceptually grouped
+ * - which conceptual section contains the fact
  *
  * It must never contain user-specific values.
+ *
+ * Section labels and display order belong to the
+ * Fact Section Catalog. Facts reference sections only by
+ * stable section ID.
  *
  * Architecture
  * ------------
@@ -21,6 +25,8 @@
  * Catalogs
  *     ↓
  * User Facts
+ *     ↓
+ * Actions
  *     ↓
  * Quest Engine
  *     ↓
@@ -36,47 +42,53 @@ export const factCatalog = {
   about: [
     {
       id: "havePets",
-      section: "Household",
+      sectionId: "household",
       type: "boolean",
       question: "Do you have pets?",
     },
     {
       id: "haveDog",
-      section: "Household",
+      sectionId: "household",
       type: "boolean",
       question: "Do you have a dog?",
     },
     {
       id: "haveCar",
-      section: "Household",
+      sectionId: "transport",
       type: "boolean",
       question: "Do you have a car?",
     },
     {
       id: "haveChildren",
-      section: "Family",
+      sectionId: "family",
       type: "boolean",
       question: "Do you have children?",
     },
     {
       id: "housingType",
-      section: "Home",
+      sectionId: "home",
       type: "select",
       question: "Are you renting or buying?",
       options: [
-        { value: "renting", label: "Renting" },
-        { value: "buying", label: "Buying" },
+        {
+          value: "renting",
+          label: "Renting",
+        },
+        {
+          value: "buying",
+          label: "Buying",
+        },
       ],
     },
     {
       id: "needKitchen",
-      section: "Home",
+      sectionId: "home",
       type: "boolean",
       question: "Do you need a kitchen?",
     },
     {
       id: "needFurniture",
-      section: "Home",
+      sectionId: "home",
       type: "boolean",
       question: "Do you need major furniture?",
     },

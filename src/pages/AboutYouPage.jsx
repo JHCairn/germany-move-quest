@@ -1,6 +1,7 @@
 import "./AboutYouPage.css";
 
 import FactSection from "../components/about/FactSection";
+import { factSectionCatalog } from "../data/factSectionCatalog";
 
 /**
  * ============================================================
@@ -12,10 +13,17 @@ import FactSection from "../components/about/FactSection";
  * --------------
  * Renders the user facts defined by the Fact Catalog.
  *
- * The page does not define which facts exist and does not contain
- * quest applicability logic. It receives fact definitions and the
- * selected user's stored answers, then delegates presentation to
- * generic fact components.
+ * The Fact Section Catalog controls:
+ * - section display order
+ * - German section labels
+ * - English section labels
+ *
+ * The Fact Catalog controls:
+ * - which facts exist
+ * - which section each fact belongs to
+ *
+ * This page assembles those catalogs for presentation. It does
+ * not define facts, section labels, or quest applicability.
  *
  * Architecture
  * ------------
@@ -23,6 +31,8 @@ import FactSection from "../components/about/FactSection";
  * Catalogs
  *     ↓
  * User Facts
+ *     ↓
+ * Actions
  *     ↓
  * Quest Engine
  *     ↓
@@ -34,27 +44,11 @@ import FactSection from "../components/about/FactSection";
  * Store facts. Derive everything else.
  */
 
-function groupFactsBySection(facts) {
-  return facts.reduce((sections, fact) => {
-    const sectionName = fact.section ?? "Other";
-
-    if (!sections[sectionName]) {
-      sections[sectionName] = [];
-    }
-
-    sections[sectionName].push(fact);
-
-    return sections;
-  }, {});
-}
-
 function AboutYouPage({
   facts,
   userFacts,
   onUpdateFact,
 }) {
-  const sections = groupFactsBySection(facts);
-
   return (
     <section className="about-you-page">
       <header className="about-you-header">
@@ -62,25 +56,35 @@ function AboutYouPage({
           Über mich · About You
         </p>
 
-        <h1>Tell us about your situation</h1>
+        <h1>Help us personalize your journey</h1>
 
         <p>
-          We use these answers to determine which quests are relevant to you.
+          Your answers help us show only the quests and guidance that
+          apply to your situation. You can update them at any time as
+          your circumstances change.
         </p>
       </header>
 
       <div className="about-you-sections">
-        {Object.entries(sections).map(
-          ([sectionName, sectionFacts]) => (
+        {factSectionCatalog.map((section) => {
+          const sectionFacts = facts.filter(
+            (fact) => fact.sectionId === section.id
+          );
+
+          if (sectionFacts.length === 0) {
+            return null;
+          }
+
+          return (
             <FactSection
-              key={sectionName}
-              title={sectionName}
+              key={section.id}
+              section={section}
               facts={sectionFacts}
               userFacts={userFacts}
               onUpdateFact={onUpdateFact}
             />
-          )
-        )}
+          );
+        })}
       </div>
     </section>
   );

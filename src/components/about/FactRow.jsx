@@ -1,6 +1,7 @@
 import "./FactRow.css";
 
 import BooleanFactEditor from "../facts/BooleanFactEditor";
+import SelectFactEditor from "../facts/SelectFactEditor";
 
 /**
  * ============================================================
@@ -13,9 +14,13 @@ import BooleanFactEditor from "../facts/BooleanFactEditor";
  * Renders one fact definition together with the appropriate editor
  * for that fact type.
  *
- * FactRow decides which editor to render based on the Fact Catalog.
- * It does not own user state and does not understand the structure
- * of the user object.
+ * FactRow selects the correct editor based on the Fact Catalog.
+ * It does not own user state.
+ *
+ * Layout responsibility
+ * ---------------------
+ * FactRow owns the space allocated to editors so all fact types
+ * align consistently.
  */
 
 function getDisplayValue(fact, value) {
@@ -41,6 +46,15 @@ function FactRow({ fact, value, onUpdateFact }) {
           />
         );
 
+      case "select":
+        return (
+          <SelectFactEditor
+            value={value}
+            options={fact.options}
+            onChange={(newValue) => onUpdateFact(fact.id, newValue)}
+          />
+        );
+
       default:
         return (
           <span className="fact-row-value">
@@ -56,7 +70,9 @@ function FactRow({ fact, value, onUpdateFact }) {
         {fact.question}
       </span>
 
-      {renderEditor()}
+      <div className="fact-row-editor">
+        {renderEditor()}
+      </div>
     </div>
   );
 }
