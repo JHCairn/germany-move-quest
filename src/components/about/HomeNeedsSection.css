@@ -1,0 +1,64 @@
+.home-needs-section {
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+
+  background: var(--surface);
+}
+
+.home-needs-header {
+  padding: 1.25rem;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.home-needs-header h2 {
+  margin: 0;
+
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.home-needs-header p {
+  max-width: 48rem;
+  margin: 0.65rem 0 0;
+
+  color: var(--text-light);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.home-needs-categories {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-needs-category {
+  padding: 1.15rem 1.25rem;
+}
+
+.home-needs-category + .home-needs-category {
+  border-top: 1px solid var(--border);
+}
+
+.home-needs-category h3 {
+  margin: 0 0 0.8rem;
+
+  color: var(--text);
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .home-needs-header {
+    padding: 1rem;
+  }
+
+  .home-needs-category {
+    padding: 1rem;
+  }
+
+  .home-needs-header p {
+    font-size: 0.9rem;
+  }
+}

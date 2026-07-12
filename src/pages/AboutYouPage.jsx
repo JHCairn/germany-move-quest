@@ -5,6 +5,8 @@ import MilestoneSection from "../components/about/MilestoneSection";
 
 import { factSectionCatalog } from "../data/factSectionCatalog";
 
+import HomeNeedsSection from "../components/about/HomeNeedsSection";
+
 /**
  * ============================================================
  * Germany Move Quest
@@ -52,34 +54,42 @@ function AboutYouPage({
         </p>
       </header>
 
-      <div className="about-you-sections">
-        {factSectionCatalog.map((section) => {
-          const sectionFacts = facts.filter(
-            (fact) => fact.sectionId === section.id
-          );
+    <div className="about-you-sections">
+  {factSectionCatalog.map((section) => {
+    const sectionFacts = facts.filter(
+      (fact) => fact.sectionId === section.id
+    );
 
-          if (sectionFacts.length === 0) {
-            return null;
-          }
+    if (sectionFacts.length === 0) {
+      return null;
+    }
 
-          return (
-            <FactSection
-              key={section.id}
-              section={section}
-              facts={sectionFacts}
-              userFacts={userFacts}
-              onUpdateFact={onUpdateFact}
-            />
-          );
-        })}
+    return (
+      <FactSection
+        key={section.id}
+        section={section}
+        facts={sectionFacts}
+        userFacts={userFacts}
+        onUpdateFact={onUpdateFact}
+      />
+    );
+  })}
 
-        <MilestoneSection
-          section={milestoneSection}
-          milestones={milestones}
-          milestoneValues={milestoneValues}
-          onUpdateMilestone={onUpdateMilestone}
-        />
-      </div>
+  <HomeNeedsSection
+    selectedItemIds={userFacts?.neededHomeItemIds ?? []}
+    onUpdateFact={onUpdateFact}
+  />
+
+  <MilestoneSection
+    section={milestoneSection}
+    milestones={milestones}
+    milestoneValues={milestoneValues}
+    onUpdateMilestone={onUpdateMilestone}
+  />
+</div>
+
+
+
     </section>
   );
 }

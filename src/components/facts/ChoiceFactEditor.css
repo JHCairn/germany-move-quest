@@ -1,0 +1,94 @@
+.choice-fact-editor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.choice-fact-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  min-height: 3.25rem;
+  padding: 0.6rem 0.85rem;
+
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font: inherit;
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.choice-fact-option:hover:not(:disabled):not(.is-selected) {
+  background: var(--surface-muted);
+}
+
+.choice-fact-option.is-selected {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+}
+
+.choice-fact-option:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.choice-fact-option.is-selected:focus-visible {
+  outline-color: var(--text);
+}
+
+.choice-fact-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.choice-fact-check {
+  flex: 0 0 1rem;
+  width: 1rem;
+
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+}
+
+.choice-fact-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.choice-fact-label-english {
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.choice-fact-label-german {
+  color: var(--text-light);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.choice-fact-option.is-selected .choice-fact-label-german {
+  color: inherit;
+  opacity: 0.85;
+}
+
+@media (max-width: 768px) {
+  .choice-fact-editor {
+    gap: 0.55rem;
+  }
+
+  .choice-fact-option {
+    min-height: 3.5rem;
+    padding: 0.65rem 0.8rem;
+  }
+}

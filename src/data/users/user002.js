@@ -55,4 +55,11 @@ export const user002 = {
 "tax-id",
 "electricity",
 "furniture-delivery"],
+
+neededHomeItemIds: [
+  "vacuum",
+  "kettle",
+  "laundry-basket",
+],
+
 };

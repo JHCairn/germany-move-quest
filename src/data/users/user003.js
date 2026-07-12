@@ -67,4 +67,16 @@ export const user003 = {
 "public-transport",
 "german-learning",
 "local-community"],
+
+neededHomeItemIds: [
+  "sofa",
+  "coffee-table",
+  "tv-stand",
+  "cookware",
+  "dishes",
+  "cutlery",
+  "vacuum",
+],
+
+
 };

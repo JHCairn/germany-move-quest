@@ -50,4 +50,19 @@ export const user001 = {
   completedQuestIds: 
   ["important-documents",
 "bank"],
+
+neededHomeItemIds: [
+  "bed",
+  "sofa",
+  "coffee-table",
+  "tv-stand",
+  "vacuum",
+  "cookware",
+  "dishes",
+  "cutlery",
+  "kettle",
+  "toaster",
+  "towels",
+  "laundry-basket",
+],
 };
