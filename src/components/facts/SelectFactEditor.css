@@ -3,7 +3,7 @@
   width: 100%;
   overflow: hidden;
 
-  border: 1px solid var(--border);
+  border: 1px solid var(--control-border);
   border-radius: 0.65rem;
 
   background: var(--surface);
@@ -32,7 +32,7 @@
 }
 
 .select-fact-option + .select-fact-option {
-  border-left: 1px solid var(--border);
+  border-left: 1px solid var(--control-border);
 }
 
 .select-fact-option:hover:not(:disabled):not(.is-selected) {
