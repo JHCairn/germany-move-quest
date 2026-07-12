@@ -63,51 +63,51 @@ function ZuhausePage({
         subtitle="Keep track of the home items you need and those you've already acquired."
       />
 
-      <section className="zuhause-section zuhause-needed-section">
-        <header className="zuhause-section-header">
-          <h2>Still needed</h2>
-        </header>
+      <section className="zuhause-needed-section">
+        <h2 className="zuhause-section-title">Still needed</h2>
 
-        {hasNeededItems ? (
-          <div className="zuhause-needed-categories">
-            {neededCategories.map((category) => (
-              <section
-                key={category.id}
-                className="zuhause-needed-category"
-              >
-                <h3>
-                  {category.german} · {category.english}
-                </h3>
+        <div className="zuhause-section">
+          {hasNeededItems ? (
+            <div className="zuhause-needed-categories">
+              {neededCategories.map((category) => (
+                <section
+                  key={category.id}
+                  className="zuhause-needed-category"
+                >
+                  <h3>
+                    {category.german} · {category.english}
+                  </h3>
 
-                <div className="zuhause-needed-items">
-                  {category.items.map((item) => (
-                    <span
-                      key={item.id}
-                      className="zuhause-needed-item"
-                    >
-                      {item.german} · {item.english}
-                    </span>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-        ) : (
-          <div className="zuhause-empty-state">
-            <h3>No home needs to track</h3>
+                  <div className="zuhause-needed-items">
+                    {category.items.map((item) => (
+                      <span
+                        key={item.id}
+                        className="zuhause-needed-item"
+                      >
+                        {item.german} · {item.english}
+                      </span>
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          ) : (
+            <div className="zuhause-empty-state">
+              <h3>No home needs to track</h3>
 
-            <p>
-              You're not currently tracking any home needs.
-              Add some in <strong>Über mich</strong> and
-              they'll appear here.
-            </p>
-          </div>
-        )}
+              <p>
+                You&apos;re not currently tracking any home needs.
+                Add some in <strong>Über mich</strong> and
+                they&apos;ll appear here.
+              </p>
+            </div>
+          )}
+        </div>
       </section>
 
       {hasAcquiredItems && (
         <section className="zuhause-acquired-section">
-          <h2>Acquired</h2>
+          <h2 className="zuhause-section-title">Acquired</h2>
 
           <div className="zuhause-acquired-list">
             {acquiredCategories.map((category) => (
