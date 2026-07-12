@@ -1,5 +1,8 @@
 import "./ZuhausePage.css";
 
+import PageIntro from "../components/common/PageIntro";
+
+import { icons } from "../data/icons";
 import { homeNeeds } from "../data/homeNeeds";
 
 /**
@@ -54,14 +57,11 @@ function ZuhausePage({
 
   return (
     <div className="zuhause-page">
-      <header className="zuhause-page-header">
-        <h1>Zuhause</h1>
-
-        <p>
-          Keep track of the household items you need for your new
-          home and the ones you&apos;ve acquired.
-        </p>
-      </header>
+      <PageIntro
+        icon={icons.home}
+        title="Zuhause"
+        subtitle="Keep track of the home items you need and those you've already acquired."
+      />
 
       <section className="zuhause-section zuhause-needed-section">
         <header className="zuhause-section-header">
@@ -97,9 +97,9 @@ function ZuhausePage({
             <h3>No home needs to track</h3>
 
             <p>
-              You&apos;re not currently tracking any home needs.
-              Add some in <strong>About Me</strong> and
-              they&apos;ll appear here.
+              You're not currently tracking any home needs.
+              Add some in <strong>Über mich</strong> and
+              they'll appear here.
             </p>
           </div>
         )}

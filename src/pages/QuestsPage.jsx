@@ -68,7 +68,7 @@ function QuestsPage({
       <PageIntro
         icon={icons.quests}
         title="Aufgaben"
-        subtitle="Review your relocation tasks and keep your move progressing."
+        subtitle="Complete the tasks that move your journey forward."
       />
 
       <QuestSection
