@@ -1,5 +1,8 @@
 import "./QuestsPage.css";
 
+import PageIntro from "../components/common/PageIntro";
+import { icons } from "../data/icons";
+
 import QuestCard from "../components/quests/QuestCard";
 
 /**
@@ -55,16 +58,18 @@ function QuestSection({
   );
 }
 
-function QuestsPage({ journey, onCompleteQuest, onReopenQuest }) {
+function QuestsPage({
+  journey,
+  onCompleteQuest,
+  onReopenQuest,
+}) {
   return (
     <section className="quests-page">
-      <div className="quests-header">
-        <p className="journey-eyebrow">Quests</p>
-        <h1>Aufgaben für deinen Umzug</h1>
-        <p>
-          Review active, remaining, upcoming, and completed quests.
-        </p>
-      </div>
+      <PageIntro
+        icon={icons.quests}
+        title="Aufgaben"
+        subtitle="Review your relocation tasks and keep your move progressing."
+      />
 
       <QuestSection
         title="Current Stage"
