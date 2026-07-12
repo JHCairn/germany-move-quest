@@ -1,6 +1,8 @@
 import "./JourneyPage.css";
 
-import { getGreeting } from "../utils/greeting";
+import PageIntro from "../components/common/PageIntro";
+
+import { icons } from "../data/icons";
 
 import JourneyProgressCard from "../components/dashboard/JourneyProgressCard";
 import RecommendationCard from "../components/dashboard/RecommendationCard";
@@ -26,18 +28,15 @@ import QuestProgressCard from "../components/dashboard/QuestProgressCard";
 
 function JourneyPage({
   journey,
-  selectedUser,
   onGoToQuests,
 }) {
   return (
     <section className="journey-page">
-      <div className="journey-header">
-        <p className="journey-eyebrow">Your Journey</p>
-
-        <h1>
-          {getGreeting()}, {selectedUser.name}.
-        </h1>
-      </div>
+      <PageIntro
+        icon={icons.journey}
+        title="Reise"
+        subtitle="See where you are in your relocation journey and what comes next."
+      />
 
       <div className="journey-grid">
         <JourneyProgressCard journey={journey.journeyProgress} />

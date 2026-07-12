@@ -23,10 +23,13 @@ The application is German-first.
 
 Where appropriate:
 
-German labels appear first.
-English appears beneath as supporting text.
+Use the German term for concepts the user will encounter in Germany. 
+Use English for guidance, explanations, and instructional text. 
 The UI should naturally help users learn everyday German terminology during their relocation.
-Visual Style
+
+Page titles should match the navigation labels.
+
+## Visual Style
 
 Continue favouring:
 
