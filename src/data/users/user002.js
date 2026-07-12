@@ -62,4 +62,17 @@ neededHomeItemIds: [
   "laundry-basket",
 ],
 
+acquiredHomeItemIds: [
+  "bed",
+  "sofa",
+  "coffee-table",
+  "tv-stand",
+  "cookware",
+  "dishes",
+  "cutlery",
+  "toaster",
+  "towels",
+
+],
+
 };

@@ -30,7 +30,22 @@
  * - replacement intent
  * - purchase status
  * - where the item will be acquired
+ * 
+ * 
+ * Design principles
+ * -----------------
+ *
+ * Home Needs are intentionally high-level.
+ *
+ * Each item represents one acquisition decision,
+ * not one physical object.
+ *
+ * The catalog exists to help users remember the
+ * important categories needed to make a new home
+ * livable. It is not intended to be a shopping
+ * list or inventory.
  */
+ 
 
 export const homeNeeds = [
   {

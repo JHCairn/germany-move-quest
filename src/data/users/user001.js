@@ -57,7 +57,6 @@ neededHomeItemIds: [
   "coffee-table",
   "tv-stand",
   "vacuum",
-  "cookware",
   "dishes",
   "cutlery",
   "kettle",
@@ -65,4 +64,10 @@ neededHomeItemIds: [
   "towels",
   "laundry-basket",
 ],
+
+acquiredHomeItemIds: [
+  "desk",
+  "cookware",
+],
+
 };

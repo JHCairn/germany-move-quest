@@ -77,6 +77,11 @@ neededHomeItemIds: [
   "cutlery",
   "vacuum",
 ],
-
+acquiredHomeItemIds: [
+  "kettle",
+  "bed",
+  "mattress",
+  "pillow", 
+],
 
 };

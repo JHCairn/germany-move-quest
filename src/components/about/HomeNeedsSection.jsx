@@ -41,10 +41,10 @@ function HomeNeedsSection({
         <h2>Wohnbedarf · Home Needs</h2>
 
         <p>
-          Select any items you still need for your new home.
-          We&apos;ll surface your selections later on your Home page
-          to help you keep track while shopping or ordering online.
-          You can update this list at any time.
+          Select any household items you need for your new home. 
+          This list is optional, and you can update it whenever you like. 
+          In Zuhause, you&apos;ll use it to keep track of the items you&apos;ve 
+          acquired and the ones you still need.
         </p>
       </header>
 

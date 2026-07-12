@@ -1,0 +1,197 @@
+.zuhause-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.zuhause-page-header h1 {
+  margin: 0;
+
+  color: var(--text);
+  font-size: 1.75rem;
+}
+
+.zuhause-page-header p {
+  max-width: 42rem;
+  margin: 0.65rem 0 0;
+
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+ * Still needed
+ * ------------------------------------------------------------
+ */
+
+.zuhause-section {
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+
+  background: var(--surface);
+}
+
+.zuhause-section-header {
+  padding: 1.1rem 1.25rem;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.zuhause-section-header h2 {
+  margin: 0;
+
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.zuhause-needed-categories {
+  display: flex;
+  flex-direction: column;
+}
+
+.zuhause-needed-category {
+  padding: 1.15rem 1.25rem;
+}
+
+.zuhause-needed-category + .zuhause-needed-category {
+  border-top: 1px solid var(--border);
+}
+
+.zuhause-needed-category h3 {
+  margin: 0 0 0.8rem;
+
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.zuhause-needed-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.zuhause-needed-item {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 0.55rem 0.8rem;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  background: var(--surface);
+
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* ------------------------------------------------------------
+ * Empty state
+ * ------------------------------------------------------------
+ */
+
+.zuhause-empty-state {
+  padding: 1.25rem;
+}
+
+.zuhause-empty-state h3 {
+  margin: 0;
+
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.zuhause-empty-state p {
+  max-width: 38rem;
+  margin: 0.55rem 0 0;
+
+  color: var(--text-light);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+ * Acquired
+ * ------------------------------------------------------------
+ */
+
+.zuhause-acquired-section {
+  padding: 0 0.15rem;
+}
+
+.zuhause-acquired-section h2 {
+  margin: 0 0 0.75rem;
+
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+.zuhause-acquired-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.zuhause-acquired-category {
+  display: flex;
+  gap: 0.45rem;
+
+  margin: 0;
+
+  color: var(--text-light);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.zuhause-acquired-category strong {
+  flex: 0 0 auto;
+
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.zuhause-acquired-category strong::after {
+  content: " —";
+}
+
+@media (max-width: 768px) {
+  .zuhause-page {
+    gap: 1.25rem;
+  }
+
+  .zuhause-page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .zuhause-page-header p {
+    font-size: 0.95rem;
+  }
+
+  .zuhause-section-header,
+  .zuhause-needed-category,
+  .zuhause-empty-state {
+    padding: 1rem;
+  }
+
+  .zuhause-needed-item {
+    padding: 0.5rem 0.7rem;
+
+    font-size: 0.85rem;
+  }
+
+  .zuhause-acquired-category {
+    display: block;
+  }
+
+  .zuhause-acquired-category strong {
+    display: inline;
+  }
+
+  .zuhause-acquired-category span {
+    display: inline;
+  }
+}

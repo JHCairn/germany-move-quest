@@ -10,6 +10,7 @@ import Toast from "./Toast";
 import JourneyPage from "../pages/JourneyPage";
 import QuestsPage from "../pages/QuestsPage";
 import AboutYouPage from "../pages/AboutYouPage";
+import ZuhausePage from "../pages/ZuhausePage";
 
 import { questCatalog } from "../data/questCatalog";
 import { factCatalog } from "../data/factCatalog";
@@ -17,6 +18,7 @@ import { milestoneCatalog } from "../data/milestoneCatalog";
 import { stages } from "../data/stages";
 import { users, defaultUser } from "../data/users";
 import { pageIds } from "../data/navigation";
+
 
 import {
   completeQuest,
@@ -132,6 +134,15 @@ function AppShell() {
             onReopenQuest={handleReopenQuest}
           />
         );
+
+      case pageIds.HOME_SETUP:
+  return (
+    <ZuhausePage
+      neededHomeItemIds={selectedUser.neededHomeItemIds}
+      acquiredHomeItemIds={selectedUser.acquiredHomeItemIds}
+    />
+  );
+
 
       case pageIds.ABOUT_YOU:
         return (
