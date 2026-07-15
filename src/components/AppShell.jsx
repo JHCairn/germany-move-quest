@@ -25,6 +25,7 @@ import {
   reopenQuest,
   updateAboutFact,
   updateMilestoneDate,
+  updateHomeNeeds,
 } from "../actions";
 
 import { buildJourneyModel } from "../services/questEngine";
@@ -109,7 +110,7 @@ function AppShell() {
     milestoneId,
     field,
     value
-  ) {
+  )     {
     updateSelectedUser((user) =>
       updateMilestoneDate(
         user,
@@ -119,6 +120,13 @@ function AppShell() {
       )
     );
   }
+
+  function handleUpdateHomeNeeds(field, value) {
+  updateSelectedUser((user) =>
+    updateHomeNeeds(user, field, value)
+  );
+}
+
 
   function handleGoToQuests() {
     setCurrentPageId(pageIds.QUESTS);
@@ -138,9 +146,12 @@ function AppShell() {
       case pageIds.HOME_SETUP:
   return (
     <ZuhausePage
-      neededHomeItemIds={selectedUser.neededHomeItemIds}
-      acquiredHomeItemIds={selectedUser.acquiredHomeItemIds}
-    />
+      neededHomeItemIds={
+  selectedUser.facts.homeNeeds?.neededHomeItemIds ?? []
+}
+      acquiredHomeItemIds={
+  selectedUser.facts.homeNeeds?.acquiredHomeItemIds ?? []
+}    />
   );
 
 
@@ -154,6 +165,8 @@ function AppShell() {
             milestones={milestoneCatalog.milestones}
             milestoneValues={selectedUser.facts.milestones}
             onUpdateMilestone={handleUpdateMilestone}
+            homeNeeds={selectedUser.facts.homeNeeds}
+            onUpdateHomeNeeds={handleUpdateHomeNeeds}
           />
         );
 

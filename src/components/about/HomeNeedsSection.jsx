@@ -29,10 +29,13 @@ import { homeNeeds } from "../../data/homeNeeds";
 
 function HomeNeedsSection({
   selectedItemIds = [],
-  onUpdateFact,
+  onUpdateHomeNeeds,
 }) {
   function handleChange(nextItemIds) {
-    onUpdateFact("neededHomeItemIds", nextItemIds);
+    onUpdateHomeNeeds(
+      "neededHomeItemIds",
+      nextItemIds
+    );
   }
 
   return (
@@ -41,9 +44,9 @@ function HomeNeedsSection({
         <h2>Wohnbedarf · Home Needs</h2>
 
         <p>
-          Select any household items you need for your new home. 
-          This list is optional, and you can update it whenever you like. 
-          In Zuhause, you&apos;ll use it to keep track of the items you&apos;ve 
+          Select any household items you need for your new home.
+          This list is optional, and you can update it whenever you like.
+          In Zuhause, you'll use it to keep track of the items you've
           acquired and the ones you still need.
         </p>
       </header>

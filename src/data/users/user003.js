@@ -88,4 +88,4 @@ completedQuestIds:
 "german-learning",
 "local-community"],
 
-h};
+};

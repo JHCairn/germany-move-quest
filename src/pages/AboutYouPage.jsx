@@ -22,6 +22,7 @@ import { factSectionCatalog } from "../data/factSectionCatalog";
  *
  * Ordinary single-value facts render through FactSection.
  * Structured milestone facts render through MilestoneSection.
+ * Home Needs render through HomeNeedsSection.
  *
  * This page assembles catalogs and user values for presentation.
  * It does not define facts, own user state, or derive journey
@@ -35,6 +36,8 @@ function AboutYouPage({
   facts,
   userFacts,
   onUpdateFact,
+  homeNeeds,
+  onUpdateHomeNeeds,
   milestoneSection,
   milestones,
   milestoneValues,
@@ -70,8 +73,10 @@ function AboutYouPage({
         })}
 
         <HomeNeedsSection
-          selectedItemIds={userFacts?.neededHomeItemIds ?? []}
-          onUpdateFact={onUpdateFact}
+          selectedItemIds={
+            homeNeeds?.neededHomeItemIds ?? []
+          }
+          onUpdateHomeNeeds={onUpdateHomeNeeds}
         />
 
         <MilestoneSection
