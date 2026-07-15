@@ -1,29 +1,18 @@
-import "./ChoiceFactEditor.css";
+import "./HomeNeedsEditor.css";
 
 /**
  * ============================================================
  * Germany Move Quest
- * Choice Fact Editor
+ * Home Needs Editor
  * ============================================================
  *
  * Responsibility
  * --------------
- * Edits a collection of selected values.
+ * Edits a collection of Home Needs values.
  *
- * This component has no knowledge of:
- *
- * - the user object
- * - Home Needs
- * - fact IDs
- * - About You
- * - quest applicability
- * - React state ownership
- *
- * It simply receives selected values and reports the next
- * collection through onChange().
- */
+ *  */
 
-function ChoiceFactEditor({
+function HomeNeedsEditor({
   options = [],
   selectedValues = [],
   onChange,
@@ -85,4 +74,4 @@ function ChoiceFactEditor({
   );
 }
 
-export default ChoiceFactEditor;
+export default HomeNeedsEditor;

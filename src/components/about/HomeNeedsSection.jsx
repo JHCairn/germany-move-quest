@@ -1,6 +1,6 @@
 import "./HomeNeedsSection.css";
 
-import ChoiceFactEditor from "../facts/ChoiceFactEditor";
+import HomeNeedsEditor from "../facts/HomeNeedsEditor";
 
 import { homeNeeds } from "../../data/homeNeeds";
 
@@ -58,7 +58,7 @@ function HomeNeedsSection({
               {category.german} · {category.english}
             </h3>
 
-            <ChoiceFactEditor
+            <HomeNeedsEditor
               options={category.items}
               selectedValues={selectedItemIds}
               onChange={handleChange}
