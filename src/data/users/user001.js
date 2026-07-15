@@ -45,29 +45,33 @@ export const user001 = {
         actualDate: "",
       },
     },
+homeNeeds: {
+      neededHomeItemIds: [
+        "bed",
+        "sofa",
+        "coffee-table",
+        "tv-stand",
+        "vacuum",
+        "dishes",
+        "cutlery",
+        "kettle",
+        "toaster",
+        "towels",
+        "laundry-basket",
+      ],
+
+      acquiredHomeItemIds: [
+        "desk",
+        "cookware",
+      ],
+    },
+
   },
 
   completedQuestIds: 
   ["important-documents",
 "bank"],
 
-neededHomeItemIds: [
-  "bed",
-  "sofa",
-  "coffee-table",
-  "tv-stand",
-  "vacuum",
-  "dishes",
-  "cutlery",
-  "kettle",
-  "toaster",
-  "towels",
-  "laundry-basket",
-],
 
-acquiredHomeItemIds: [
-  "desk",
-  "cookware",
-],
-
+ 
 };

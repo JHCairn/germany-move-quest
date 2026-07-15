@@ -44,10 +44,30 @@ export const user003 = {
         actualDate: "2026-04-03",
       },
     },
+
+homeNeeds: {
+      neededHomeItemIds: [
+  "sofa",
+  "coffee-table",
+  "tv-stand",
+  "cookware",
+  "dishes",
+  "cutlery",
+  "vacuum",
+],
+
+      acquiredHomeItemIds: [
+  "kettle",
+  "bed",
+  "mattress",
+  "pillow", 
+],
+   },
+
   },
 
   
-  completedQuestIds: 
+completedQuestIds: 
   ["important-documents", 
 "krankenkasse",
 "moving-budget",
@@ -68,20 +88,4 @@ export const user003 = {
 "german-learning",
 "local-community"],
 
-neededHomeItemIds: [
-  "sofa",
-  "coffee-table",
-  "tv-stand",
-  "cookware",
-  "dishes",
-  "cutlery",
-  "vacuum",
-],
-acquiredHomeItemIds: [
-  "kettle",
-  "bed",
-  "mattress",
-  "pillow", 
-],
-
-};
+h};

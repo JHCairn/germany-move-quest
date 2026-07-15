@@ -44,25 +44,15 @@ export const user002 = {
         actualDate: "2026-06-20",
       },
     },
-  },
 
-    completedQuestIds: 
-  ["important-documents",
-"school-registration",
-"krankenkasse",
-"moving-budget",
-"moving-logistics",
-"tax-id",
-"electricity",
-"furniture-delivery"],
-
-neededHomeItemIds: [
+    homeNeeds: {
+      neededHomeItemIds: [
   "vacuum",
   "kettle",
   "laundry-basket",
 ],
 
-acquiredHomeItemIds: [
+      acquiredHomeItemIds: [
   "bed",
   "sofa",
   "coffee-table",
@@ -74,5 +64,19 @@ acquiredHomeItemIds: [
   "towels",
 
 ],
+    },
+
+  },
+
+  completedQuestIds: 
+  ["important-documents",
+"school-registration",
+"krankenkasse",
+"moving-budget",
+"moving-logistics",
+"tax-id",
+"electricity",
+"furniture-delivery"],
+
 
 };
