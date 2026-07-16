@@ -73,7 +73,7 @@ function QuestsPage({
 
       <QuestSection
         title="Current Stage"
-        description="Quests that match the current journey stage."
+        description="Erledigt? (Completed?) Tap Erledigen once you've completed this task."
         quests={journey.currentStageQuests}
         onCompleteQuest={onCompleteQuest}
         onReopenQuest={onReopenQuest}
@@ -81,7 +81,7 @@ function QuestsPage({
 
       <QuestSection
         title="Previous Stages"
-        description="Earlier-stage quests that are still incomplete."
+        description="Erledigt? (Completed?) Tap Erledigen once you've completed this task."
         quests={journey.previousStageQuests}
         onCompleteQuest={onCompleteQuest}
         onReopenQuest={onReopenQuest}
@@ -89,7 +89,7 @@ function QuestsPage({
 
       <QuestSection
         title="Upcoming"
-        description="Future quests to keep on the radar."
+        description="Erledigt? (Completed?) Tap Erledigen once you've completed this task."
         quests={journey.upcomingQuests}
         onCompleteQuest={onCompleteQuest}
         onReopenQuest={onReopenQuest}
@@ -97,7 +97,7 @@ function QuestsPage({
 
       <QuestSection
         title="Completed"
-        description="Quests already marked as finished."
+        description="Nicht mehr erledigt? (No longer completed?) Tap Wieder öffnen if it still needs your attention."
         quests={journey.completedQuests}
         onCompleteQuest={onCompleteQuest}
         onReopenQuest={onReopenQuest}

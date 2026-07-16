@@ -1,3 +1,5 @@
+import { CheckCircle2, RotateCcw } from "lucide-react";
+
 /**
  * ============================================================
  * Germany Move Quest
@@ -44,7 +46,8 @@ function QuestCard({ quest, onComplete, onReopen }) {
             onClick={() => onReopen(quest.id)}
           >
             <span className="quest-action-primary">
-              ↺ Wieder öffnen
+              <RotateCcw size={16} aria-hidden="true" />
+              <span>Wieder öffnen</span>
             </span>
 
             <span className="quest-action-translation">
@@ -58,7 +61,8 @@ function QuestCard({ quest, onComplete, onReopen }) {
             onClick={() => onComplete(quest.id)}
           >
             <span className="quest-action-primary">
-              ✓ Erledigen
+              <CheckCircle2 size={16} aria-hidden="true" />
+              <span>Erledigen</span>
             </span>
 
             <span className="quest-action-translation">

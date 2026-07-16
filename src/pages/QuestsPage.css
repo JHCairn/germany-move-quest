@@ -161,6 +161,9 @@
   font-size: 0.85rem;
   font-weight: 700;
   line-height: 1.1;
+   display: inline-flex;
+   align-items: center;
+   gap: 0.4rem;
 }
 
 .quest-action-translation {
