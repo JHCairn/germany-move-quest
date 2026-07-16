@@ -20,6 +20,34 @@
 }
 
 /* ------------------------------------------------------------
+ * Section headings and instructions
+ * ------------------------------------------------------------
+ */
+
+.zuhause-section-heading {
+  margin-bottom: 0.75rem;
+}
+
+.zuhause-section-title {
+  margin: 0;
+
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.zuhause-section-instruction {
+  margin: 0.35rem 0 0;
+
+  color: var(--text-light);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.zuhause-section-instruction strong {
+  color: var(--text);
+}
+
+/* ------------------------------------------------------------
  * Still needed
  * ------------------------------------------------------------
  */
@@ -31,19 +59,6 @@
   border-radius: 0.85rem;
 
   background: var(--surface);
-}
-
-.zuhause-section-header {
-  padding: 1.1rem 1.25rem;
-
-  border-bottom: 1px solid var(--border);
-}
-
-.zuhause-section-header h2 {
-  margin: 0;
-
-  color: var(--text);
-  font-size: 1.1rem;
 }
 
 .zuhause-needed-categories {
@@ -59,35 +74,67 @@
   border-top: 1px solid var(--border);
 }
 
-.zuhause-needed-category h3 {
+.zuhause-needed-category h3,
+.zuhause-acquired-category h3 {
   margin: 0 0 0.8rem;
 
   color: var(--text);
   font-size: 1rem;
 }
 
-.zuhause-needed-items {
+.zuhause-needed-items,
+.zuhause-acquired-items {
   display: flex;
   flex-wrap: wrap;
   gap: 0.55rem;
 }
 
-.zuhause-needed-item {
+.zuhause-needed-item,
+.zuhause-acquired-item {
   display: inline-flex;
   align-items: center;
 
+  border-radius: 999px;
+
+  font: inherit;
+  line-height: 1.2;
+
+  cursor: pointer;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+.zuhause-needed-item {
   padding: 0.55rem 0.8rem;
 
   border: 1px solid var(--control-border);
-  border-radius: 999px;
-  
 
   background: var(--surface);
 
   color: var(--text);
   font-size: 0.9rem;
   font-weight: 600;
-  line-height: 1.2;
+}
+
+.zuhause-needed-item:hover {
+  background: var(--surface-muted);
+  border-color: var(--text-light);
+}
+
+.zuhause-needed-item:active,
+.zuhause-acquired-item:active {
+  transform: translateY(1px);
+}
+
+.zuhause-needed-item:focus-visible,
+.zuhause-acquired-item:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 /* ------------------------------------------------------------
@@ -122,42 +169,53 @@
 
 .zuhause-acquired-section {
   padding: 0 0.15rem;
+  margin: 0.5rem 0 0;
 }
 
-.zuhause-acquired-section h2 {
-  margin: 0 0 0.75rem;
+.zuhause-acquired-section .zuhause-section-title {
+  color: var(--text);
+  font-size: 1.1rem;
+}
 
+.zuhause-acquired-section .zuhause-section-instruction {
   color: var(--text-light);
-  font-size: 1rem;
 }
 
-.zuhause-acquired-list {
+.zuhause-acquired-categories {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: 1.25rem;
 }
 
-.zuhause-acquired-category {
-  display: flex;
-  gap: 0.45rem;
+.zuhause-acquired-category h3 {
+  margin: 0 0 0.65rem;
 
-  margin: 0;
-
-  color: var(--text-light);
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-.zuhause-acquired-category strong {
-  flex: 0 0 auto;
-
-  color: var(--text-light);
+  color: var(--text);
+  font-size: 0.95rem;
   font-weight: 600;
 }
 
-.zuhause-acquired-category strong::after {
-  content: " —";
+.zuhause-acquired-item {
+  gap: 0.6rem;
+
+  padding: 0.5rem 0.7rem 0.5rem 0.8rem;
+
+  border: 1px solid var(--border);
+
+  background: var(--surface);
+
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 500;
 }
+
+.zuhause-acquired-item svg {
+  color: var(--text);
+  opacity: 1;
+}
+
+
+
 
 @media (max-width: 768px) {
   .zuhause-page {
@@ -168,11 +226,11 @@
     font-size: 1.5rem;
   }
 
-  .zuhause-page-header p {
+  .zuhause-page-header p,
+  .zuhause-section-instruction {
     font-size: 0.95rem;
   }
 
-  .zuhause-section-header,
   .zuhause-needed-category,
   .zuhause-empty-state {
     padding: 1rem;
@@ -184,15 +242,7 @@
     font-size: 0.85rem;
   }
 
-  .zuhause-acquired-category {
-    display: block;
-  }
-
-  .zuhause-acquired-category strong {
-    display: inline;
-  }
-
-  .zuhause-acquired-category span {
-    display: inline;
+  .zuhause-acquired-item {
+    font-size: 0.82rem;
   }
 }

@@ -95,8 +95,8 @@ export function updateMilestoneDate(
  * - neededHomeItemIds
  * - acquiredHomeItemIds
  *
- * This action knows where Home Needs are stored so presentation
- * components do not need to understand the user object's structure.
+ * This action supports direct editing in Über mich, where the user is
+ * intentionally changing one Home Needs field.
  *
  * The original user object and nested Home Needs objects are not mutated.
  */
@@ -114,6 +114,84 @@ export function updateHomeNeeds(user, field, value) {
       homeNeeds: {
         ...currentHomeNeeds,
         [field]: value,
+      },
+    },
+  };
+}
+
+/**
+ * Mark one home item as acquired.
+ *
+ * Acquiring an item is one user intention that updates both Home Needs
+ * collections atomically:
+ * - remove the item from neededHomeItemIds
+ * - add the item to acquiredHomeItemIds
+ */
+export function acquireHomeItem(user, itemId) {
+  const currentHomeNeeds = user.facts?.homeNeeds ?? {};
+  const neededHomeItemIds =
+    currentHomeNeeds.neededHomeItemIds ?? [];
+  const acquiredHomeItemIds =
+    currentHomeNeeds.acquiredHomeItemIds ?? [];
+
+  const isNeeded = neededHomeItemIds.includes(itemId);
+  const isAcquired = acquiredHomeItemIds.includes(itemId);
+
+  if (!isNeeded && isAcquired) {
+    return user;
+  }
+
+  return {
+    ...user,
+    facts: {
+      ...user.facts,
+      homeNeeds: {
+        ...currentHomeNeeds,
+        neededHomeItemIds: neededHomeItemIds.filter(
+          (id) => id !== itemId
+        ),
+        acquiredHomeItemIds: isAcquired
+          ? acquiredHomeItemIds
+          : [...acquiredHomeItemIds, itemId],
+      },
+    },
+  };
+}
+
+/**
+ * Mark one acquired home item as needed again.
+ *
+ * Reversing acquisition is one user intention that updates both Home
+ * Needs collections atomically:
+ * - remove the item from acquiredHomeItemIds
+ * - add the item to neededHomeItemIds
+ */
+export function markHomeItemNeeded(user, itemId) {
+  const currentHomeNeeds = user.facts?.homeNeeds ?? {};
+  const neededHomeItemIds =
+    currentHomeNeeds.neededHomeItemIds ?? [];
+  const acquiredHomeItemIds =
+    currentHomeNeeds.acquiredHomeItemIds ?? [];
+
+  const isNeeded = neededHomeItemIds.includes(itemId);
+  const isAcquired = acquiredHomeItemIds.includes(itemId);
+
+  if (isNeeded && !isAcquired) {
+    return user;
+  }
+
+  return {
+    ...user,
+    facts: {
+      ...user.facts,
+      homeNeeds: {
+        ...currentHomeNeeds,
+        neededHomeItemIds: isNeeded
+          ? neededHomeItemIds
+          : [...neededHomeItemIds, itemId],
+        acquiredHomeItemIds: acquiredHomeItemIds.filter(
+          (id) => id !== itemId
+        ),
       },
     },
   };

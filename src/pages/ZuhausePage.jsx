@@ -1,3 +1,5 @@
+import { RotateCcw } from "lucide-react";
+
 import "./ZuhausePage.css";
 
 import PageIntro from "../components/common/PageIntro";
@@ -20,7 +22,8 @@ import { homeNeeds } from "../data/homeNeeds";
  * catalog. The user's current Home Needs are stored separately
  * as item IDs.
  *
- * This page derives its presentation from those stored facts.
+ * This page derives its presentation from those stored facts and
+ * exposes acquisition intent through callbacks.
  *
  * This page does not:
  *
@@ -33,6 +36,8 @@ import { homeNeeds } from "../data/homeNeeds";
 function ZuhausePage({
   neededHomeItemIds = [],
   acquiredHomeItemIds = [],
+  onAcquireHomeItem,
+  onMarkHomeItemNeeded,
 }) {
   const neededCategories = homeNeeds
     .map((category) => ({
@@ -64,7 +69,16 @@ function ZuhausePage({
       />
 
       <section className="zuhause-needed-section">
-        <h2 className="zuhause-section-title">Still needed</h2>
+        <div className="zuhause-section-heading">
+          <h2 className="zuhause-section-title">
+            Still needed
+          </h2>
+
+          <p className="zuhause-section-instruction">
+            <strong>Erledigt?</strong> Tap an item once
+            you&apos;ve acquired it.
+          </p>
+        </div>
 
         <div className="zuhause-section">
           {hasNeededItems ? (
@@ -80,12 +94,16 @@ function ZuhausePage({
 
                   <div className="zuhause-needed-items">
                     {category.items.map((item) => (
-                      <span
+                      <button
                         key={item.id}
+                        type="button"
                         className="zuhause-needed-item"
+                        onClick={() =>
+                          onAcquireHomeItem(item.id)
+                        }
                       >
                         {item.german} · {item.english}
-                      </span>
+                      </button>
                     ))}
                   </div>
                 </section>
@@ -93,12 +111,13 @@ function ZuhausePage({
             </div>
           ) : (
             <div className="zuhause-empty-state">
-              <h3>No home needs to track</h3>
+              <h3>Great! You&apos;ve acquired everything you&apos;re currently tracking.</h3>
 
               <p>
-                You&apos;re not currently tracking any home needs.
-                Add some in <strong>Über mich</strong> and
-                they&apos;ll appear here.
+                You&apos;re not currently tracking any home
+                needs. Add some in{" "}
+                <strong>Über mich</strong> and they&apos;ll
+                appear here.
               </p>
             </div>
           )}
@@ -107,27 +126,49 @@ function ZuhausePage({
 
       {hasAcquiredItems && (
         <section className="zuhause-acquired-section">
-          <h2 className="zuhause-section-title">Acquired</h2>
+          <div className="zuhause-section-heading">
+            <h2 className="zuhause-section-title">
+              Acquired
+            </h2>
 
-          <div className="zuhause-acquired-list">
+            <p className="zuhause-section-instruction">
+              <strong>Noch benötigt?</strong> Tap if you still need it.
+            </p>
+          </div>
+
+          <div className="zuhause-acquired-categories">
             {acquiredCategories.map((category) => (
-              <p
+              <section
                 key={category.id}
                 className="zuhause-acquired-category"
               >
-                <strong>
+                <h3>
                   {category.german} · {category.english}
-                </strong>
+                </h3>
 
-                <span>
-                  {category.items
-                    .map(
-                      (item) =>
-                        `${item.german} · ${item.english}`
-                    )
-                    .join(", ")}
-                </span>
-              </p>
+                <div className="zuhause-acquired-items">
+                  {category.items.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="zuhause-acquired-item"
+                      onClick={() =>
+                        onMarkHomeItemNeeded(item.id)
+                      }
+                      aria-label={`Mark ${item.english} as needed again`}
+                    >
+                      <span>
+                        {item.german} · {item.english}
+                      </span>
+
+                      <RotateCcw
+                        size={15}
+                        aria-hidden="true"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
         </section>

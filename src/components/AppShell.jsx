@@ -19,7 +19,6 @@ import { stages } from "../data/stages";
 import { users, defaultUser } from "../data/users";
 import { pageIds } from "../data/navigation";
 
-
 import {
   completeQuest,
   reopenQuest,
@@ -27,6 +26,11 @@ import {
   updateMilestoneDate,
   updateHomeNeeds,
 } from "../actions";
+
+import {
+  acquireHomeItem,
+  markHomeItemNeeded,
+} from "../actions/userActions";
 
 import { buildJourneyModel } from "../services/questEngine";
 
@@ -110,7 +114,7 @@ function AppShell() {
     milestoneId,
     field,
     value
-  )     {
+  ) {
     updateSelectedUser((user) =>
       updateMilestoneDate(
         user,
@@ -122,11 +126,22 @@ function AppShell() {
   }
 
   function handleUpdateHomeNeeds(field, value) {
-  updateSelectedUser((user) =>
-    updateHomeNeeds(user, field, value)
-  );
-}
+    updateSelectedUser((user) =>
+      updateHomeNeeds(user, field, value)
+    );
+  }
 
+  function handleAcquireHomeItem(itemId) {
+    updateSelectedUser((user) =>
+      acquireHomeItem(user, itemId)
+    );
+  }
+
+  function handleMarkHomeItemNeeded(itemId) {
+    updateSelectedUser((user) =>
+      markHomeItemNeeded(user, itemId)
+    );
+  }
 
   function handleGoToQuests() {
     setCurrentPageId(pageIds.QUESTS);
@@ -144,16 +159,22 @@ function AppShell() {
         );
 
       case pageIds.HOME_SETUP:
-  return (
-    <ZuhausePage
-      neededHomeItemIds={
-  selectedUser.facts.homeNeeds?.neededHomeItemIds ?? []
-}
-      acquiredHomeItemIds={
-  selectedUser.facts.homeNeeds?.acquiredHomeItemIds ?? []
-}    />
-  );
-
+        return (
+          <ZuhausePage
+            neededHomeItemIds={
+              selectedUser.facts.homeNeeds
+                ?.neededHomeItemIds ?? []
+            }
+            acquiredHomeItemIds={
+              selectedUser.facts.homeNeeds
+                ?.acquiredHomeItemIds ?? []
+            }
+            onAcquireHomeItem={handleAcquireHomeItem}
+            onMarkHomeItemNeeded={
+              handleMarkHomeItemNeeded
+            }
+          />
+        );
 
       case pageIds.ABOUT_YOU:
         return (
