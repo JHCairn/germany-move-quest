@@ -21,30 +21,30 @@ function RecommendationCard({
           </span>
         </p>
 
-        <div className="recommendation-empty">
-          <h2>You're all caught up.</h2>
+        <div className="recommendation-empty-layout">
+          <div className="recommendation-empty-panel">
+            <h2>You're all caught up.</h2>
 
-          <p>
-            You've completed everything we currently recommend.
-            You can still explore your Aufgaben or update your
-            information at any time.
-          </p>
+            <p>
+              You've completed everything we currently recommend.
+              You can still explore your Aufgaben or update your
+              information at any time.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            className="recommendation-navigation-action"
+            onClick={onGoToQuests}
+          >
+            <ArrowRight size={17} aria-hidden="true" />
+
+            <span>
+              <strong>Zu den Aufgaben</strong>
+              <small>Go to Quests</small>
+            </span>
+          </button>
         </div>
-
-        <button
-          type="button"
-          className="recommendation-button"
-          onClick={onGoToQuests}
-        >
-          <span className="recommendation-button-primary">
-            <ArrowRight size={16} aria-hidden="true" />
-            <span>Zu den Aufgaben</span>
-          </span>
-
-          <span className="recommendation-button-translation">
-            Go to Tasks
-          </span>
-        </button>
       </article>
     );
   }
@@ -61,7 +61,7 @@ function RecommendationCard({
       <div className="recommendation-layout">
         <aside className="recommendation-context">
           <p className="recommendation-panel-label">
-            Your current stage
+            Current stage
           </p>
 
           {currentStage && (
@@ -79,56 +79,56 @@ function RecommendationCard({
           )}
         </aside>
 
-        <div className="recommendation-content">
-          <h2>{quest.actionLabel}</h2>
+        <div className="recommendation-focus">
+          <div className="recommendation-panel">
+            <h2>{quest.actionLabel}</h2>
 
-          <p className="recommendation-quest-name">
-            <strong>{quest.title}</strong>
-            {quest.subtitle && <span>· {quest.subtitle}</span>}
-          </p>
+            <p className="recommendation-quest-name">
+              <strong>{quest.title}</strong>
+              {quest.subtitle && <span>· {quest.subtitle}</span>}
+            </p>
 
-          <p className="recommendation-description">
-            {quest.description}
-          </p>
+            <p className="recommendation-description">
+              {quest.description}
+            </p>
 
-          <div className="recommendation-meta">
-            <div className="recommendation-meta-item">
-              <Clock3 size={17} aria-hidden="true" />
-
-              <span>
-                <strong>Usually takes</strong>
-                {quest.estimatedTime}
-              </span>
-            </div>
-
-            {quest.dueLabel && (
+            <div className="recommendation-meta">
               <div className="recommendation-meta-item">
-                <CalendarDays size={17} aria-hidden="true" />
+                <Clock3 size={17} aria-hidden="true" />
 
                 <span>
-                  <strong>Timing</strong>
-                  {quest.dueLabel}
+                  <strong>Usually takes</strong>
+                  {quest.estimatedTime}
                 </span>
               </div>
-            )}
+
+              {quest.dueLabel && (
+                <div className="recommendation-meta-item">
+                  <CalendarDays size={17} aria-hidden="true" />
+
+                  <span>
+                    <strong>Timing</strong>
+                    {quest.dueLabel}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
+
+          <button
+            type="button"
+            className="recommendation-navigation-action"
+            onClick={onGoToQuests}
+          >
+            <ArrowRight size={17} aria-hidden="true" />
+
+            <span>
+              <strong>Zu den Aufgaben</strong>
+              <small>Go to Quests</small>
+            </span>
+          </button>
         </div>
       </div>
-
-      <button
-        type="button"
-        className="recommendation-button"
-        onClick={onGoToQuests}
-      >
-        <span className="recommendation-button-primary">
-          <ArrowRight size={16} aria-hidden="true" />
-          <span>Zu den Aufgaben</span>
-        </span>
-
-        <span className="recommendation-button-translation">
-          Go to Tasks
-        </span>
-      </button>
     </article>
   );
 }
