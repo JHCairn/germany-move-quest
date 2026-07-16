@@ -1,9 +1,58 @@
+.recommendation-stage {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+
+  background: var(--background);
+}
+
+.recommendation-stage-label {
+  color: var(--text-light);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.recommendation-stage-name {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+
+  margin-top: 0.35rem !important;
+}
+
+.recommendation-stage-name strong {
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.recommendation-stage-name span {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.recommendation-stage-context {
+  margin-top: 0.5rem !important;
+}
+
+.recommendation-quest-summary strong {
+  color: var(--text);
+}
+
 .recommendation-description {
   margin-top: 1rem !important;
 }
 
 .recommendation-estimate {
   margin-top: 1rem !important;
+}
+
+.recommendation-estimate strong {
+  color: var(--text);
 }
 
 .recommendation-due-label {
@@ -15,6 +64,11 @@
 }
 
 .recommendation-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
   width: 100%;
   margin-top: 1.5rem;
   padding: 0.75rem 1rem;
@@ -25,9 +79,23 @@
   background: var(--primary);
   color: #ffffff;
 
+  font: inherit;
   font-weight: 700;
+  text-align: left;
 
   cursor: pointer;
+}
+
+.recommendation-button-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.recommendation-button-translation {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.85;
 }
 
 .recommendation-button:hover {
@@ -41,4 +109,16 @@
     transparent
   );
   outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .recommendation-button {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .recommendation-button-translation {
+    margin-left: 1.5rem;
+  }
 }

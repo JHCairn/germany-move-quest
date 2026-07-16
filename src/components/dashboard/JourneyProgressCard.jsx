@@ -24,7 +24,12 @@ function JourneyProgressCard({ journey }) {
 
   return (
     <article className="dashboard-card wide-card journey-progress-card">
-      <p className="card-eyebrow">Journey Progress</p>
+      <p className="card-eyebrow">
+        <span>Reise</span>
+        <span className="card-eyebrow-translation">
+          Journey Progress
+        </span>
+      </p>
 
       <div className="journey-timeline">
         {journey.stages.map((stage, index) => {

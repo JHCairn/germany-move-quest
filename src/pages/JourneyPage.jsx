@@ -43,6 +43,7 @@ function JourneyPage({
 
         <RecommendationCard
           quest={journey.recommendedQuest}
+          currentStage={journey.currentStage}
           onGoToQuests={onGoToQuests}
         />
 

@@ -3,7 +3,12 @@ import "./QuestProgressCard.css";
 function QuestProgressCard({ progress }) {
   return (
     <article className="dashboard-card wide-card quest-progress-card">
-      <p className="card-eyebrow">Quest Progress</p>
+      <p className="card-eyebrow">
+        <span>Aufgaben</span>
+        <span className="card-eyebrow-translation">
+          Quest Progress
+        </span>
+      </p>
 
       <div className="quest-stage-progress-list">
         {progress.progressByStage.map((stage) => (
