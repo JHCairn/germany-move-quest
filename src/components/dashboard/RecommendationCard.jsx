@@ -1,6 +1,10 @@
 import "./RecommendationCard.css";
 
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  Clock3,
+} from "lucide-react";
 
 function RecommendationCard({
   quest,
@@ -17,16 +21,15 @@ function RecommendationCard({
           </span>
         </p>
 
-        <h2>You're all caught up.</h2>
+        <div className="recommendation-empty">
+          <h2>You're all caught up.</h2>
 
-        <p>
-          You've completed everything we currently recommend.
-        </p>
-
-        <p className="recommendation-description">
-          You can still explore your Aufgaben or update your
-          information at any time.
-        </p>
+          <p>
+            You've completed everything we currently recommend.
+            You can still explore your Aufgaben or update your
+            information at any time.
+          </p>
+        </div>
 
         <button
           type="button"
@@ -55,43 +58,62 @@ function RecommendationCard({
         </span>
       </p>
 
-      {currentStage && (
-        <div className="recommendation-stage">
-          <p className="recommendation-stage-label">
+      <div className="recommendation-layout">
+        <aside className="recommendation-context">
+          <p className="recommendation-panel-label">
             Your current stage
           </p>
 
-          <p className="recommendation-stage-name">
-            <strong>{currentStage.germanLabel}</strong>
-            <span>· {currentStage.englishLabel}</span>
+          {currentStage && (
+            <>
+              <p className="recommendation-stage-name">
+                <strong>{currentStage.germanLabel}</strong>
+                <span>{currentStage.englishLabel}</span>
+              </p>
+
+              <p className="recommendation-context-copy">
+                This task is a good next step for your current
+                stage.
+              </p>
+            </>
+          )}
+        </aside>
+
+        <div className="recommendation-content">
+          <h2>{quest.actionLabel}</h2>
+
+          <p className="recommendation-quest-name">
+            <strong>{quest.title}</strong>
+            {quest.subtitle && <span>· {quest.subtitle}</span>}
           </p>
 
-          <p className="recommendation-stage-context">
-            This task is a good next step for your current stage.
+          <p className="recommendation-description">
+            {quest.description}
           </p>
+
+          <div className="recommendation-meta">
+            <div className="recommendation-meta-item">
+              <Clock3 size={17} aria-hidden="true" />
+
+              <span>
+                <strong>Usually takes</strong>
+                {quest.estimatedTime}
+              </span>
+            </div>
+
+            {quest.dueLabel && (
+              <div className="recommendation-meta-item">
+                <CalendarDays size={17} aria-hidden="true" />
+
+                <span>
+                  <strong>Timing</strong>
+                  {quest.dueLabel}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
-      )}
-
-      <h2>{quest.actionLabel}</h2>
-
-      <p className="recommendation-quest-summary">
-        <strong>{quest.title}</strong>
-        {quest.subtitle && <span> · {quest.subtitle}</span>}
-      </p>
-
-      <p className="recommendation-description">
-        {quest.description}
-      </p>
-
-      <p className="recommendation-estimate">
-        <strong>Usually takes:</strong> {quest.estimatedTime}
-      </p>
-
-      {quest.dueLabel && (
-        <small className="recommendation-due-label">
-          {quest.dueLabel}
-        </small>
-      )}
+      </div>
 
       <button
         type="button"
