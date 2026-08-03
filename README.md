@@ -2,19 +2,21 @@
 
 ## Welcome to Germany Move Quest
 
-Germany Move Quest is a Progressive Web App designed to help people plan, manage, and complete the many actions involved in relocating to Germany, and to settle in to day to day living post relocation. 
+Germany Move Quest is a Progressive Web App that serves as a companion for relocating to Germany, settling in, and living well.
 
-The application was inspired by my own relocation and is being developed primarily for my personal use. It also serves as a practical learning project to explore AI-assisted software development, modern frontend technologies, and product design.
+Rather than focusing solely on the logistics of moving, the application provides personalised guidance, meaningful progress tracking, and contextual recommendations to help users successfully transition to everyday life in Germany.
+
+The project was inspired by my own relocation to Germany and is being developed primarily for my personal use. It also serves as a practical learning project exploring AI-assisted software development, modern frontend technologies, and product design.
 
 ---
 
 ## Project Background
 
-Relocating to Germany involves many interconnected activities before, during, and after the move—from immigration and registration to home setup, shopping, utilities, and learning the language.
+Relocating to Germany involves many interconnected activities before, during, and long after the move—from immigration and registration to home setup, shopping, utilities, learning the language, and becoming part of a local community.
 
-Rather than relying on multiple spreadsheets and checklists, the goal of this project is to create a single application that guides users through the journey one step at a time using task management, progress tracking, and light gamification. 
+Rather than relying on multiple spreadsheets, checklists, and bookmarked websites, the goal of this project is to create a single application that guides users through the journey one meaningful step at a time using personalised recommendations, progress tracking, and light gamification.
 
-It applies to all stages of the relocation including ongoing daily living actions once established.
+The application is designed to remain useful throughout the entire transition to life in Germany, continuing to support users as they establish a home and build confidence in everyday life.
 
 ---
 
@@ -24,13 +26,13 @@ This application has evolved through several iterations using different AI-assis
 
 ### Prototype 1 – Lovable
 
-The first prototype was created using ChatGPT to develop the product vision and Lovable to generate, build, deploy, and host the application.
+The first prototype was created using ChatGPT to develop the initial product vision and Lovable to generate, build, deploy, and host the application.
 
 ### Prototype 2 – Netlify + Claude
 
 The second prototype used the same product vision but was developed using Netlify and its integrated AI developer, Claude.
 
-Both prototypes explored different AI-assisted workflows. Each demonstrated strengths and weaknesses, but neither represented an architecture I wanted to continue developing as the long-term product.
+Both prototypes explored different AI-assisted workflows. Each demonstrated strengths and weaknesses, but neither represented the architecture or long-term direction I wanted for the product.
 
 ### Current Version – React + ChatGPT
 
@@ -38,7 +40,9 @@ The current implementation is a complete rebuild using React and Vite.
 
 This version is being developed collaboratively with ChatGPT acting as both a development partner and tutor. The project is managed in GitHub and automatically built and deployed through Netlify.
 
-The focus of this version is not only to build a useful relocation application, but also to gain hands-on experience with modern frontend development practices including:
+An unusual aspect of the project is that it is being developed alongside my own real relocation to Germany. Product decisions are increasingly informed by genuine experience rather than assumptions, with observations captured as *Field Notes* before being evaluated as potential enhancements.
+
+The focus of this version is not only to build a useful relocation companion, but also to gain hands-on experience with modern frontend development practices, including:
 
 * React component architecture
 * Progressive Web Apps (PWA)
@@ -73,14 +77,16 @@ https://germany-move-quest.netlify.app/
 Additional project documentation is available in the `docs` folder.
 
 * Vision
-* Product Backlog
-* UX Principles
-* Architecture (in progress)
+* Product Principles
+* Solution Design
+* UX & UI Design Guidelines
+* Roadmap
+* Backlog
 
 ---
 
 ## Status
 
-🚧 Active development
+🚧 **Active Development**
 
-This project is under active development and will continue to evolve as new functionality is implemented.
+Germany Move Quest continues to evolve through real-world experience, iterative product design, and AI-assisted software development. As new insights emerge, the product, documentation, and architecture evolve together while remaining guided by a clear vision and consistent product principles.

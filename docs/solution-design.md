@@ -1,399 +1,226 @@
-This is a living and evolving document
+# Germany Move Quest – Solution Design
 
+## Purpose
 
-# Solution Design Document Purposes
+This document describes the overall design of Germany Move Quest.
 
-1. It will help future-me remember why decisions were made.
-2. It will become an excellent talking point in interviews, showing not just what I've built with AI assisted develoment, but the reasoning behind my technical and product choices.
+Rather than focusing on implementation details, it explains how the solution is structured, how its major concepts relate to one another, and why the application has been designed this way.
 
+The Product Principles describe how product decisions are made. This document explains how those principles are realised within the solution.
+
+---
 
 # Design Philosophy
 
-Germany Move and Live Quest is designed as a personalized relocation and living companion rather than a static checklist. By adapting to each user's profile, circumstances, journey stage, and progress, the application presents only relevant guidance and recommends the most appropriate next actions at the right time. Its primary focus is to help people relocate to Germany with confidence, while continuing to provide value as they establish and enjoy their new lives in Germany.
+Germany Move Quest is designed around one central idea:
 
-The application should minimize visual noise by presenting only information that is currently relevant to the user. Additional information remains accessible without cluttering the primary experience.
+> Model the user's real-world journey rather than the user interface.
 
-# Building Blocks
+The application stores facts about the user's situation and derives recommendations, progress, and guidance from those facts.
 
-- User Profile
-- User Journey including Onboarding flow
-- Applicability rules
-- Journey engine 
-- Stages
-- Quests
-- Actions
-- Dependencies and timing
-- Recommendation engine 
-- Progress model
-- Future AI capabilities
+This approach reduces duplication, keeps information consistent, and also allows the user journey to continue evolving, adding value over time.
 
+---
 
-## Applicability rules
+# Solution Overview
 
-Actions and quests are not universally relevant. The Journey Engine evaluates each action against the user's current profile and only surfaces content that is applicable to their circumstances. Changes to the user's profile (for example, becoming a dog owner or changing employment status) trigger a re-evaluation of applicable content.
+Germany Move Quest consists of four logical layers.
 
-## Journey engine
-
-This answers: "What content is relevant to this user?"
-
-It looks at things like:
-
-- User Profile
-- Applicability Rules
-- Stage
-
-and decides which quests and actions should exist.
-
-
-## Recommendation engine
-
-This answers: Of everything that exists, what should I show the user today?
-
-It considers:
-
-- Dependencies
-- Timing
-- Priority
-- Progress
-- Estimated effort
-- Due dates
-
-and produces something like:
-
-Recommended Today:
-
-✓ Book Anmeldung appointment
-
-✓ Compare internet providers
-
-✓ Buy a vacuum cleaner
-
-
-
-
-# Technical Overview
-This is not a developer-heavy architecture document, but one that will explain things like:
-
-1. Why React?
-2. Why Vite?
-3. Why a Progressive Web App instead of native?
-4. Why local storage for the MVP?
-5. Why GitHub + Netlify?
-6. How the application is organized into components.
-
-
-
-
-
-# Data Strategy
-
-## MVP
-
-The MVP uses browser Local Storage to persist all user data.
-
-Reasons:
-
-- Simple architecture
-- No backend required
-- No user accounts
-- Works offline
-- Fast development
-- No hosting costs
-
-The MVP intentionally avoids user authentication to reduce complexity and enable offline-first operation. Local storage provides sufficient persistence for a single-user personal application while leaving the door open for future cloud synchronization.
-
-
-## Data Model Concepts
-
-### User Profile
-
-The User Profile enables the Journey Engine to personalize guidance, determine applicability, and make recommendations.
-
-#### Personal Profile
-
-- Household Composition
-- Citizenship
-- Languages
-- Pets
-
-#### Planning Profile
-
-- Country of Origin
-- Destination
-- Move Date
-- Housing
-- Employment
-- Household Setup
-- Vehicle Ownership
-- Transport Preferences
-- Interests
-
-### Quest
-
-A Quest is a long-lived area of responsibility.
-
-Examples:
-- Administration
-- Home
-- Finance
-- Health
-- Pets
-- Transition
-- Exploration
-
-### Action
-
-An Action is a finite thing the user may need to complete.
-
-Actions may be app-provided or user-created.
-
-Examples:
-- Anmeldung
-- German Bank Account
-- Cancel Irish Broadband
-- Update US Voting Address
-
-### Home Item
-
-A Home Item is not necessarily an action. It represents something the user may want for their home.
-
-Examples:
-- Bed
-- Sofa
-- Dining Chairs
-- Floor Lamp
-
-Home Items use a simple MVP lifecycle:
-
-- Available
-- Active
-- Complete
-
-The verb is intentionally omitted. The implied goal is to acquire or arrange the item in whatever way makes sense.
-
-Example:
-- A user may buy a bed, bring one, receive one from a friend, or decide it is no longer needed.
-
-### Future Quantity Support
-
-For MVP, Home Items default to quantity 1.
-
-Future versions may support:
-- desiredQuantity
-- completedQuantity
-- progress display such as `2 / 4`
-
-This would support items such as dining chairs, lamps, towels, or place settings.
-
-
-# Future
-
-If cloud synchronization becomes desirable, the application can evolve to:
-
-- Authentication
-- Cloud database
-- Multi-device synchronization
-
-
-# Core Domain Model
-
-User Profile
-        │
-        ▼
-Applicability Rules
-        │
-        ▼
-Journey Engine
-        │
-        ▼
-Journey Stage
-        │
-        ▼
-Quests
-      ├─────────────┐
-      ▼             ▼
-  Actions      Home Items
-      │             │
-      └──────┬──────┘
-             ▼
-        User State
-             │
-             ▼
-Recommendation Engine
-
-
-## Each box has a single responsibility.
-
-1. User Profile = Who are you?
-2. Journey Engine = What applies to you?
-3. Quests = Areas of responsibility.
-4. Actions / Home Items = Things to accomplish.
-5. User State = What have you already done?
-6. Recommendation Engine = What should you focus on next?
-
-
-
-
-# 3 core domain objects of the app
-## Quest Catalog
-
-This answers:What can exist?
-
-It is the master library of all possible relocation quests.
-
-questCatalog.js
-
-## User
-
-This answers: Who is this person?
-
-Initially:
-
-current stage
-life situation
-interests
-completed quests
-
-Eventually:
-
-preferences
-language
-notifications
-onboarding choices
-etc.
-users/
-  user001.js
-
-## Quest Engine
-
-This answers: Given this user, what should they see?
-
-It derives:
-
-applicable quests
-active quests
-recommended quests
-progress
-milestones
-dashboard cards
-
-
-
-## Journey is the engine's output
-
-Right now we have:
-
-const journey = buildJourneyModel(...);
-
-I actually love that.
-
-The app is still about a Journey.
-
-The catalog, user and engine are just how we calculate it.
-
-
-
-## Architectural rule
-
-1. The application stores facts, not conclusions.
-
-### Facts:
-
-- The quest belongs to the "Preparing" stage.
-- Julie has a cat.
-- Julie has completed "Bankkonto."
-- A toaster is in the Kitchen category.
-- Julie selected "Toaster."
-
-### Conclusions:
-
-- This quest is active.
-- This quest is recommended.
-- This item is outstanding.
-- Julie has acquired 42% of her selected home inventory.
-
-Those are never stored.
-
-They're always derived.
-
-
-
-# Architectural decisions made
-
-
-## ✅ Actionability
-
-A quest can be:
-
-Applicable
-Actionable
-Completed
-
-These are distinct concepts.
-
-Milestones primarily drive actionability, not applicability.
-
-## ✅ Reality beats UI
-
-When a real-world milestone has an Actual Date, the Quest Engine may derive that the corresponding quest is already completed.
-
-We start with:
-
-Anmeldung milestone
+```
+Catalogs
         ↓
-Anmeldung quest
-
-using:
-
-isQuestCompletedByMilestone()
-
-## ✅ Actual dates
-
-Product rule:
-
-Planned dates may be any date.
-Actual dates may not be in the future.
-
-Implementation:
-
-DateFactEditor remains generic.
-MilestoneRow supplies max={today} only for Actual fields.
-
-## ✅ Dashboard
-
-The dashboard now has a genuine call to action:
-
-Go to Quests
-
-No fake "Open Quest" until deep-linking actually exists.
-
-## ✅ Home Needs
-
-This was the biggest discovery today.
-
-Not for implementation yet.
-
-But we now have a clear vision.
-
-HomeInventoryCatalog
+User Facts
         ↓
-About You
-"What do you still need?"
-
+Business Logic
         ↓
-neededHomeItemIds
+User Interface
+```
 
+Each layer has a single responsibility.
+
+---
+
+## Catalogs
+
+Catalogs define the knowledge of the application.
+
+They describe information that is common to every user, including:
+
+* journey stages
+* quests
+* home items
+* user profile questions
+* recommendation rules (inputs to business logic engines)
+
+Catalogs are part of the application itself and are not modified by individual users.
+
+---
+
+## User Facts
+
+User facts describe an individual user's current situation.
+
+Examples include:
+
+* profile information (e.g., renting or buying accommodation, having children, having pets)
+* completed milestones (e.g., address registration, move date)
+* selected home needs by room (furniture, appliances, etc)
+* acquired home items
+* completed quest actions
+
+Only information that represents genuine facts should be stored.
+
+Whenever possible, conclusions should be derived rather than recorded.
+
+---
+
+## Business Logic
+
+The business logic interprets user facts together with the application catalogs.
+
+Its responsibilities include:
+
+* determining which quests are applicable
+* recommending next actions
+* calculating progress (e.g. completion levels)
+* identifying completed stages
+* presenting relevant guidance
+
+Business logic represents the "thinking" of the application.
+
+---
+
+## User Interface
+
+The user interface presents the information produced by the business logic.
+
+Pages should remain focused on presentation rather than decision-making.
+
+The user interface should not make decisions or compute business rules. It should only display results that have already been calculated elsewhere.
+
+---
+
+# Core Concepts
+
+## Journey
+
+The journey represents the user's transition to life in Germany.
+
+It is organised into logical stages that reflect how relocation naturally progresses rather than enforcing a fixed sequence of tasks.
+
+---
+
+## Stages
+
+Stages provide orientation within the overall journey.
+
+They help users understand where they are and what generally comes next.
+
+Stages represent phases of the journey rather than strict project milestones.
+
+---
+
+## Quests
+
+Quests represent meaningful goals.
+
+Each quest contains one or more tasks that contribute towards completing that goal.
+
+Quests become relevant according to the user's circumstances rather than appearing in a fixed order, and can be completed or revisited in any sequence that reflects real-world behaviour.
+
+---
+
+## Facts
+
+Facts represent information that is known to be true.
+
+They form the foundation of the application's decision-making.
+
+The application intentionally stores as few facts as possible, deriving everything else whenever practical.
+
+---
+
+## Home Needs
+
+Home Needs represent items a user might still requires in order to establish their home. It is a broad list that serves to help a user consider items they may have otherwise overlooked.
+
+The solution records what is still needed and what has already been acquired, allowing recommendations and progress to adapt naturally as circumstances change, and supports the user in changing their mind over time.
+
+---
+
+# Information Flow
+
+Most information follows the same lifecycle.
+
+```
+User interaction
         ↓
-Home Needs page
+User facts updated
+        ↓
+Business logic evaluates changes
+        ↓
+Recommendations and progress are recalculated
+        ↓
+User interface updates automatically
+```
 
-The important product decision:
+Because the application derives rather than stores conclusions, changing a single fact can naturally influence multiple areas of the application.
 
-We ask:
+---
 
-"Do you still need this for your new home?"
+# Design Decisions
 
-We do not ask:
+Several design decisions have shaped the evolution of Germany Move Quest.
 
-"Do you own this?"
+## Facts Before Conclusions
 
-That completely changes the nature of the feature.
+Store facts.
+
+Derive recommendations, progress, and applicability.
+
+---
+
+## One Source of Truth
+
+Every concept should have a single authoritative source.
+
+Avoid duplicated information whenever possible.
+
+---
+
+## Reality Before Presentation
+
+The application models the user's real-world situation.
+
+The interface presents that model rather than defining it.
+
+---
+
+## Generic Before Specific
+
+Reusable structures should be preferred over one-off implementations.
+
+Catalog-driven design reduces duplication and simplifies future expansion.
+
+---
+
+# Evolving the Solution
+
+Germany Move Quest is intended to grow over time.
+
+New features should build upon the existing concepts rather than introducing parallel structures.
+
+Whenever possible, new capabilities should be achieved by extending catalogs, user facts, or business logic instead of creating additional special cases.
+
+The overall design should remain simple, adaptable, and easy to understand.
+
+---
+
+# Relationship to Other Documentation
+
+This document explains how the solution is designed.
+
+* **Vision** describes what Germany Move Quest aims to achieve.
+* **Product Principles** describe how product decisions are made.
+* **Roadmap** describes planned future evolution.
+* **Backlog** records work that has not yet been completed.

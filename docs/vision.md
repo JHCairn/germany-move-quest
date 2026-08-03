@@ -1,238 +1,106 @@
-# Germany Move Quest - Vision Document
+# Germany Move Quest – Vision
 
-## Product Vision
+## Vision
 
-Germany Move Quest begins once the user has decided to relocate to Germany. It guides them from preparation through arrival, settling in, and ultimately living comfortably in Germany. The app is not intended to help users decide whether to move; it is designed to help them successfully complete the move.
+Germany Move Quest is a companion for relocating to Germany, settling in, and living well.
 
-Germany Move Quest is a Progressive Web App that guides people through the complete journey of moving to and living in Germany. It begins with relocation planning and evolves into a long-term companion for everyday life, helping users manage practical tasks, discover their local community, and continue building their life in Germany.
+Rather than focusing solely on the logistics of moving, Germany Move Quest supports the entire transition to life in Germany. It provides personalized guidance, practical recommendations, and meaningful progress as users establish a new home, build everyday routines, and become part of their local community.
 
-The application combines practical relocation action management with exploration, discovery, and gamification to make the relocation journey less overwhelming and more enjoyable.
-
-Germany Move Quest personalizes each user's relocation journey. Rather than presenting a fixed checklist, the application adapts recommendations based on the user's profile, relocation stage, completed activities, and changing circumstances.
-
-The app guides users through both essential administrative tasks and day-to-day living activities while providing a sense of progress, achievement, and accomplishment.
-
+The product aims to reduce uncertainty, build confidence, and help users feel at home in Germany.
 
 ---
 
-# Target Users
+# The Problem
 
-## Primary User
+Moving to another country is much more than completing paperwork.
 
-Individuals relocating to Germany who need help organizing relocation activities and establishing and living their new life.
+People must navigate unfamiliar administrative processes, establish a home, learn new terminology, understand local customs, and gradually build a new everyday life.
 
-## Initial User
+Information is often fragmented across government websites, forums, relocation guides, social media, and personal recommendations. Knowing what to do, when to do it, and whether it even applies to an individual's circumstances can be difficult.
 
-The first user and design persona is an English-speaking expatriate relocating to Germany.
-
----
-
-# Core Principles
-
-## User Experience Philosophy
-
-The MVP follows a mobile-first, calm, guided experience inspired by modern consumer applications. The application should prioritize the user's next recommended action over presenting large lists of information, using progressive disclosure, visual progress indicators, and German-first terminology to reduce the cognitive load of relocation.
-
-
-## Practical
-
-Help users complete real-world relocation and living activities.
-
-## Personalized
-
-Adapt tasks and recommendations based on the user's circumstances.
-
-## Motivating
-
-Provide visible progress and rewards to encourage continued momentum.
-
-## Welcoming
-
-Help users feel connected to their new community through exploration and discovery.
+Traditional checklists help people complete tasks but rarely help them understand the overall journey.
 
 ---
 
-# Core Features
+# Our Vision
 
-## Guided Onboarding
+Germany Move Quest helps users navigate every stage of their transition to life in Germany.
 
-The application asks onboarding questions to understand the user's situation.
+The application adapts to each user's circumstances, presenting guidance that is relevant to their current situation while avoiding unnecessary complexity.
 
-Examples include:
+Rather than presenting a long list of disconnected tasks, Germany Move Quest helps users understand:
 
-* Buying or renting accommodation
-* Pet ownership
-* Children in household
-* Transportation preferences
-* Move timeline
+* where they are in their journey
+* what deserves their attention now
+* what can wait until later
+* how individual activities contribute to their overall progress
 
-The onboarding process uses these answers to suggest relevant tasks and hide irrelevant ones.
-
----
-
-## Task Management
-
-Users can:
-
-* Create tasks
-* Edit tasks
-* Complete tasks
-* Set due dates
-* Organize tasks by category
-* Add custom tasks
-* Add tasks using voice input
-
-Tasks may be created manually or through voice input.
+The experience should feel supportive rather than overwhelming.
 
 ---
 
-## Categories
+# Guiding Ideas
 
-Initial categories include:
+Germany Move Quest is built around several fundamental ideas.
 
-* Administration
-* Housing
-* Health
-* Daily Life
-* Home Setup
-* Exploration
-* Language
-* Social
+## A Journey, Not a Checklist
 
-Additional categories may be added in the future.
+Relocating to Germany is a progression of stages rather than a collection of unrelated tasks.
+
+The application should help users understand where they are, where they are heading, and what comes next.
 
 ---
 
-## Progress Tracking
+## Personalized Guidance
 
-Users can track:
+Every relocation is different.
 
-* Overall completion progress
-* Category completion progress
-* Quest completion status
+Recommendations should be based on the user's circumstances rather than a fixed sequence of steps.
 
-Progress is displayed visually through progress bars and completion indicators.
+The application should adapt as the user's situation changes.
 
 ---
 
-## Gamification
+## Practical Learning
 
-Users earn:
+Germany Move Quest is not a language-learning application.
 
-* Points
-* Quest completions
-* Achievement badges
+Instead, it encourages familiarity with everyday German by introducing authentic terminology in context while providing English explanations where reassurance is helpful.
 
-Gamification should encourage progress without becoming distracting.
+Learning should occur naturally through use of the application.
 
 ---
 
-## Local Discovery
+## Living Well
 
-The application helps users discover and record useful locations such as:
+The product continues to provide value after the move itself.
 
-* Grocery stores
-* Pharmacies
-* Hair salons
-* Veterinarians
-* Farmers markets
-* Restaurants
-* Other personal points of interest
-
-Users may save locations, addresses, notes, and optional reminder dates.
-
-Future versions may integrate with mapping services.
+Establishing a home, discovering local places, participating in community life, and building confidence in everyday situations are all part of successfully transitioning to life in Germany.
 
 ---
 
-## Home Setup
+# Success
 
-Users may track the acquisition, installation, and setup of furniture, appliances, household goods, and other items required to establish a new home.
+Germany Move Quest succeeds when users feel more confident, less overwhelmed, and better prepared throughout their transition to life in Germany.
 
-Examples include:
-
-* Beds and mattresses
-* Sofas and tables
-* Appliances
-* Tools and equipment
-* Kitchen design and installation
-* Cabinets and storage solutions
-* Lighting fixtures and ceiling fans
-* Household essentials
-
-The application should help users monitor progress toward completing their home setup and transforming a new residence into a functional home.
-
-Home Setup activities should be treated as a first-class component of the relocation journey alongside administrative, housing, health, and daily-life activities.
+Success is not measured by the number of completed quests, but by the confidence users gain as they establish a home, navigate everyday life, and build a future in Germany.
 
 ---
 
-## Bilingual Support
+# Scope
 
-The application should support users learning German by incorporating German terminology alongside English translations where appropriate.
+Germany Move Quest is intended to support individuals and families relocating to Germany.
 
-Examples include:
+The application focuses on guidance, organization, and practical support throughout the relocation and settling-in journey.
 
-* Housing / Wohnen
-* Health / Gesundheit
-* Language / Sprache
-
-The bilingual experience should feel natural and supportive rather than educational or academic.
+It is not intended to replace official government information or provide legal, immigration, tax, or financial advice. Instead, it helps users understand what may apply to their circumstances and encourages them to seek authoritative information where appropriate.
 
 ---
 
-## User Accounts
+# Relationship to the Product Principles
 
-Users create an account using username/email and password authentication.
+This Vision describes what Germany Move Quest aims to achieve.
 
-The initial experience focuses on a single primary user.
+The accompanying **Product Principles** document explains how product decisions are made to support this vision.
 
-Future versions may allow:
-
-* Shared progress
-* Invited family members
-* Household collaboration
-* Multiple task assignees
-
----
-
-# Success Measures
-
-Users should:
-
-* Feel less overwhelmed during relocation
-* Complete important relocation tasks on time
-* Discover useful local services more quickly
-* Build familiarity with their new community
-* Successfully establish and furnish their new home
-* Maintain motivation through visible progress and achievements
-
----
-
-# Future Opportunities
-
-Potential future enhancements include:
-
-* AI-generated task recommendations
-* Location-aware suggestions
-* Map integration
-* Relocation templates for additional countries
-* Shared family relocation planning
-* Community recommendations
-* Calendar integration
-* Task dependencies and prerequisites (although I might want to include in MVP)
-
-These ideas are intentionally out of scope for the initial MVP.
-
-# Architectural Principles
-- Store facts. Derive everything else.
-- Catalogs define what the app knows.
-- User data stores only user-provided facts.
-- Engines derive applicability, recommendations, progress, etc.
-- Presentation simply renders view models.
-
-# Content Principles
-- Use English for guidance.
-- Use German for real-world terminology.
-- Whenever a German term is introduced, accompany it with its English equivalent.
-- Don't introduce German just for the sake of teaching German.
-
+The **Solution Design** document describes how those principles are implemented within the application.
