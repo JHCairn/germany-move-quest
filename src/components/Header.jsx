@@ -1,8 +1,9 @@
+import { RotateCcw, User } from "lucide-react";
+
 import heroImg from "../assets/symbol.svg";
 import PersonaSwitcher from "../components/developer/PersonaSwitcher";
 
 import "./Header.css";
-import { User } from "lucide-react";
 
 /**
  * ============================================================
@@ -12,11 +13,11 @@ import { User } from "lucide-react";
  *
  * Responsibility
  * --------------
- * Renders the application brand, current selected user, and the
- * developer persona switcher.
+ * Renders the application brand, current selected user, developer
+ * persona switcher, and a modest reset control for the selected persona.
  *
- * The selected user is app-level state, so the switcher belongs in
- * the shared header rather than on a single page.
+ * The selected user is app-level state, so these controls belong in the
+ * shared header rather than on a single page.
  */
 
 function Header({
@@ -24,6 +25,7 @@ function Header({
   selectedUser,
   selectedUserId,
   onSelectedUserChange,
+  onResetSelectedUser,
 }) {
   return (
     <header className="header">
@@ -43,17 +45,29 @@ function Header({
 
       <div className="header-user">
         <div className="header-user-name">
-          <User size={20} strokeWidth={2} />
+          <User size={20} strokeWidth={2} aria-hidden="true" />
           <span>{selectedUser.name}</span>
         </div>
 
-        <div className="header-user-switcher">
-          <PersonaSwitcher
-            users={users}
-            selectedUserId={selectedUserId}
-            selectedUser={selectedUser}
-            onChange={onSelectedUserChange}
-          />
+        <div className="header-user-tools">
+          <div className="header-user-switcher">
+            <PersonaSwitcher
+              users={users}
+              selectedUserId={selectedUserId}
+              selectedUser={selectedUser}
+              onChange={onSelectedUserChange}
+            />
+          </div>
+
+          <button
+            type="button"
+            className="header-reset-button"
+            onClick={onResetSelectedUser}
+            title={`Reset ${selectedUser.name} to source data`}
+          >
+            <RotateCcw size={15} strokeWidth={2} aria-hidden="true" />
+            <span>Reset</span>
+          </button>
         </div>
       </div>
     </header>

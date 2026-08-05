@@ -69,10 +69,18 @@
   line-height: 1;
 }
 
+.header-user-tools {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
 .header-user-switcher {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  font-size: 0.85rem;
 }
 
 /*
@@ -82,10 +90,6 @@
  * These styles intentionally keep the selector useful without
  * letting the test-persona description dominate the header.
  */
-.header-user-switcher {
-  font-size: 0.85rem;
-}
-
 .header-user-switcher label,
 .header-user-switcher span {
   font-size: 0.8rem;
@@ -96,6 +100,33 @@
   font-size: 0.9rem;
 }
 
+.header-reset-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  min-height: 30px;
+  padding: 0.3rem 0.55rem;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text-light);
+
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.header-reset-button:hover {
+  background: var(--background);
+  color: var(--text);
+}
+
+.header-reset-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
 
 @media (max-width: 768px) {
   .header {
@@ -132,6 +163,11 @@
     font-size: 0.85rem;
   }
 
+  .header-user-tools {
+    align-items: flex-end;
+    gap: 0.35rem;
+  }
+
   .header-user-switcher {
     font-size: 0.8rem;
   }
@@ -139,5 +175,14 @@
   .header-user-switcher select {
     font-size: 0.8rem;
     max-width: 120px;
+  }
+
+  .header-reset-button {
+    min-height: 28px;
+    padding: 0.25rem 0.45rem;
+  }
+
+  .header-reset-button span {
+    display: none;
   }
 }

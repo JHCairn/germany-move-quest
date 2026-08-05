@@ -16,7 +16,10 @@ import { questCatalog } from "../data/questCatalog";
 import { factCatalog } from "../data/factCatalog";
 import { milestoneCatalog } from "../data/milestoneCatalog";
 import { stages } from "../data/stages";
-import { users, defaultUser } from "../data/users";
+import {
+  users as sourceUsers,
+  defaultUser,
+} from "../data/users";
 import { pageIds } from "../data/navigation";
 
 import {
@@ -33,6 +36,13 @@ import {
 } from "../actions/userActions";
 
 import { buildJourneyModel } from "../services/questEngine";
+import {
+  loadSelectedUserId,
+  loadUsers,
+  resetUser,
+  saveSelectedUserId,
+  saveUser,
+} from "../services/userPersistence";
 
 /**
  * ============================================================
@@ -42,32 +52,42 @@ import { buildJourneyModel } from "../services/questEngine";
  *
  * Responsibility
  * --------------
- * Owns app-level navigation, editable user facts, and the
- * currently selected test persona.
+ * Owns app-level navigation, active user state, and the currently
+ * selected test persona.
+ *
+ * Source users are immutable seed data. Active users are restored from
+ * browser persistence when valid saved data exists.
  *
  * Important architecture rule:
  *
  *   Actions update facts.
+ *   Persistence saves facts.
  *   Engines derive meaning.
  *   Pages render stored facts or the derived Journey Model.
  *
- * Toast feedback is intentionally kept here because it is
- * temporary presentation state, not user data.
+ * Toast feedback is intentionally kept here because it is temporary
+ * presentation state, not user data.
  */
 
 function AppShell() {
   const [currentPageId, setCurrentPageId] = useState(pageIds.JOURNEY);
-  const [selectedUserId, setSelectedUserId] = useState(defaultUser.id);
+  const [selectedUserId, setSelectedUserId] = useState(() =>
+    loadSelectedUserId(sourceUsers, defaultUser.id)
+  );
   const [toastMessage, setToastMessage] = useState("");
 
   /**
-   * User facts are copied into React state so actions can update them
-   * without mutating the original sample persona catalog.
+   * Active users are editable working copies. Each one is independently
+   * restored from browser storage or cloned from its source persona.
    */
-  const [appUsers, setAppUsers] = useState(users);
+  const [activeUsers, setActiveUsers] = useState(() =>
+    loadUsers(sourceUsers)
+  );
 
   const selectedUser =
-    appUsers.find((user) => user.id === selectedUserId) ?? defaultUser;
+    activeUsers.find((user) => user.id === selectedUserId) ??
+    activeUsers.find((user) => user.id === defaultUser.id) ??
+    defaultUser;
 
   const journey = useMemo(
     () =>
@@ -87,12 +107,62 @@ function AppShell() {
     }, 2000);
   }
 
+  /**
+   * Central update and persistence boundary.
+   *
+   * Presentation components report intent. Actions return a new user.
+   * AppShell then updates React state and saves that active user.
+   */
   function updateSelectedUser(updateUser) {
-    setAppUsers((currentUsers) =>
+    setActiveUsers((currentUsers) =>
+      currentUsers.map((user) => {
+        if (user.id !== selectedUserId) {
+          return user;
+        }
+
+        const updatedUser = updateUser(user);
+
+        if (updatedUser !== user) {
+          saveUser(updatedUser);
+        }
+
+        return updatedUser;
+      })
+    );
+  }
+
+  function handleSelectedUserChange(userId) {
+    setSelectedUserId(userId);
+    saveSelectedUserId(userId);
+  }
+
+  function handleResetSelectedUser() {
+    const sourceUser = sourceUsers.find(
+      (user) => user.id === selectedUserId
+    );
+
+    if (!sourceUser) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Reset ${sourceUser.name} to the original source data?\n\n` +
+        "All saved changes for this test persona will be discarded."
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    const restoredUser = resetUser(sourceUser);
+
+    setActiveUsers((currentUsers) =>
       currentUsers.map((user) =>
-        user.id === selectedUserId ? updateUser(user) : user
+        user.id === selectedUserId ? restoredUser : user
       )
     );
+
+    showToast(`Reset ${sourceUser.name}`);
   }
 
   function handleCompleteQuest(questId) {
@@ -206,10 +276,11 @@ function AppShell() {
   return (
     <div className="app-shell">
       <Header
-        users={appUsers}
+        users={activeUsers}
         selectedUser={selectedUser}
         selectedUserId={selectedUserId}
-        onSelectedUserChange={setSelectedUserId}
+        onSelectedUserChange={handleSelectedUserChange}
+        onResetSelectedUser={handleResetSelectedUser}
       />
 
       <div className="app-layout">
