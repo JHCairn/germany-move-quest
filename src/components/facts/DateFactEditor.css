@@ -1,6 +1,13 @@
 .date-fact-editor-container {
   position: relative;
 
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.date-fact-editor-trigger {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,7 +17,6 @@
   max-width: 100%;
   min-height: 2.5rem;
   box-sizing: border-box;
-  overflow: hidden;
 
   padding: 0.55rem 2.75rem;
 
@@ -20,24 +26,21 @@
   background: var(--surface);
   color: var(--text);
 
+  font: inherit;
   cursor: pointer;
 }
 
-.date-fact-editor-container:hover:not(.is-disabled) {
+.date-fact-editor-trigger:hover:not(:disabled) {
   border-color: var(--primary);
 }
 
-.date-fact-editor-container:focus-within {
+.date-fact-editor-trigger:focus-visible {
   border-color: var(--primary);
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
-.date-fact-editor-container.is-empty {
-  color: var(--text-light);
-}
-
-.date-fact-editor-container.is-disabled {
+.date-fact-editor-trigger:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -51,38 +54,34 @@
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  pointer-events: none;
 }
 
 /*
- * The native input opens the platform date picker but does not
- * participate visually in the layout.
+ * The native input owns date entry and change events.
+ *
+ * It remains in the document so the browser can open its native
+ * picker, but it does not act as the visible or clickable control.
  */
 .date-fact-editor-input {
   position: absolute;
-  inset: 0;
 
-  width: 100%;
-  height: 100%;
-  min-width: 0;
-  max-width: 100%;
+  width: 1px;
+  height: 1px;
 
+  padding: 0;
   border: 0;
+  margin: -1px;
+
+  overflow: hidden;
   opacity: 0;
-
-  cursor: pointer;
-}
-
-.date-fact-editor-input:disabled {
-  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .date-fact-editor-clear {
   position: absolute;
-  z-index: 2;
   top: 50%;
   right: 0.35rem;
+
   transform: translateY(-50%);
 
   display: inline-flex;
@@ -118,7 +117,7 @@
 }
 
 @media (max-width: 768px) {
-  .date-fact-editor-container {
+  .date-fact-editor-trigger {
     min-height: 3rem;
     padding-top: 0.7rem;
     padding-bottom: 0.7rem;

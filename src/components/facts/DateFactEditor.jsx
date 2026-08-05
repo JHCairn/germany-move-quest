@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import "./DateFactEditor.css";
 
 /**
@@ -10,13 +12,11 @@ import "./DateFactEditor.css";
  * --------------
  * Generic editor for a single date value.
  *
- * Responsibilities:
- * - Opens the native platform date picker
- * - Displays a friendly formatted date
- * - Supports optional min/max constraints
- * - Allows the date to be cleared
+ * The visible control explicitly opens the native platform date
+ * picker. The native input remains responsible for date entry,
+ * validation, and change events.
  *
- * It has no knowledge of:
+ * This component has no knowledge of:
  *
  * - milestones
  * - About You
@@ -36,7 +36,6 @@ function formatDisplayDate(value) {
   }
 
   const [year, month, day] = parts.map(Number);
-
   const date = new Date(year, month - 1, day);
 
   if (Number.isNaN(date.getTime())) {
@@ -59,7 +58,32 @@ function DateFactEditor({
   ariaLabel = "Date",
   emptyLabel = "Select date",
 }) {
+  const inputRef = useRef(null);
   const currentValue = value ?? "";
+
+  function openDatePicker() {
+    if (disabled || !inputRef.current) {
+      return;
+    }
+
+    const input = inputRef.current;
+
+    input.focus();
+
+    if (typeof input.showPicker === "function") {
+      try {
+        input.showPicker();
+        return;
+      } catch (error) {
+        console.warn(
+          "The native date picker could not be opened directly.",
+          error
+        );
+      }
+    }
+
+    input.click();
+  }
 
   function handleChange(event) {
     const newValue = event.target.value;
@@ -80,10 +104,7 @@ function DateFactEditor({
     onChange(newValue);
   }
 
-  function handleClear(event) {
-    event.preventDefault();
-    event.stopPropagation();
-
+  function handleClear() {
     onChange("");
   }
 
@@ -93,23 +114,30 @@ function DateFactEditor({
         disabled ? "is-disabled" : ""
       }`}
     >
-      <span
-        className="date-fact-editor-display"
-        aria-hidden="true"
+      <button
+        type="button"
+        className="date-fact-editor-trigger"
+        disabled={disabled}
+        aria-label={ariaLabel}
+        onClick={openDatePicker}
       >
-        {currentValue
-          ? formatDisplayDate(currentValue)
-          : emptyLabel}
-      </span>
+        <span className="date-fact-editor-display">
+          {currentValue
+            ? formatDisplayDate(currentValue)
+            : emptyLabel}
+        </span>
+      </button>
 
       <input
+        ref={inputRef}
         className="date-fact-editor-input"
         type="date"
         value={currentValue}
         disabled={disabled}
         min={min}
         max={max}
-        aria-label={ariaLabel}
+        tabIndex={-1}
+        aria-hidden="true"
         onChange={handleChange}
       />
 
