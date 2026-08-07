@@ -6,10 +6,11 @@
  *
  * Responsibility
  * --------------
- * Centralises browser persistence for stored user facts and progress.
+ * Centralises browser persistence, backup, and restore for stored
+ * user facts and progress.
  *
- * Source users remain immutable seed data. Persisted browser data is
- * merged onto a cloned source user when the application starts.
+ * Source users remain immutable seed data. Persisted browser data and
+ * imported backup data are merged onto a cloned source user.
  *
  * Architectural rule:
  *
@@ -170,14 +171,59 @@ function isValidStoredUserData(data) {
   return true;
 }
 
-function isValidEnvelope(envelope, expectedUserId) {
-  return (
-    isPlainObject(envelope) &&
-    envelope.version === STORAGE_VERSION &&
-    envelope.userId === expectedUserId &&
-    typeof envelope.savedAt === "string" &&
-    isValidStoredUserData(envelope.data)
-  );
+/**
+ * Validate the shared persistence/backup envelope.
+ *
+ * This is deliberately the one envelope validator used by local-storage
+ * loading and backup restore so the two paths cannot drift into separate
+ * schemas.
+ */
+function validateEnvelope(envelope, expectedUserId) {
+  if (!isPlainObject(envelope)) {
+    return {
+      ok: false,
+      code: "invalid-envelope",
+      message: "The backup does not contain a valid Germany Move Quest record.",
+    };
+  }
+
+  if (envelope.version !== STORAGE_VERSION) {
+    return {
+      ok: false,
+      code: "unsupported-version",
+      message:
+        `This backup uses version ${String(envelope.version)}, ` +
+        `but this app supports version ${STORAGE_VERSION}.`,
+    };
+  }
+
+  if (envelope.userId !== expectedUserId) {
+    return {
+      ok: false,
+      code: "wrong-user",
+      message:
+        `This backup belongs to "${String(envelope.userId)}", ` +
+        `not "${expectedUserId}".`,
+    };
+  }
+
+  if (typeof envelope.savedAt !== "string") {
+    return {
+      ok: false,
+      code: "invalid-envelope",
+      message: "The backup is missing a valid savedAt value.",
+    };
+  }
+
+  if (!isValidStoredUserData(envelope.data)) {
+    return {
+      ok: false,
+      code: "invalid-data",
+      message: "The backup contains invalid stored user data.",
+    };
+  }
+
+  return { ok: true, envelope };
 }
 
 /**
@@ -191,6 +237,30 @@ function selectPersistedUserData(user) {
     currentStageId: user.currentStageId,
     facts: cloneValue(user.facts ?? {}),
     completedQuestIds: cloneValue(user.completedQuestIds ?? []),
+  };
+}
+
+function createEnvelope(user) {
+  return {
+    version: STORAGE_VERSION,
+    userId: user.id,
+    savedAt: new Date().toISOString(),
+    data: selectPersistedUserData(user),
+  };
+}
+
+function buildActiveUser(sourceUser, storedData) {
+  const mergedUser = mergeStoredData(
+    cloneSourceUser(sourceUser),
+    storedData
+  );
+
+  // Source identity and developer metadata remain authoritative.
+  return {
+    ...mergedUser,
+    id: sourceUser.id,
+    name: sourceUser.name,
+    testPersona: sourceUser.testPersona,
   };
 }
 
@@ -213,26 +283,17 @@ export function loadUser(sourceUser) {
     }
 
     const envelope = JSON.parse(savedValue);
+    const validation = validateEnvelope(envelope, sourceUser.id);
 
-    if (!isValidEnvelope(envelope, sourceUser.id)) {
+    if (!validation.ok) {
       console.warn(
-        `Ignoring incompatible saved data for user "${sourceUser.id}".`
+        `Ignoring incompatible saved data for user "${sourceUser.id}": ` +
+          validation.message
       );
       return fallbackUser;
     }
 
-    const mergedUser = mergeStoredData(
-      fallbackUser,
-      envelope.data
-    );
-
-    // Source identity and developer metadata remain authoritative.
-    return {
-      ...mergedUser,
-      id: sourceUser.id,
-      name: sourceUser.name,
-      testPersona: sourceUser.testPersona,
-    };
+    return buildActiveUser(sourceUser, validation.envelope.data);
   } catch (error) {
     console.warn(
       `Could not load saved data for user "${sourceUser.id}".`,
@@ -253,12 +314,7 @@ export function loadUsers(sourceUsers) {
  * Save one user's stored facts and progress.
  */
 export function saveUser(user) {
-  const envelope = {
-    version: STORAGE_VERSION,
-    userId: user.id,
-    savedAt: new Date().toISOString(),
-    data: selectPersistedUserData(user),
-  };
+  const envelope = createEnvelope(user);
 
   try {
     window.localStorage.setItem(
@@ -273,6 +329,115 @@ export function saveUser(user) {
     );
     return false;
   }
+}
+
+/**
+ * Create a human-readable JSON backup from the active user in React.
+ *
+ * This intentionally does not read localStorage. The active user may still
+ * be source-derived and not yet have a saved browser record, and it must
+ * nevertheless be exportable.
+ */
+export function createUserBackup(user) {
+  const envelope = createEnvelope(user);
+
+  return {
+    envelope,
+    json: JSON.stringify(envelope, null, 2),
+  };
+}
+
+/**
+ * Download a backup for the supplied active user.
+ */
+export function downloadUserBackup(user) {
+  try {
+    const { json } = createUserBackup(user);
+    const date = new Date().toISOString().slice(0, 10);
+    const safeUserId = user.id.replace(/[^a-zA-Z0-9-_]/g, "-");
+    const filename =
+      `germany-move-quest-${safeUserId}-backup-${date}.json`;
+
+    const blob = new Blob([json], {
+      type: "application/json;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+
+    return { ok: true, filename };
+  } catch (error) {
+    console.warn(
+      `Could not export data for user "${user.id}".`,
+      error
+    );
+
+    return {
+      ok: false,
+      code: "export-failed",
+      message: "The backup file could not be created.",
+    };
+  }
+}
+
+/**
+ * Parse and validate backup JSON without changing application or browser
+ * state. Callers can safely use this before asking the user to confirm.
+ */
+export function parseUserBackup(jsonText, expectedUserId) {
+  let envelope;
+
+  try {
+    envelope = JSON.parse(jsonText);
+  } catch {
+    return {
+      ok: false,
+      code: "malformed-json",
+      message: "The selected file is not valid JSON.",
+    };
+  }
+
+  return validateEnvelope(envelope, expectedUserId);
+}
+
+/**
+ * Apply a previously validated backup.
+ *
+ * The backup data is merged onto the current source shape, then saved
+ * immediately using the normal persistence path. React state is updated
+ * by AppShell with the returned user.
+ */
+export function restoreUserFromBackup(sourceUser, envelope) {
+  const validation = validateEnvelope(envelope, sourceUser.id);
+
+  if (!validation.ok) {
+    return validation;
+  }
+
+  const restoredUser = buildActiveUser(
+    sourceUser,
+    validation.envelope.data
+  );
+
+  if (!saveUser(restoredUser)) {
+    return {
+      ok: false,
+      code: "save-failed",
+      message:
+        "The backup was valid, but it could not be saved in this browser.",
+    };
+  }
+
+  return {
+    ok: true,
+    user: restoredUser,
+  };
 }
 
 /**

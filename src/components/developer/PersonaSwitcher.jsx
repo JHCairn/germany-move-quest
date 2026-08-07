@@ -1,46 +1,47 @@
 /**
  * ============================================================
  * Germany Move Quest
- * Test Persona Switcher
+ * User / Test Persona Switcher
  * ============================================================
  *
  * Responsibility
  * --------------
- * Renders the currently selected test persona and allows
- * developers to switch between representative users.
+ * Allows switching between the primary real user and representative
+ * test personas.
  *
  * This component intentionally contains no business logic.
- *
- * Consumes:
- *   - Test personas
- *
- * Produces:
- *   - Selected persona ID
  */
 
-function PersonaSwitcher({ users, selectedUserId, selectedUser, onChange }) {
+function PersonaSwitcher({
+  users,
+  selectedUserId,
+  selectedUser,
+  primaryUserId,
+  onChange,
+}) {
+  const isPrimaryUser = selectedUserId === primaryUserId;
+
   return (
     <section className="developer-tools">
       <div className="developer-tools-row">
-        
         <select
           id="persona-select"
           value={selectedUserId}
+          aria-label="Select user"
           onChange={(event) => onChange(event.target.value)}
         >
           {users.map((user) => (
             <option key={user.id} value={user.id}>
               {user.name}
+              {user.id === primaryUserId
+                ? " — Real user"
+                : " — Test"}
             </option>
           ))}
         </select>
       </div>
 
-      {selectedUser.testPersona && (
-        <p className="developer-persona-description">
-          {selectedUser.testPersona}
-        </p>
-      )}
+      
     </section>
   );
 }

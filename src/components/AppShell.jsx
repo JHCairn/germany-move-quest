@@ -37,9 +37,12 @@ import {
 
 import { buildJourneyModel } from "../services/questEngine";
 import {
+  downloadUserBackup,
   loadSelectedUserId,
   loadUsers,
+  parseUserBackup,
   resetUser,
+  restoreUserFromBackup,
   saveSelectedUserId,
   saveUser,
 } from "../services/userPersistence";
@@ -53,7 +56,7 @@ import {
  * Responsibility
  * --------------
  * Owns app-level navigation, active user state, and the currently
- * selected test persona.
+ * selected user/persona.
  *
  * Source users are immutable seed data. Active users are restored from
  * browser persistence when valid saved data exists.
@@ -104,7 +107,7 @@ function AppShell() {
 
     window.setTimeout(() => {
       setToastMessage("");
-    }, 2000);
+    }, 2500);
   }
 
   /**
@@ -145,9 +148,12 @@ function AppShell() {
       return;
     }
 
+    const isPrimaryUser = sourceUser.id === defaultUser.id;
     const confirmed = window.confirm(
       `Reset ${sourceUser.name} to the original source data?\n\n` +
-        "All saved changes for this test persona will be discarded."
+        (isPrimaryUser
+          ? "All saved changes for your real user will be discarded."
+          : "All saved changes for this test persona will be discarded.")
     );
 
     if (!confirmed) {
@@ -163,6 +169,63 @@ function AppShell() {
     );
 
     showToast(`Reset ${sourceUser.name}`);
+  }
+
+  function handleBackupSelectedUser() {
+    const result = downloadUserBackup(selectedUser);
+
+    if (result.ok) {
+      showToast(`Backup downloaded for ${selectedUser.name}`);
+      return;
+    }
+
+    window.alert(result.message);
+  }
+
+  function handleRestoreSelectedUser(jsonText) {
+    const sourceUser = sourceUsers.find(
+      (user) => user.id === selectedUserId
+    );
+
+    if (!sourceUser) {
+      window.alert("The selected user could not be found.");
+      return;
+    }
+
+    const parsed = parseUserBackup(jsonText, sourceUser.id);
+
+    if (!parsed.ok) {
+      window.alert(parsed.message);
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Restore ${sourceUser.name} from this backup?\n\n` +
+        "This will replace the currently saved facts and progress " +
+        "for this user."
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    const restored = restoreUserFromBackup(
+      sourceUser,
+      parsed.envelope
+    );
+
+    if (!restored.ok) {
+      window.alert(restored.message);
+      return;
+    }
+
+    setActiveUsers((currentUsers) =>
+      currentUsers.map((user) =>
+        user.id === selectedUserId ? restored.user : user
+      )
+    );
+
+    showToast(`Restored ${sourceUser.name} from backup`);
   }
 
   function handleCompleteQuest(questId) {
@@ -279,8 +342,11 @@ function AppShell() {
         users={activeUsers}
         selectedUser={selectedUser}
         selectedUserId={selectedUserId}
+        primaryUserId={defaultUser.id}
         onSelectedUserChange={handleSelectedUserChange}
         onResetSelectedUser={handleResetSelectedUser}
+        onBackupSelectedUser={handleBackupSelectedUser}
+        onRestoreSelectedUser={handleRestoreSelectedUser}
       />
 
       <div className="app-layout">

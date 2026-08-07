@@ -69,12 +69,23 @@
   line-height: 1;
 }
 
-.header-user-tools {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-  gap: 0.5rem;
+.header-user-kind {
+  padding: 0.2rem 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  color: var(--text-light);
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
 }
+
+.header-user-kind.is-primary {
+  color: var(--text);
+  background: var(--background);
+}
+
 
 .header-user-switcher {
   display: flex;
@@ -84,11 +95,11 @@
 }
 
 /*
- * PersonaSwitcher is currently developer tooling, but it lives in
+ * PersonaSwitcher is developer/reference tooling, but it lives in
  * the shared header because selected user is app-level state.
  *
  * These styles intentionally keep the selector useful without
- * letting the test-persona description dominate the header.
+ * letting the persona description dominate the header.
  */
 .header-user-switcher label,
 .header-user-switcher span {
@@ -100,13 +111,19 @@
   font-size: 0.9rem;
 }
 
-.header-reset-button {
+.header-data-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.header-tool-button {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
 
   min-height: 30px;
-  padding: 0.3rem 0.55rem;
+  padding: 0.3rem 0.5rem;
 
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -114,18 +131,22 @@
   color: var(--text-light);
 
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   cursor: pointer;
 }
 
-.header-reset-button:hover {
+.header-tool-button:hover {
   background: var(--background);
   color: var(--text);
 }
 
-.header-reset-button:focus-visible {
+.header-tool-button:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
+}
+
+.header-file-input {
+  display: none;
 }
 
 @media (max-width: 768px) {
@@ -163,10 +184,31 @@
     font-size: 0.85rem;
   }
 
-  .header-user-tools {
-    align-items: flex-end;
-    gap: 0.35rem;
+  .header-user-kind {
+    display: none;
   }
+
+.header-user-tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.header-user-switcher .developer-tools {
+  margin-top: 0;
+}
+
+.header-user-switcher .developer-tools-row {
+  align-items: center;
+}
+
+.header-user-switcher select {
+  display: block;
+}
+
+
+
 
   .header-user-switcher {
     font-size: 0.8rem;
@@ -174,15 +216,15 @@
 
   .header-user-switcher select {
     font-size: 0.8rem;
-    max-width: 120px;
+    max-width: 145px;
   }
 
-  .header-reset-button {
+  .header-tool-button {
     min-height: 28px;
-    padding: 0.25rem 0.45rem;
+    padding: 0.25rem 0.4rem;
   }
 
-  .header-reset-button span {
+  .header-tool-button span {
     display: none;
   }
 }
