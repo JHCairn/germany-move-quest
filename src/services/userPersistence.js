@@ -353,11 +353,26 @@ export function createUserBackup(user) {
 export function downloadUserBackup(user) {
   try {
     const { json } = createUserBackup(user);
-    const date = new Date().toISOString().slice(0, 10);
-    const safeUserId = user.id.replace(/[^a-zA-Z0-9-_]/g, "-");
-    const filename =
-      `germany-move-quest-${safeUserId}-backup-${date}.json`;
+    const now = new Date();
 
+const date = [
+  now.getFullYear(),
+  String(now.getMonth() + 1).padStart(2, "0"),
+  String(now.getDate()).padStart(2, "0"),
+].join("-");
+
+const time = [
+  String(now.getHours()).padStart(2, "0"),
+  String(now.getMinutes()).padStart(2, "0"),
+].join("");
+
+const timestamp = `${date}-${time}`;
+
+    const safeUserId = user.id.replace(/[^a-zA-Z0-9-_]/g, "-");
+    
+    const filename =
+  `germany-move-quest-${safeUserId}-backup-${timestamp}.json`;
+    
     const blob = new Blob([json], {
       type: "application/json;charset=utf-8",
     });
