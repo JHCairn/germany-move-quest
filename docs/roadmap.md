@@ -47,10 +47,10 @@ The immediate focus is making Germany Move Quest dependable for everyday persona
 
 Current priorities include:
 
-* Reliable local data persistence
-* Automatic restoration of application state
+* Reliable local data persistence >> COMPLETED
+* Automatic restoration of application state >> COMPLETED
 * Import and export of user data
-* Safe reset capabilities
+* Safe reset capabilities >> COMPLETED
 * Improved resilience and error handling
 * Continued UX and UI refinement
 
