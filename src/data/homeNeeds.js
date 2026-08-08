@@ -172,6 +172,11 @@ export const homeNeeds = [
         german: "Kochgeschirr",
       },
       {
+        id: "coffee-machine",
+        english: "Coffee machine",
+        german: "Kaffeemaschine",
+      },
+      {
         id: "kettle",
         english: "Kettle",
         german: "Wasserkocher",
