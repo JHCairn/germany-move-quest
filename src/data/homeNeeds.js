@@ -30,8 +30,8 @@
  * - replacement intent
  * - purchase status
  * - where the item will be acquired
- * 
- * 
+ *
+ *
  * Design principles
  * -----------------
  *
@@ -44,8 +44,14 @@
  * important categories needed to make a new home
  * livable. It is not intended to be a shopping
  * list or inventory.
+ *
+ * Home Needs are user-selected rather than derived
+ * from other profile facts.
+ *
+ * All catalog choices are available to all users.
+ * Selecting an item is itself the fact that the
+ * household needs that item or category.
  */
- 
 
 export const homeNeeds = [
   {
@@ -75,6 +81,7 @@ export const homeNeeds = [
       },
     ],
   },
+
   {
     id: "living-room",
     english: "Living room",
@@ -95,8 +102,55 @@ export const homeNeeds = [
         english: "TV stand",
         german: "TV-Möbel",
       },
+      {
+        id: "tv",
+        english: "TV",
+        german: "Fernseher",
+      },
+      {
+        id: "lighting",
+        english: "Lamps & lighting",
+        german: "Lampen & Beleuchtung",
+      },
     ],
   },
+
+  {
+    id: "dining",
+    english: "Dining",
+    german: "Essen",
+    items: [
+      {
+        id: "dining-table",
+        english: "Dining table",
+        german: "Esstisch",
+      },
+      {
+        id: "dining-chairs",
+        english: "Dining chairs",
+        german: "Esszimmerstühle",
+      },
+    ],
+  },
+
+  {
+    id: "workspace",
+    english: "Workspace",
+    german: "Arbeitsbereich",
+    items: [
+      {
+        id: "desk",
+        english: "Desk",
+        german: "Schreibtisch",
+      },
+      {
+        id: "desk-chair",
+        english: "Desk chair",
+        german: "Schreibtischstuhl",
+      },
+    ],
+  },
+
   {
     id: "kitchen",
     english: "Kitchen",
@@ -129,6 +183,7 @@ export const homeNeeds = [
       },
     ],
   },
+
   {
     id: "cleaning",
     english: "Cleaning",
@@ -151,6 +206,7 @@ export const homeNeeds = [
       },
     ],
   },
+
   {
     id: "bathroom",
     english: "Bathroom",
@@ -161,10 +217,92 @@ export const homeNeeds = [
         english: "Towels",
         german: "Handtücher",
       },
+    ],
+  },
+
+  {
+    id: "laundry",
+    english: "Laundry",
+    german: "Wäsche",
+    items: [
+      {
+        id: "washing-machine",
+        english: "Washing machine",
+        german: "Waschmaschine",
+      },
+      {
+        id: "dryer",
+        english: "Dryer",
+        german: "Trockner",
+      },
+      {
+        id: "drying-rack",
+        english: "Drying rack",
+        german: "Wäscheständer",
+      },
       {
         id: "laundry-basket",
         english: "Laundry basket",
         german: "Wäschekorb",
+      },
+    ],
+  },
+
+  {
+    id: "household",
+    english: "Household",
+    german: "Haushalt",
+    items: [
+      {
+        id: "waste-bins",
+        english: "Waste bins / sorting system",
+        german: "Mülleimer / Mülltrennsystem",
+      },
+      {
+        id: "basic-tools",
+        english: "Basic tools",
+        german: "Werkzeug-Grundausstattung",
+      },
+      {
+        id: "step-ladder",
+        english: "Step stool / ladder",
+        german: "Trittleiter",
+      },
+    ],
+  },
+
+  {
+    id: "pets",
+    english: "Pets",
+    german: "Haustiere",
+    items: [
+      {
+        id: "pet-supplies",
+        english: "Pet supplies",
+        german: "Haustierbedarf",
+      },
+    ],
+  },
+
+  {
+    id: "outdoor",
+    english: "Outdoor",
+    german: "Außenbereich",
+    items: [
+      {
+        id: "outdoor-table",
+        english: "Outdoor table",
+        german: "Gartentisch",
+      },
+      {
+        id: "outdoor-chairs",
+        english: "Outdoor chairs",
+        german: "Gartenstühle",
+      },
+      {
+        id: "outdoor-furnishings",
+        english: "Other outdoor furnishings",
+        german: "Weitere Außenmöbel",
       },
     ],
   },
