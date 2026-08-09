@@ -1,0 +1,36 @@
+.quest-section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+
+  margin-top: 0.4rem;
+
+  color: var(--text-light);
+  font-size: 0.88rem;
+}
+
+.quest-section-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.quest-section-nav a {
+  color: var(--text-light);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.quest-section-nav a:hover {
+  color: var(--text);
+}
+
+.quest-section-nav-current {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.quest-section-nav-separator {
+  color: var(--text-light);
+}

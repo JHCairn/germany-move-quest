@@ -22,6 +22,7 @@
 
 .quest-section {
   margin-top: 1.5rem;
+  scroll-margin-top: 1.5rem;
 }
 
 .quest-section-header {
@@ -44,7 +45,7 @@
   color: var(--text-light);
 }
 
-.quest-section-header span {
+.quest-section-header > span {
   flex-shrink: 0;
   color: var(--text-light);
   font-size: 0.9rem;

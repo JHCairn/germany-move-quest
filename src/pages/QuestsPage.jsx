@@ -4,6 +4,7 @@ import PageIntro from "../components/common/PageIntro";
 import { icons } from "../data/icons";
 
 import QuestCard from "../components/quests/QuestCard";
+import QuestSectionNav from "../components/quests/QuestSectionNav";
 
 /**
  * ============================================================
@@ -23,22 +24,37 @@ import QuestCard from "../components/quests/QuestCard";
  */
 
 function QuestSection({
+  id,
+  navSection,
   title,
   description,
   quests,
   onCompleteQuest,
   onReopenQuest,
+  showCurrent,
+  showUpcoming,
+  showCompleted,
+  showNavigation = false,
 }) {
   if (quests.length === 0) {
     return null;
   }
 
   return (
-    <section className="quest-section">
+    <section className="quest-section" id={id}>
       <div className="quest-section-header">
         <div>
           <h2>{title}</h2>
           <p>{description}</p>
+
+          {showNavigation && (
+            <QuestSectionNav
+              currentSection={navSection}
+              showCurrent={showCurrent}
+              showUpcoming={showUpcoming}
+              showCompleted={showCompleted}
+            />
+          )}
         </div>
 
         <span>{quests.length} quests</span>
@@ -63,6 +79,13 @@ function QuestsPage({
   onCompleteQuest,
   onReopenQuest,
 }) {
+  const showCurrent =
+    journey.currentStageQuests.length > 0 ||
+    journey.previousStageQuests.length > 0;
+
+  const showUpcoming = journey.upcomingQuests.length > 0;
+  const showCompleted = journey.completedQuests.length > 0;
+
   return (
     <section className="quests-page">
       <PageIntro
@@ -72,11 +95,17 @@ function QuestsPage({
       />
 
       <QuestSection
+        id="current-quests"
+        navSection="current"
         title="Current Stage"
         description="Erledigt? (Completed?) Tap Erledigen once you've completed this task."
         quests={journey.currentStageQuests}
         onCompleteQuest={onCompleteQuest}
         onReopenQuest={onReopenQuest}
+        showCurrent={showCurrent}
+        showUpcoming={showUpcoming}
+        showCompleted={showCompleted}
+        showNavigation
       />
 
       <QuestSection
@@ -85,22 +114,37 @@ function QuestsPage({
         quests={journey.previousStageQuests}
         onCompleteQuest={onCompleteQuest}
         onReopenQuest={onReopenQuest}
+        showCurrent={showCurrent}
+        showUpcoming={showUpcoming}
+        showCompleted={showCompleted}
       />
 
       <QuestSection
+        id="upcoming-quests"
+        navSection="upcoming"
         title="Upcoming"
         description="Erledigt? (Completed?) Tap Erledigen once you've completed this task."
         quests={journey.upcomingQuests}
         onCompleteQuest={onCompleteQuest}
         onReopenQuest={onReopenQuest}
+        showCurrent={showCurrent}
+        showUpcoming={showUpcoming}
+        showCompleted={showCompleted}
+        showNavigation
       />
 
       <QuestSection
+        id="completed-quests"
+        navSection="completed"
         title="Completed"
         description="Nicht mehr erledigt? (No longer completed?) Tap Wieder öffnen if it still needs your attention."
         quests={journey.completedQuests}
         onCompleteQuest={onCompleteQuest}
         onReopenQuest={onReopenQuest}
+        showCurrent={showCurrent}
+        showUpcoming={showUpcoming}
+        showCompleted={showCompleted}
+        showNavigation
       />
     </section>
   );
