@@ -57,8 +57,6 @@ import {
   resolveConflictUsingLocal,
 } from "../services/userDataService";
 
-import CloudConnection from "./CloudConnection";
-
 /**
  * ============================================================
  * Germany Move Quest
@@ -85,12 +83,23 @@ import CloudConnection from "./CloudConnection";
  */
 
 function AppShell() {
-  const [currentPageId, setCurrentPageId] = useState(pageIds.JOURNEY);
-  const [selectedUserId, setSelectedUserId] = useState(() =>
-    loadSelectedUserId(sourceUsers, defaultUser.id)
+  const [currentPageId, setCurrentPageId] = useState(
+    pageIds.JOURNEY
   );
-  const [toastMessage, setToastMessage] = useState("");
-  const [syncStatus, setSyncStatus] = useState("idle");
+
+  const [selectedUserId, setSelectedUserId] =
+    useState(() =>
+      loadSelectedUserId(
+        sourceUsers,
+        defaultUser.id
+      )
+    );
+
+  const [toastMessage, setToastMessage] =
+    useState("");
+
+  const [syncStatus, setSyncStatus] =
+    useState("idle");
 
   /**
    * React Strict Mode intentionally invokes effects more than once
@@ -98,15 +107,15 @@ function AppShell() {
    * conditional cloud write, so it must only run once per AppShell
    * mount.
    */
-  const hasStartedCloudReconciliation = useRef(false);
+  const hasStartedCloudReconciliation =
+    useRef(false);
 
   /**
    * Active users are editable working copies. Each one is independently
    * restored from browser storage or cloned from its source persona.
    */
-  const [activeUsers, setActiveUsers] = useState(() =>
-    loadUsers(sourceUsers)
-  );
+  const [activeUsers, setActiveUsers] =
+    useState(() => loadUsers(sourceUsers));
 
   /**
    * Check shared persistence for the primary user and update
@@ -160,11 +169,14 @@ function AppShell() {
 
           const localUser =
             activeUsers.find(
-              (user) => user.id === defaultUser.id
+              (user) =>
+                user.id === defaultUser.id
             ) ?? defaultUser;
 
           const saveResult =
-            await saveUserToSharedPersistence(localUser);
+            await saveUserToSharedPersistence(
+              localUser
+            );
 
           if (saveResult.ok) {
             setSyncStatus("synced");
@@ -172,14 +184,18 @@ function AppShell() {
           }
 
           if (
-            saveResult.code === "stale-cloud-data" ||
-            saveResult.code === "unknown-cloud-version"
+            saveResult.code ===
+              "stale-cloud-data" ||
+            saveResult.code ===
+              "unknown-cloud-version"
           ) {
             setSyncStatus("conflict");
             break;
           }
 
-          if (saveResult.code === "not-connected") {
+          if (
+            saveResult.code === "not-connected"
+          ) {
             setSyncStatus("idle");
             break;
           }
@@ -222,18 +238,26 @@ function AppShell() {
    * effect invocation from starting a second persistence operation.
    */
   useEffect(() => {
-    if (hasStartedCloudReconciliation.current) {
+    if (
+      hasStartedCloudReconciliation.current
+    ) {
       return;
     }
 
-    hasStartedCloudReconciliation.current = true;
+    hasStartedCloudReconciliation.current =
+      true;
 
     reconcilePrimaryUserWithSharedPersistence();
   }, []);
 
   const selectedUser =
-    activeUsers.find((user) => user.id === selectedUserId) ??
-    activeUsers.find((user) => user.id === defaultUser.id) ??
+    activeUsers.find(
+      (user) =>
+        user.id === selectedUserId
+    ) ??
+    activeUsers.find(
+      (user) => user.id === defaultUser.id
+    ) ??
     defaultUser;
 
   const journey = useMemo(
@@ -262,13 +286,17 @@ function AppShell() {
    */
   function updateSelectedUser(updateUser) {
     const currentUser =
-      activeUsers.find((user) => user.id === selectedUserId);
+      activeUsers.find(
+        (user) =>
+          user.id === selectedUserId
+      );
 
     if (!currentUser) {
       return;
     }
 
-    const updatedUser = updateUser(currentUser);
+    const updatedUser =
+      updateUser(currentUser);
 
     if (updatedUser === currentUser) {
       return;
@@ -278,11 +306,15 @@ function AppShell() {
 
     setActiveUsers((currentUsers) =>
       currentUsers.map((user) =>
-        user.id === selectedUserId ? updatedUser : user
+        user.id === selectedUserId
+          ? updatedUser
+          : user
       )
     );
 
-    if (updatedUser.id === defaultUser.id) {
+    if (
+      updatedUser.id === defaultUser.id
+    ) {
       setSyncStatus("syncing");
 
       saveUserToSharedPersistence(updatedUser)
@@ -292,12 +324,16 @@ function AppShell() {
             return;
           }
 
-          if (result.code === "not-connected") {
+          if (
+            result.code === "not-connected"
+          ) {
             setSyncStatus("idle");
             return;
           }
 
-          if (result.code === "stale-cloud-data") {
+          if (
+            result.code === "stale-cloud-data"
+          ) {
             setSyncStatus("conflict");
           } else {
             setSyncStatus("error");
@@ -325,31 +361,38 @@ function AppShell() {
   }
 
   function handleResetSelectedUser() {
-    const sourceUser = sourceUsers.find(
-      (user) => user.id === selectedUserId
-    );
+    const sourceUser =
+      sourceUsers.find(
+        (user) =>
+          user.id === selectedUserId
+      );
 
     if (!sourceUser) {
       return;
     }
 
-    const isPrimaryUser = sourceUser.id === defaultUser.id;
+    const isPrimaryUser =
+      sourceUser.id === defaultUser.id;
+
     const confirmed = window.confirm(
       `Reset ${sourceUser.name} to the original source data?\n\n` +
-      (isPrimaryUser
-        ? "All saved changes for your real user will be discarded."
-        : "All saved changes for this test persona will be discarded.")
+        (isPrimaryUser
+          ? "All saved changes for your real user will be discarded."
+          : "All saved changes for this test persona will be discarded.")
     );
 
     if (!confirmed) {
       return;
     }
 
-    const restoredUser = resetUser(sourceUser);
+    const restoredUser =
+      resetUser(sourceUser);
 
     setActiveUsers((currentUsers) =>
       currentUsers.map((user) =>
-        user.id === selectedUserId ? restoredUser : user
+        user.id === selectedUserId
+          ? restoredUser
+          : user
       )
     );
 
@@ -357,27 +400,39 @@ function AppShell() {
   }
 
   function handleBackupSelectedUser() {
-    const result = downloadUserBackup(selectedUser);
+    const result =
+      downloadUserBackup(selectedUser);
 
     if (result.ok) {
-      showToast(`Backup downloaded for ${selectedUser.name}`);
+      showToast(
+        `Backup downloaded for ${selectedUser.name}`
+      );
       return;
     }
 
     window.alert(result.message);
   }
 
-  function handleRestoreSelectedUser(jsonText) {
-    const sourceUser = sourceUsers.find(
-      (user) => user.id === selectedUserId
-    );
+  function handleRestoreSelectedUser(
+    jsonText
+  ) {
+    const sourceUser =
+      sourceUsers.find(
+        (user) =>
+          user.id === selectedUserId
+      );
 
     if (!sourceUser) {
-      window.alert("The selected user could not be found.");
+      window.alert(
+        "The selected user could not be found."
+      );
       return;
     }
 
-    const parsed = parseUserBackup(jsonText, sourceUser.id);
+    const parsed = parseUserBackup(
+      jsonText,
+      sourceUser.id
+    );
 
     if (!parsed.ok) {
       window.alert(parsed.message);
@@ -406,17 +461,23 @@ function AppShell() {
 
     setActiveUsers((currentUsers) =>
       currentUsers.map((user) =>
-        user.id === selectedUserId ? restored.user : user
+        user.id === selectedUserId
+          ? restored.user
+          : user
       )
     );
 
-    showToast(`Restored ${sourceUser.name} from backup`);
+    showToast(
+      `Restored ${sourceUser.name} from backup`
+    );
   }
 
   async function handleUseCloudVersion() {
-    const sourceUser = sourceUsers.find(
-      (user) => user.id === selectedUserId
-    );
+    const sourceUser =
+      sourceUsers.find(
+        (user) =>
+          user.id === selectedUserId
+      );
 
     if (!sourceUser) {
       return;
@@ -432,9 +493,10 @@ function AppShell() {
       return;
     }
 
-    const result = await resolveConflictUsingCloud(
-      sourceUser
-    );
+    const result =
+      await resolveConflictUsingCloud(
+        sourceUser
+      );
 
     if (!result.ok) {
       window.alert(result.message);
@@ -465,9 +527,10 @@ function AppShell() {
       return;
     }
 
-    const result = await resolveConflictUsingLocal(
-      selectedUser
-    );
+    const result =
+      await resolveConflictUsingLocal(
+        selectedUser
+      );
 
     if (!result.ok) {
       window.alert(result.message);
@@ -476,7 +539,9 @@ function AppShell() {
 
     setSyncStatus("synced");
 
-    showToast("Saved this device's version to OneDrive");
+    showToast(
+      "Saved this device's version to OneDrive"
+    );
   }
 
   async function handleCloudReconnect() {
@@ -484,17 +549,29 @@ function AppShell() {
   }
 
   function handleCompleteQuest(questId) {
-    updateSelectedUser((user) => completeQuest(user, questId));
+    updateSelectedUser((user) =>
+      completeQuest(user, questId)
+    );
+
     showToast("✓ Done");
   }
 
   function handleReopenQuest(questId) {
-    updateSelectedUser((user) => reopenQuest(user, questId));
+    updateSelectedUser((user) =>
+      reopenQuest(user, questId)
+    );
   }
 
-  function handleUpdateFact(factId, value) {
+  function handleUpdateFact(
+    factId,
+    value
+  ) {
     updateSelectedUser((user) =>
-      updateAboutFact(user, factId, value)
+      updateAboutFact(
+        user,
+        factId,
+        value
+      )
     );
   }
 
@@ -513,19 +590,30 @@ function AppShell() {
     );
   }
 
-  function handleUpdateHomeNeeds(field, value) {
+  function handleUpdateHomeNeeds(
+    field,
+    value
+  ) {
     updateSelectedUser((user) =>
-      updateHomeNeeds(user, field, value)
+      updateHomeNeeds(
+        user,
+        field,
+        value
+      )
     );
   }
 
-  function handleAcquireHomeItem(itemId) {
+  function handleAcquireHomeItem(
+    itemId
+  ) {
     updateSelectedUser((user) =>
       acquireHomeItem(user, itemId)
     );
   }
 
-  function handleMarkHomeItemNeeded(itemId) {
+  function handleMarkHomeItemNeeded(
+    itemId
+  ) {
     updateSelectedUser((user) =>
       markHomeItemNeeded(user, itemId)
     );
@@ -541,8 +629,12 @@ function AppShell() {
         return (
           <QuestsPage
             journey={journey}
-            onCompleteQuest={handleCompleteQuest}
-            onReopenQuest={handleReopenQuest}
+            onCompleteQuest={
+              handleCompleteQuest
+            }
+            onReopenQuest={
+              handleReopenQuest
+            }
           />
         );
 
@@ -557,7 +649,9 @@ function AppShell() {
               selectedUser.facts.homeNeeds
                 ?.acquiredHomeItemIds ?? []
             }
-            onAcquireHomeItem={handleAcquireHomeItem}
+            onAcquireHomeItem={
+              handleAcquireHomeItem
+            }
             onMarkHomeItemNeeded={
               handleMarkHomeItemNeeded
             }
@@ -568,14 +662,30 @@ function AppShell() {
         return (
           <AboutYouPage
             facts={factCatalog.about}
-            userFacts={selectedUser.facts.about}
-            onUpdateFact={handleUpdateFact}
-            milestoneSection={milestoneCatalog.section}
-            milestones={milestoneCatalog.milestones}
-            milestoneValues={selectedUser.facts.milestones}
-            onUpdateMilestone={handleUpdateMilestone}
-            homeNeeds={selectedUser.facts.homeNeeds}
-            onUpdateHomeNeeds={handleUpdateHomeNeeds}
+            userFacts={
+              selectedUser.facts.about
+            }
+            onUpdateFact={
+              handleUpdateFact
+            }
+            milestoneSection={
+              milestoneCatalog.section
+            }
+            milestones={
+              milestoneCatalog.milestones
+            }
+            milestoneValues={
+              selectedUser.facts.milestones
+            }
+            onUpdateMilestone={
+              handleUpdateMilestone
+            }
+            homeNeeds={
+              selectedUser.facts.homeNeeds
+            }
+            onUpdateHomeNeeds={
+              handleUpdateHomeNeeds
+            }
           />
         );
 
@@ -585,7 +695,9 @@ function AppShell() {
           <JourneyPage
             journey={journey}
             selectedUser={selectedUser}
-            onGoToQuests={handleGoToQuests}
+            onGoToQuests={
+              handleGoToQuests
+            }
           />
         );
     }
@@ -598,19 +710,76 @@ function AppShell() {
         selectedUser={selectedUser}
         selectedUserId={selectedUserId}
         primaryUserId={defaultUser.id}
-        onSelectedUserChange={handleSelectedUserChange}
-        onResetSelectedUser={handleResetSelectedUser}
-        onBackupSelectedUser={handleBackupSelectedUser}
-        onRestoreSelectedUser={handleRestoreSelectedUser}
+        syncStatus={syncStatus}
+        onSelectedUserChange={
+          handleSelectedUserChange
+        }
+        onResetSelectedUser={
+          handleResetSelectedUser
+        }
+        onBackupSelectedUser={
+          handleBackupSelectedUser
+        }
+        onRestoreSelectedUser={
+          handleRestoreSelectedUser
+        }
+        onCloudConnected={
+          handleCloudReconnect
+        }
       />
 
-      <CloudConnection
-        user={selectedUser}
-        syncStatus={syncStatus}
-        onConnected={handleCloudReconnect}
-        onUseCloudVersion={handleUseCloudVersion}
-        onKeepLocalVersion={handleKeepLocalVersion}
-      />
+      {syncStatus === "conflict" && (
+        <div
+          className="sync-notice sync-notice-conflict"
+          role="alert"
+        >
+          <div className="sync-notice-content">
+            <strong>
+              Choose which version to keep
+            </strong>
+
+            <p>
+              Changes were made both on this
+              device and in OneDrive. Neither
+              version has been overwritten.
+            </p>
+          </div>
+
+          <div className="sync-notice-actions">
+            <button
+              type="button"
+              onClick={handleUseCloudVersion}
+            >
+              Use OneDrive Version
+            </button>
+
+            <button
+              type="button"
+              onClick={handleKeepLocalVersion}
+            >
+              Keep This Device&apos;s Version
+            </button>
+          </div>
+        </div>
+      )}
+
+      {syncStatus === "error" && (
+        <div
+          className="sync-notice sync-notice-error"
+          role="status"
+        >
+          <strong>
+            OneDrive isn&apos;t available right
+            now.
+          </strong>
+
+          <span>
+            Your changes are saved on this
+            device, so you can continue using
+            Germany Move Quest.
+          </span>
+        </div>
+      )}
 
       <div className="app-layout">
         <Sidebar
@@ -618,7 +787,9 @@ function AppShell() {
           onPageChange={setCurrentPageId}
         />
 
-        <main className="app-main">{renderCurrentPage()}</main>
+        <main className="app-main">
+          {renderCurrentPage()}
+        </main>
       </div>
 
       <BottomNav

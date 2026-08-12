@@ -8,6 +8,7 @@ import {
 
 import heroImg from "../assets/symbol.svg";
 import PersonaSwitcher from "../components/developer/PersonaSwitcher";
+import CloudConnection from "./CloudConnection";
 
 import "./Header.css";
 
@@ -20,10 +21,11 @@ import "./Header.css";
  * Responsibility
  * --------------
  * Renders the application brand, current selected user, persona
- * switcher, and modest data-management controls.
+ * switcher, modest data-management controls, and primary-user
+ * cloud connection status.
  *
- * The selected user is app-level state, so these controls belong in the
- * shared header rather than on a single page.
+ * The selected user is app-level state, so these controls belong
+ * in the shared header rather than on a single page.
  */
 
 function Header({
@@ -31,13 +33,16 @@ function Header({
   selectedUser,
   selectedUserId,
   primaryUserId,
+  syncStatus,
   onSelectedUserChange,
   onResetSelectedUser,
   onBackupSelectedUser,
   onRestoreSelectedUser,
+  onCloudConnected,
 }) {
   const restoreInputRef = useRef(null);
-  const isPrimaryUser = selectedUserId === primaryUserId;
+  const isPrimaryUser =
+    selectedUserId === primaryUserId;
 
   function handleRestoreClick() {
     restoreInputRef.current?.click();
@@ -55,7 +60,9 @@ function Header({
       const jsonText = await file.text();
       onRestoreSelectedUser(jsonText);
     } catch {
-      window.alert("The selected backup file could not be read.");
+      window.alert(
+        "The selected backup file could not be read."
+      );
     } finally {
       // Allows the same file to be selected again later.
       event.target.value = "";
@@ -66,29 +73,39 @@ function Header({
     <header className="header">
       <div className="header-brand">
         <div className="header-logo">
-          <img src={heroImg} alt="Germany Move Quest logo" />
+          <img
+            src={heroImg}
+            alt="Germany Move Quest logo"
+          />
         </div>
 
         <div className="header-text">
-          <div className="header-app-title">Germany Move Quest</div>
+          <div className="header-app-title">
+            Germany Move Quest
+          </div>
 
           <div className="header-tagline">
-            Your companion for moving to and living in Germany.
+            Your companion for moving to and living in
+            Germany.
           </div>
         </div>
       </div>
 
       <div className="header-user">
         <div className="header-user-name">
-          <User size={20} strokeWidth={2} aria-hidden="true" />
+          <User
+            size={20}
+            strokeWidth={2}
+            aria-hidden="true"
+          />
+
           <span>{selectedUser.name}</span>
-          <span
-            className={`header-user-kind ${
-              isPrimaryUser ? "is-primary" : "is-test"
-            }`}
-          >
-            {isPrimaryUser ? "Real user" : "Test persona"}
-          </span>
+
+          {!isPrimaryUser && (
+            <span className="header-user-kind is-test">
+              Test persona
+            </span>
+          )}
         </div>
 
         <div className="header-user-tools">
@@ -96,7 +113,6 @@ function Header({
             <PersonaSwitcher
               users={users}
               selectedUserId={selectedUserId}
-              selectedUser={selectedUser}
               primaryUserId={primaryUserId}
               onChange={onSelectedUserChange}
             />
@@ -112,7 +128,11 @@ function Header({
               onClick={onBackupSelectedUser}
               title={`Back up ${selectedUser.name}'s saved data`}
             >
-              <Download size={15} strokeWidth={2} aria-hidden="true" />
+              <Download
+                size={15}
+                strokeWidth={2}
+                aria-hidden="true"
+              />
               <span>Backup</span>
             </button>
 
@@ -122,7 +142,11 @@ function Header({
               onClick={handleRestoreClick}
               title={`Restore ${selectedUser.name} from a backup`}
             >
-              <Upload size={15} strokeWidth={2} aria-hidden="true" />
+              <Upload
+                size={15}
+                strokeWidth={2}
+                aria-hidden="true"
+              />
               <span>Restore</span>
             </button>
 
@@ -132,7 +156,11 @@ function Header({
               onClick={onResetSelectedUser}
               title={`Reset ${selectedUser.name} to source data`}
             >
-              <RotateCcw size={15} strokeWidth={2} aria-hidden="true" />
+              <RotateCcw
+                size={15}
+                strokeWidth={2}
+                aria-hidden="true"
+              />
               <span>Reset</span>
             </button>
           </div>
@@ -146,6 +174,15 @@ function Header({
             aria-label={`Choose a backup file for ${selectedUser.name}`}
           />
         </div>
+
+        {isPrimaryUser && (
+          <div className="header-cloud">
+            <CloudConnection
+              syncStatus={syncStatus}
+              onConnected={onCloudConnected}
+            />
+          </div>
+        )}
       </div>
     </header>
   );

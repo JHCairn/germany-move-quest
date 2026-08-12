@@ -160,7 +160,7 @@
 
   .timeline-stage:not(:last-child)::after,
   .timeline-stage:last-child::after {
-    top: 2.85rem;
+    top: 2.6rem;
   }
 
   .timeline-stage:last-child::after {
@@ -168,7 +168,7 @@
   }
 
   .timeline-stage:last-child::before {
-    top: calc(2.85rem - 4px);
+    top: calc(2.6rem - 4px);
     left: calc(50% + 2rem);
   }
 

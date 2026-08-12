@@ -81,16 +81,11 @@
   white-space: nowrap;
 }
 
-.header-user-kind.is-primary {
-  color: var(--text);
-  background: var(--background);
-}
-
-
 .header-user-switcher {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
   font-size: 0.85rem;
 }
 
@@ -109,6 +104,13 @@
 
 .header-user-switcher select {
   font-size: 0.9rem;
+}
+
+.header-user-tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
 
 .header-data-tools {
@@ -149,9 +151,91 @@
   display: none;
 }
 
+/*
+ * Cloud connection
+ * ----------------
+ * Normal cloud state is deliberately quiet. It communicates that
+ * persistence is healthy without competing with the primary app
+ * navigation or user controls.
+ */
+.header-cloud {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cloud-connection,
+.cloud-connect-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  color: var(--text-light);
+  font-size: 0.78rem;
+}
+
+.cloud-connect-button,
+.cloud-disconnect-button {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.cloud-connect-button {
+  padding: 0.15rem 0;
+  color: var(--text-light);
+}
+
+.cloud-connect-button:hover {
+  color: var(--text);
+}
+
+.cloud-disconnect-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  margin-left: 0.25rem;
+  padding: 0.15rem 0.25rem;
+
+  color: var(--text-light);
+  font-size: 0.75rem;
+}
+
+.cloud-disconnect-button:hover {
+  color: var(--text);
+}
+
+.cloud-connect-button:focus-visible,
+.cloud-disconnect-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: var(--radius);
+}
+
+.cloud-connect-button:disabled,
+.cloud-disconnect-button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.cloud-status-synced .cloud-status-text {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.cloud-status-conflict .cloud-status-text {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.cloud-status-error .cloud-status-text {
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
   .header {
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1.4rem 0.75rem 1rem;
     align-items: flex-start;
     gap: 1rem;
   }
@@ -175,9 +259,15 @@
   }
 
   .header-user {
-    display: flex;
     align-items: flex-end;
     gap: 0.25rem;
+
+    /*
+     * Gives the right-hand user area a little breathing room on
+     * narrow screens rather than allowing the name to feel pressed
+     * against the viewport edge.
+     */
+    margin-right: 0.1rem;
   }
 
   .header-user-name {
@@ -188,35 +278,29 @@
     display: none;
   }
 
-.header-user-tools {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
+  .header-user-tools {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
 
-.header-user-switcher .developer-tools {
-  margin-top: 0;
-}
+  .header-user-switcher .developer-tools {
+    margin-top: 0;
+  }
 
-.header-user-switcher .developer-tools-row {
-  align-items: center;
-}
-
-.header-user-switcher select {
-  display: block;
-}
-
-
-
+  .header-user-switcher .developer-tools-row {
+    align-items: center;
+  }
 
   .header-user-switcher {
     font-size: 0.8rem;
   }
 
   .header-user-switcher select {
-    font-size: 0.8rem;
+    display: block;
     max-width: 145px;
+    font-size: 0.8rem;
   }
 
   .header-tool-button {
@@ -225,6 +309,24 @@
   }
 
   .header-tool-button span {
+    display: none;
+  }
+
+  .header-cloud {
+    min-height: 20px;
+  }
+
+  .cloud-connection,
+  .cloud-connect-button {
+    font-size: 0.75rem;
+  }
+
+  /*
+   * Disconnect is intentionally hidden on mobile. It is an
+   * infrequent account-management operation, while sync status is
+   * useful enough to keep visible.
+   */
+  .cloud-disconnect-button {
     display: none;
   }
 }
