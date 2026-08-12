@@ -25,3 +25,7 @@ dist-ssr
 
 # Private field notes
 docs/field-notes.md
+
+
+# local variables
+.env.local

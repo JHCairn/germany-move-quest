@@ -1,4 +1,9 @@
-import { useMemo, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import "./AppShell.css";
 
@@ -36,8 +41,10 @@ import {
 } from "../actions/userActions";
 
 import { buildJourneyModel } from "../services/questEngine";
+
 import {
   downloadUserBackup,
+  hydrateUserFromSharedPersistence,
   loadSelectedUserId,
   loadUsers,
   parseUserBackup,
@@ -45,7 +52,12 @@ import {
   restoreUserFromBackup,
   saveSelectedUserId,
   saveUser,
+  saveUserToSharedPersistence,
+  resolveConflictUsingCloud,
+  resolveConflictUsingLocal,
 } from "../services/userDataService";
+
+import CloudConnection from "./CloudConnection";
 
 /**
  * ============================================================
@@ -78,6 +90,15 @@ function AppShell() {
     loadSelectedUserId(sourceUsers, defaultUser.id)
   );
   const [toastMessage, setToastMessage] = useState("");
+  const [syncStatus, setSyncStatus] = useState("idle");
+
+  /**
+   * React Strict Mode intentionally invokes effects more than once
+   * during development. Startup reconciliation can include a
+   * conditional cloud write, so it must only run once per AppShell
+   * mount.
+   */
+  const hasStartedCloudReconciliation = useRef(false);
 
   /**
    * Active users are editable working copies. Each one is independently
@@ -86,6 +107,129 @@ function AppShell() {
   const [activeUsers, setActiveUsers] = useState(() =>
     loadUsers(sourceUsers)
   );
+
+  /**
+   * Check shared persistence for the primary user and update
+   * local React state and sync status accordingly.
+   *
+   * Cloud hydration remains deliberately one-way:
+   * cloud-only/cloud-newer may refresh the local cache and React state.
+   *
+   * If the local copy is newer, GMQ attempts the normal conditional
+   * shared save. The remembered OneDrive eTag ensures that this only
+   * succeeds when the cloud copy has not changed since this device
+   * last observed it.
+   */
+  async function reconcilePrimaryUserWithSharedPersistence() {
+    try {
+      const result =
+        await hydrateUserFromSharedPersistence(
+          defaultUser
+        );
+
+      if (!result.ok) {
+        if (result.code === "not-connected") {
+          setSyncStatus("idle");
+        } else {
+          setSyncStatus("error");
+        }
+
+        return;
+      }
+
+      if (result.hydrated) {
+        setActiveUsers((currentUsers) =>
+          currentUsers.map((user) =>
+            user.id === defaultUser.id
+              ? result.user
+              : user
+          )
+        );
+
+        setSyncStatus("synced");
+        return;
+      }
+
+      switch (result.state) {
+        case "same":
+          setSyncStatus("synced");
+          break;
+
+        case "local-newer": {
+          setSyncStatus("syncing");
+
+          const localUser =
+            activeUsers.find(
+              (user) => user.id === defaultUser.id
+            ) ?? defaultUser;
+
+          const saveResult =
+            await saveUserToSharedPersistence(localUser);
+
+          if (saveResult.ok) {
+            setSyncStatus("synced");
+            break;
+          }
+
+          if (
+            saveResult.code === "stale-cloud-data" ||
+            saveResult.code === "unknown-cloud-version"
+          ) {
+            setSyncStatus("conflict");
+            break;
+          }
+
+          if (saveResult.code === "not-connected") {
+            setSyncStatus("idle");
+            break;
+          }
+
+          setSyncStatus("error");
+
+          console.warn(
+            "Shared persistence resync was not completed.",
+            saveResult
+          );
+
+          break;
+        }
+
+        case "conflict":
+          setSyncStatus("conflict");
+          break;
+
+        case "local-only":
+        case "none":
+        default:
+          setSyncStatus("idle");
+          break;
+      }
+    } catch (error) {
+      setSyncStatus("error");
+
+      console.warn(
+        "Could not reconcile the primary user with shared persistence.",
+        error
+      );
+    }
+  }
+
+  /**
+   * After the app has rendered from the local cache, check shared
+   * persistence for the primary user.
+   *
+   * The ref prevents React Strict Mode's development-only second
+   * effect invocation from starting a second persistence operation.
+   */
+  useEffect(() => {
+    if (hasStartedCloudReconciliation.current) {
+      return;
+    }
+
+    hasStartedCloudReconciliation.current = true;
+
+    reconcilePrimaryUserWithSharedPersistence();
+  }, []);
 
   const selectedUser =
     activeUsers.find((user) => user.id === selectedUserId) ??
@@ -117,21 +261,62 @@ function AppShell() {
    * AppShell then updates React state and saves that active user.
    */
   function updateSelectedUser(updateUser) {
+    const currentUser =
+      activeUsers.find((user) => user.id === selectedUserId);
+
+    if (!currentUser) {
+      return;
+    }
+
+    const updatedUser = updateUser(currentUser);
+
+    if (updatedUser === currentUser) {
+      return;
+    }
+
+    saveUser(updatedUser);
+
     setActiveUsers((currentUsers) =>
-      currentUsers.map((user) => {
-        if (user.id !== selectedUserId) {
-          return user;
-        }
-
-        const updatedUser = updateUser(user);
-
-        if (updatedUser !== user) {
-          saveUser(updatedUser);
-        }
-
-        return updatedUser;
-      })
+      currentUsers.map((user) =>
+        user.id === selectedUserId ? updatedUser : user
+      )
     );
+
+    if (updatedUser.id === defaultUser.id) {
+      setSyncStatus("syncing");
+
+      saveUserToSharedPersistence(updatedUser)
+        .then((result) => {
+          if (result.ok) {
+            setSyncStatus("synced");
+            return;
+          }
+
+          if (result.code === "not-connected") {
+            setSyncStatus("idle");
+            return;
+          }
+
+          if (result.code === "stale-cloud-data") {
+            setSyncStatus("conflict");
+          } else {
+            setSyncStatus("error");
+
+            console.warn(
+              "Shared persistence save was not completed.",
+              result
+            );
+          }
+        })
+        .catch((error) => {
+          setSyncStatus("error");
+
+          console.warn(
+            "Shared persistence save failed.",
+            error
+          );
+        });
+    }
   }
 
   function handleSelectedUserChange(userId) {
@@ -151,9 +336,9 @@ function AppShell() {
     const isPrimaryUser = sourceUser.id === defaultUser.id;
     const confirmed = window.confirm(
       `Reset ${sourceUser.name} to the original source data?\n\n` +
-        (isPrimaryUser
-          ? "All saved changes for your real user will be discarded."
-          : "All saved changes for this test persona will be discarded.")
+      (isPrimaryUser
+        ? "All saved changes for your real user will be discarded."
+        : "All saved changes for this test persona will be discarded.")
     );
 
     if (!confirmed) {
@@ -226,6 +411,76 @@ function AppShell() {
     );
 
     showToast(`Restored ${sourceUser.name} from backup`);
+  }
+
+  async function handleUseCloudVersion() {
+    const sourceUser = sourceUsers.find(
+      (user) => user.id === selectedUserId
+    );
+
+    if (!sourceUser) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Use the OneDrive version?\n\n" +
+        "This will replace the conflicting changes currently stored " +
+        "in this browser for this user."
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    const result = await resolveConflictUsingCloud(
+      sourceUser
+    );
+
+    if (!result.ok) {
+      window.alert(result.message);
+      return;
+    }
+
+    setActiveUsers((currentUsers) =>
+      currentUsers.map((user) =>
+        user.id === selectedUserId
+          ? result.user
+          : user
+      )
+    );
+
+    setSyncStatus("synced");
+
+    showToast("Loaded OneDrive version");
+  }
+
+  async function handleKeepLocalVersion() {
+    const confirmed = window.confirm(
+      "Keep this device's version?\n\n" +
+        "This will replace the current OneDrive version with the " +
+        "conflicting changes stored in this browser."
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    const result = await resolveConflictUsingLocal(
+      selectedUser
+    );
+
+    if (!result.ok) {
+      window.alert(result.message);
+      return;
+    }
+
+    setSyncStatus("synced");
+
+    showToast("Saved this device's version to OneDrive");
+  }
+
+  async function handleCloudReconnect() {
+    await reconcilePrimaryUserWithSharedPersistence();
   }
 
   function handleCompleteQuest(questId) {
@@ -347,6 +602,14 @@ function AppShell() {
         onResetSelectedUser={handleResetSelectedUser}
         onBackupSelectedUser={handleBackupSelectedUser}
         onRestoreSelectedUser={handleRestoreSelectedUser}
+      />
+
+      <CloudConnection
+        user={selectedUser}
+        syncStatus={syncStatus}
+        onConnected={handleCloudReconnect}
+        onUseCloudVersion={handleUseCloudVersion}
+        onKeepLocalVersion={handleKeepLocalVersion}
       />
 
       <div className="app-layout">

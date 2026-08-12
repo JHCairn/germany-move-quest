@@ -31,6 +31,58 @@ function getUserStorageKey(userId) {
  */
 
 /**
+ * Load one canonical GMQ envelope directly from localStorage.
+ *
+ * Unlike loadLocalUser(), this preserves persistence metadata such as
+ * savedAt so the service layer can compare local and shared records.
+ */
+export function loadLocalEnvelope(userId) {
+  try {
+    const savedValue = window.localStorage.getItem(
+      getUserStorageKey(userId)
+    );
+
+    if (!savedValue) {
+      return {
+        ok: true,
+        found: false,
+        envelope: null,
+      };
+    }
+
+    const envelope = JSON.parse(savedValue);
+    const validation = validateEnvelope(
+      envelope,
+      userId
+    );
+
+    if (!validation.ok) {
+      return validation;
+    }
+
+    return {
+      ok: true,
+      found: true,
+      envelope: validation.envelope,
+    };
+  } catch (error) {
+    console.warn(
+      `Could not load saved envelope for user "${userId}".`,
+      error
+    );
+
+    return {
+      ok: false,
+      code: "local-load-failed",
+      message:
+        `Could not load locally saved data for user "${userId}".`,
+    };
+  }
+}
+
+
+
+/**
  * Load one active user from browser-local persistence.
  *
  * Missing, malformed, incompatible, or wrong-user data is ignored and
@@ -99,6 +151,50 @@ export function saveLocalUser(user) {
     return false;
   }
 }
+
+/**
+ * Save an existing validated GMQ envelope to localStorage unchanged.
+ *
+ * Used when hydrating the local cache from shared persistence.
+ * This preserves metadata such as savedAt rather than creating a new
+ * envelope and making the local copy appear artificially newer.
+ */
+export function saveLocalEnvelope(envelope) {
+  const validation = validateEnvelope(
+    envelope,
+    envelope?.userId
+  );
+
+  if (!validation.ok) {
+    return validation;
+  }
+
+  try {
+    window.localStorage.setItem(
+      getUserStorageKey(validation.envelope.userId),
+      JSON.stringify(validation.envelope)
+    );
+
+    return {
+      ok: true,
+      envelope: validation.envelope,
+    };
+  } catch (error) {
+    console.warn(
+      `Could not save local envelope for user "${validation.envelope.userId}".`,
+      error
+    );
+
+    return {
+      ok: false,
+      code: "local-save-failed",
+      message:
+        `Could not save local data for user "${validation.envelope.userId}".`,
+    };
+  }
+}
+
+
 
 /**
  * Remove one user's locally saved record.
