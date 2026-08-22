@@ -3,8 +3,11 @@
  * Developer Metadata
  * ------------------------------------------------------------
  *
- * Used by prototype tooling to identify representative
- * test personas.
+ * Represents the primary real user identity without storing
+ * real user facts or progress in publicly deployed source data.
+ *
+ * Persisted browser and cloud data provide the user's actual
+ * working state.
  *
  * Never consumed by the Quest Engine.
  */
@@ -12,66 +15,44 @@
 export const user001 = {
   id: "user001",
   name: "Julie",
-  testPersona: "Solo relocation • Cat owner • No car • Preparing",
+  testPersona: "Primary real user",
 
   currentStageId: "preparing",
 
-  // Facts represent the user's current situation.
-  // The Quest Engine derives applicability from these values.
-  // Do not duplicate this information elsewhere in the user model.
+  // This file provides a privacy-safe source shape only.
+  // Real facts and progress belong in persisted user data.
 
   facts: {
     about: {
-      havePets: true,
+      havePets: false,
       haveDog: false,
       haveChildren: false,
       haveCar: false,
-      housingType: "buying",
-      needKitchen: true,
-      needFurniture: true,
-      },
+      housingType: "",
+      needKitchen: false,
+      needFurniture: false,
+    },
 
     milestones: {
       moveDate: {
-        plannedDate: "2026-09-01",
+        plannedDate: "",
         actualDate: "",
       },
       keyHandover: {
-        plannedDate: "2026-07-08",
-        actualDate: "2026-07-08",
+        plannedDate: "",
+        actualDate: "",
       },
       anmeldung: {
-        plannedDate: "2026-07-20",
+        plannedDate: "",
         actualDate: "",
       },
     },
-homeNeeds: {
-      neededHomeItemIds: [
-        "bed",
-        "sofa",
-        "coffee-table",
-        "tv-stand",
-        "vacuum",
-        "dishes",
-        "cutlery",
-        "kettle",
-        "toaster",
-        "towels",
-        "laundry-basket",
-      ],
 
-      acquiredHomeItemIds: [
-        "desk",
-        "cookware",
-      ],
+    homeNeeds: {
+      neededHomeItemIds: [],
+      acquiredHomeItemIds: [],
     },
-
   },
 
-  completedQuestIds: 
-  ["important-documents",
-"bank"],
-
-
- 
+  completedQuestIds: [],
 };

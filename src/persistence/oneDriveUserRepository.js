@@ -69,47 +69,6 @@ export async function getOneDriveAppFolder() {
   return response.json();
 }
 
-/**
- * Save one GMQ user-data envelope to the OneDrive App Folder.
- *
- * This deliberately uses the same canonical envelope as browser
- * persistence and manual backup/restore.
- */
-export async function saveOneDriveUser(user) {
-  await getOneDriveAppFolder();
-  
-  const envelope = createEnvelope(user);
-  const filename = getUserFilename(user.id);
-
-  const response = await graphRequest(
-    `/me/drive/special/approot:/${encodeURIComponent(
-      filename
-    )}:/content`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type":
-          "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(envelope, null, 2),
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      `Could not save OneDrive data for user ` +
-        `"${user.id}" (${response.status}).`
-    );
-  }
-
-  const driveItem = await response.json();
-
-  return {
-    envelope,
-    driveItem,
-    eTag: driveItem.eTag ?? null,
-  };
-}
 
 /**
  * Save one GMQ user to OneDrive only when the cloud record has not
@@ -176,65 +135,6 @@ export async function saveOneDriveUserIfCurrent(
   };
 }
 
-
-/**
- * Save an existing validated GMQ envelope to OneDrive unchanged.
- *
- * Used when promoting a known-good backup to shared persistence.
- * Unlike saveOneDriveUser(), this does not create a new envelope or
- * change savedAt.
- */
-export async function saveOneDriveEnvelope(envelope) {
-  const validation = validateEnvelope(
-    envelope,
-    envelope?.userId
-  );
-
-  if (!validation.ok) {
-    return validation;
-  }
-
-  await getOneDriveAppFolder();
-
-  const filename = getUserFilename(
-    validation.envelope.userId
-  );
-
-  const response = await graphRequest(
-    `/me/drive/special/approot:/${encodeURIComponent(
-      filename
-    )}:/content`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type":
-          "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(
-        validation.envelope,
-        null,
-        2
-      ),
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      `Could not save OneDrive data for user ` +
-        `"${validation.envelope.userId}" ` +
-        `(${response.status}).`
-    );
-  }
-
-  const driveItem = await response.json();
-
-  return {
-    ok: true,
-    envelope: validation.envelope,
-    driveItem,
-    eTag: driveItem.eTag ?? null,
-  };
-}
 
 
 
