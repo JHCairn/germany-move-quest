@@ -6,7 +6,7 @@ This roadmap describes the long-term direction of Germany Move Quest.
 
 Rather than acting as a release plan, it identifies the major areas of product investment and how the application is expected to evolve over time.
 
-The detailed implementation work is maintained in the Product Backlog.
+Immediate priorities are maintained in **Next Up**, while unprioritised ideas and opportunities are captured in **Brainstorm**.
 
 ---
 
@@ -41,28 +41,43 @@ This foundation is expected to remain stable while continuing to evolve incremen
 
 ---
 
-## 🚧 Current Priority — Reliable Personal Use
+## ✓ Reliable Personal Use
 
-The immediate focus is making Germany Move Quest dependable for everyday personal use.
+Germany Move Quest has evolved from a functional prototype into an application capable of preserving and protecting real user progress across sessions and devices.
 
-Current priorities include:
+Completed capabilities include:
 
-* Reliable local data persistence >> COMPLETED
-* Automatic restoration of application state >> COMPLETED
-* Import and export of user data
-* Safe reset capabilities >> COMPLETED
-* Improved resilience and error handling
-* Continued UX and UI refinement
+* Browser-local data persistence
+* Automatic restoration of application state
+* User-data backup and restore
+* Safe reset capabilities
+* Validation and fallback for invalid persisted data
+* OneDrive-backed cloud persistence
+* Multi-device synchronisation
+* Local and cloud change detection
+* Automatic reconciliation of one-sided changes
+* Detection and resolution of genuine two-sided conflicts
+* Local availability when cloud persistence is not connected
 
-The goal of this phase is to transform the application from a functional prototype into a trusted personal companion.
+Persistence is designed as a supporting layer rather than part of the journey model, allowing the storage approach to evolve independently from the rest of the product.
+
+---
+
+## 🚧 Next Product Focus
+
+With the core product model and reliable personal persistence established, Germany Move Quest is ready to return its primary focus to expanding the value it provides throughout the user's journey.
+
+The next area of product investment will be selected by reviewing the existing roadmap, current real-world experience, and opportunities captured in **Brainstorm**.
+
+Once selected, the immediate implementation priorities will be reflected in **Next Up**.
 
 ---
 
 # Ongoing Product Growth
 
-Once the core platform is dependable, investment will continue across multiple areas of the product simultaneously.
+Product development can continue across multiple areas rather than treating the journey as a sequence of features that must be completed once and never revisited.
 
-These areas are expected to evolve together rather than being completed one after another.
+Earlier stages and capabilities should continue to improve as real-world experience reveals missing guidance, new scenarios, or better ways to support the user.
 
 ---
 
@@ -78,6 +93,8 @@ Examples include:
 * Improved onboarding
 * Enhanced guidance
 * Refinement based on real-world experience
+
+Even as the product expands into later stages of life in Germany, earlier relocation stages should continue to evolve when new needs are discovered.
 
 ---
 
@@ -134,14 +151,14 @@ Recommendations should become increasingly personalised while remaining transpar
 
 Future opportunities that may become appropriate as the product matures include:
 
-* Cloud synchronisation
-* Multi-device support
-* User accounts
+* User accounts and application-managed data storage
 * Shared household support
 * External integrations
 * AI-assisted guidance
 
-These capabilities will only be introduced when they provide meaningful value without compromising the simplicity of the product.
+These capabilities should only be introduced when they provide meaningful value without compromising the simplicity of the product.
+
+The existing persistence architecture should allow storage to evolve toward an application-managed datastore if that becomes valuable, without requiring the core journey model to be redesigned.
 
 ---
 
@@ -166,4 +183,5 @@ This roadmap describes the long-term direction of Germany Move Quest.
 * **Product Principles** describe how product decisions are made.
 * **Solution Design** explains how the solution is structured.
 * **UX & UI Design Guidelines** describe how the experience is presented.
-* **Product Backlog** contains the detailed work items that support this roadmap.
+* **Next Up** identifies the immediate implementation focus.
+* **Brainstorm** captures unprioritised ideas and opportunities.

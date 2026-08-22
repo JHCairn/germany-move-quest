@@ -47,10 +47,26 @@ The focus of this version is not only to build a useful relocation companion, bu
 * React component architecture
 * Progressive Web Apps (PWA)
 * Responsive design
+* Browser and cloud data persistence
+* Multi-device data synchronisation
 * Git and GitHub workflows
 * Continuous deployment with Netlify
 * Product design and UX principles
 * AI-assisted software development
+
+---
+
+## Data Persistence
+
+Germany Move Quest preserves individual user facts and progress independently from the application catalogs and business logic.
+
+User data is persisted locally in the browser and can be exported and restored as a backup.
+
+For users with cloud persistence enabled, Germany Move Quest can also synchronise persisted data through OneDrive, allowing the same working state to be used across devices. Local and cloud changes are reconciled so that independent changes are not silently overwritten.
+
+The persistence architecture is intentionally separated from the journey model so that the underlying storage provider can evolve without redefining the product's core concepts.
+
+See the **Solution Design** documentation for more information about the persistence architecture.
 
 ---
 
@@ -60,6 +76,10 @@ The focus of this version is not only to build a useful relocation companion, bu
 * Vite
 * JavaScript
 * CSS
+* Progressive Web App (PWA)
+* Browser Local Storage
+* Microsoft Authentication Library (MSAL)
+* Microsoft Graph / OneDrive
 * Git
 * GitHub
 * Netlify
@@ -81,7 +101,8 @@ Additional project documentation is available in the `docs` folder.
 * Solution Design
 * UX & UI Design Guidelines
 * Roadmap
-* Backlog
+* Next Up
+* Brainstorm
 
 ---
 
