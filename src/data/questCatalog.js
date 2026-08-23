@@ -46,7 +46,7 @@ export const questCatalog = [
     priority: "high",
     order: 30,
     dueLabel: "Before arrival",
-    estimatedTime: "20–30 min",
+    estimatedTime: "2–4 hours",
     actionLabel: "Choose your health insurance",
     description:
       "Confirm your health insurance arrangements before relocating to Germany.",
@@ -169,6 +169,43 @@ export const questCatalog = [
     description:
       "Understand the tax implications of becoming resident in Germany, including any continuing obligations in the country you are leaving, and get professional advice where appropriate.",
   },
+
+  {
+    id: "housing-search",
+    title: "Wohnungssuche",
+    subtitle: "Find a place to live",
+    category: "Housing",
+    stage: "preparing",
+    priority: "high",
+    order: 115,
+    dueLabel: "As early as possible",
+    estimatedTime: "Varies",
+    actionLabel: "Explore housing options",
+    description:
+      "If you do not yet have a home in Germany, explore suitable areas and housing options, become familiar with common German rental and property terms, and use established property-search services to look for a place that meets your needs.",
+    applicableWhen: [
+      {
+        factId: "housingSecured",
+        value: false,
+      },
+    ],
+  },
+
+  {
+    id: "local-administration",
+    title: "Verwaltung vor Ort",
+    subtitle: "Understand your local administration",
+    category: "Bureaucracy",
+    stage: "preparing",
+    priority: "medium",
+    order: 118,
+    dueLabel: "Once you know where you will live",
+    estimatedTime: "20–30 min",
+    actionLabel: "Understand your local area",
+    description:
+      "Learn where your new home sits within Germany's administrative structure, including your Gemeinde or Stadt, Landkreis or Kreis, and Bundesland, so you know which authorities and local services to look for.",
+  },
+
   {
     id: "moving-logistics",
     title: "Umzugslogistik",
@@ -197,6 +234,10 @@ export const questCatalog = [
     description:
       "Identify important organizations that need your new address and arrange mail forwarding or other postal handling where appropriate.",
   },
+
+
+
+
   {
     id: "home-handover",
     title: "Wohnungsübergabe",
@@ -295,17 +336,17 @@ export const questCatalog = [
   },
   {
     id: "public-transport",
-    title: "Lokale Mobilität",
-    subtitle: "Local transport and mobility",
+    title: "Öffentlicher Nahverkehr",
+    subtitle: "Local public transport",
     category: "Transport",
     stage: "preparing",
     priority: "medium",
     order: 200,
     dueLabel: "Before or soon after arrival",
     estimatedTime: "20–30 min",
-    actionLabel: "Plan your local mobility",
+    actionLabel: "Explore local public transport",
     description:
-      "Learn the local public transport network and useful apps, investigate whether the Deutschlandticket or another ticket suits you, and consider other options such as cycling or car sharing.",
+      "Familiarise yourself with the public transport available in your new area, including useful local and regional connections, journey-planning and ticketing tools, and ticket options such as the Deutschlandticket.",
   },
   {
     id: "car",
@@ -597,6 +638,22 @@ export const questCatalog = [
     description:
       "Understand local rules for residual waste, packaging and recycling, organic waste, paper, glass, returnables, and collection.",
   },
+
+  {
+    id: "grocery-shopping",
+    title: "Lebensmittel einkaufen",
+    subtitle: "Grocery and food shopping",
+    category: "Daily Life",
+    stage: "settling-in",
+    priority: "low",
+    order: 45,
+    dueLabel: "First weeks",
+    estimatedTime: "30–60 min",
+    actionLabel: "Explore local food shopping",
+    description:
+      "Become familiar with food-shopping options around your new home, including supermarkets, discounters, Biomärkte, Getränkemärkte, bakeries, butchers, markets, and other local or specialist shops that suit your needs.",
+  },
+
   {
     id: "vet",
     title: "Tierarzt",

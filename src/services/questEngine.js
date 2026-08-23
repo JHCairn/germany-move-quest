@@ -112,6 +112,13 @@ function isQuestApplicableToUser(quest, user) {
       case "housingType":
         return about.housingType === rule.value;
 
+      case "housingSecured":
+        if (about.housingSecured === undefined) {
+          return true;
+        }
+
+        return about.housingSecured === rule.value;
+
       default:
         console.warn(
           `Unknown applicableWhen factId "${rule.factId}" for quest "${quest.id}".`
@@ -407,8 +414,8 @@ function buildProgress({
         applicableCount === 0
           ? 0
           : Math.round(
-              (completedStageCount / applicableCount) * 100
-            ),
+            (completedStageCount / applicableCount) * 100
+          ),
     };
   });
 
@@ -422,8 +429,8 @@ function buildProgress({
       totalQuests === 0
         ? 0
         : Math.round(
-            (completedCount / totalQuests) * 100
-          ),
+          (completedCount / totalQuests) * 100
+        ),
     progressByStage,
   };
 }

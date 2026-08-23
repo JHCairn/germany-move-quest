@@ -105,6 +105,16 @@ export const factCatalog = {
         },
       ],
     },
+    
+    {
+      id: "housingSecured",
+      sectionId: "home",
+      type: "boolean",
+      question: "Have you secured a place to live in Germany?",
+    },
+
+
+
     {
       id: "needKitchen",
       sectionId: "home",
