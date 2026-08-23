@@ -94,6 +94,13 @@ function QuestsPage({
         subtitle="Complete the tasks that move your journey forward."
       />
 
+      <div className="quest-resource-note">
+        <strong>About these resources:</strong>{" "}
+        Resources are provided as helpful starting points and are not exhaustive.
+        We aim to use reliable, current sources, but local requirements and services
+        can vary. Verify important details with the responsible authority or provider.
+      </div>
+
       <QuestSection
         id="current-quests"
         navSection="current"

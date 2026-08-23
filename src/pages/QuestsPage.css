@@ -20,6 +20,21 @@
   color: var(--text-light);
 }
 
+.quest-resource-note {
+  margin: 0.75rem 0 1.5rem;
+  padding: 0.75rem 0.9rem;
+
+  border-left: 3px solid var(--border);
+
+  color: var(--text-light);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.quest-resource-note strong {
+  color: var(--text);
+}
+
 .quest-section {
   margin-top: 1.5rem;
   scroll-margin-top: 1.5rem;
