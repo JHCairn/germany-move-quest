@@ -50,6 +50,22 @@ export const questCatalog = [
     actionLabel: "Choose your health insurance",
     description:
       "Confirm your health insurance arrangements before relocating to Germany.",
+    guidance:
+      "Germany has statutory health insurance (gesetzliche Krankenversicherung, GKV) and private health insurance (private Krankenversicherung, PKV). Which options are available and appropriate depends on your circumstances, so understand your eligibility and the implications before choosing coverage.",
+    resources: [
+      {
+        label: "Health insurance guide",
+        description:
+          "Official Federal Ministry of Health guidance on Germany's statutory and private health insurance systems.",
+        url: "https://www.bundesgesundheitsministerium.de/themen/krankenversicherung/online-ratgeber-krankenversicherung",
+      },
+      {
+        label: "Feather",
+        description:
+          "Expat-focused digital insurance service offering English-language information and support for navigating German health insurance options.",
+        url: "https://feather-insurance.com/en-de/health-insurance",
+      },
+    ],
   },
   {
     id: "medication-continuity",
@@ -183,6 +199,28 @@ export const questCatalog = [
     actionLabel: "Explore housing options",
     description:
       "If you do not yet have a home in Germany, explore suitable areas and housing options, become familiar with common German rental and property terms, and use established property-search services to look for a place that meets your needs.",
+    guidance:
+      "Major nationwide property platforms include ImmoScout24 and Immowelt. Both offer websites and mobile apps for rental and purchase searches, including saved searches and listing alerts. Other regional and specialist services are also available.",
+    resources: [
+      {
+        label: "ImmoScout24",
+        description:
+          "Nationwide property platform for finding homes to rent or buy.",
+        url: "https://www.immobilienscout24.de/",
+      },
+      {
+        label: "Immowelt",
+        description:
+          "Nationwide property platform for finding homes to rent or buy.",
+        url: "https://www.immowelt.de/",
+      },
+      {
+        label: "Housing and registration",
+        description:
+          "Official German government guidance for newcomers on finding housing, rental terminology, applications, and registration.",
+        url: "https://www.make-it-in-germany.com/en/living-in-germany/housing-mobility/housing-registration",
+      },
+    ],
     applicableWhen: [
       {
         factId: "housingSecured",
@@ -204,6 +242,12 @@ export const questCatalog = [
     actionLabel: "Understand your local area",
     description:
       "Learn where your new home sits within Germany's administrative structure, including your Gemeinde or Stadt, Landkreis or Kreis, and Bundesland, so you know which authorities and local services to look for.",
+    guidance: [
+      "A useful general model is municipality → district → federal state → Germany. For example: Pöcking → Landkreis Starnberg → Bayern → Deutschland.",
+      "Your Gemeinde or Stadt is your municipality or city, your Landkreis or Kreis is roughly comparable to a county or district, and your Bundesland is comparable to a state.",
+      "The structure is not identical everywhere: Berlin, Hamburg, and Bremen are city-states (Stadtstaaten), while kreisfreie Städte perform both municipal and district-level functions.",
+      "Identify the names that apply where you plan to live so you recognise which authority later tasks are referring to.",
+    ],
   },
 
   {
@@ -347,6 +391,23 @@ export const questCatalog = [
     actionLabel: "Explore local public transport",
     description:
       "Familiarise yourself with the public transport available in your new area, including useful local and regional connections, journey-planning and ticketing tools, and ticket options such as the Deutschlandticket.",
+    guidance:
+      "Public transport is often organised through a regional transport association (Verkehrsverbund), which may have its own website and mobile app. Search for “Verkehrsverbund + [your city or region]” or “ÖPNV + [your city or region]” to identify the network serving your area.",
+    resources: [
+      {
+        label: "DB Navigator",
+        description:
+          "Deutsche Bahn's journey-planning and ticketing app for local, regional, and long-distance public transport.",
+        url: "https://www.bahn.de/service/mobile/db-navigator",
+      },
+      {
+        label: "Deutschlandticket",
+        description:
+          "Official Deutsche Bahn information about the nationwide local and regional transport ticket.",
+        url: "https://www.bahn.de/faq/deutschlandticket-kaufen",
+      },
+    ],
+
   },
   {
     id: "car",
@@ -440,12 +501,26 @@ export const questCatalog = [
     category: "Bureaucracy",
     stage: "just-arrived",
     priority: "high",
+    milestoneCompletionPrompt:
+      "Record the actual Anmeldung date under Reise to complete this quest.",
+    derivedCompletionNote:
+      "Completed from your Anmeldung date. If the registration did not happen, remove the actual date under Reise.",
     order: 10,
     dueLabel: "First 2 weeks",
     estimatedTime: "30–60 min",
     actionLabel: "Prepare your Anmeldung",
     description:
       "Register your German address at the Bürgerbüro/Rathaus after moving into your apartment and retain your registration confirmation.",
+    guidance:
+      "Registration is handled locally. Search for “Anmeldung Wohnsitz + [your Gemeinde or city]” or “Bürgerbüro + [your Gemeinde or city]”. Check the official local information for where to register, which documents to bring, opening hours, and whether you need to make an appointment in advance.",
+    resources: [
+      {
+        label: "Residence registration",
+        description:
+          "Official German government information about registering a residence after moving.",
+        url: "https://verwaltung.bund.de/leistungsverzeichnis/DE/leistung/99115005104000",
+      },
+    ],
   },
   {
     id: "mailbox-name",
@@ -488,6 +563,16 @@ export const questCatalog = [
     actionLabel: "Set up broadcasting fee payment",
     description:
       "Register or respond to the household broadcasting fee request after your address registration.",
+    guidance:
+      "The broadcasting contribution (Rundfunkbeitrag) generally applies per dwelling rather than per person. If someone in your household already pays for the dwelling, you normally do not register a second contribution for the same home.",
+    resources: [
+      {
+        label: "Rundfunkbeitrag",
+        description:
+          "Official Beitragsservice information and forms for registering, changing, or deregistering a dwelling.",
+        url: "https://www.rundfunkbeitrag.de/buergerinnen_und_buerger/formulare/index_ger.html",
+      },
+    ],
   },
   {
     id: "building-management",
@@ -637,6 +722,19 @@ export const questCatalog = [
     actionLabel: "Learn local waste sorting",
     description:
       "Understand local rules for residual waste, packaging and recycling, organic waste, paper, glass, returnables, and collection.",
+    guidance: [
+      "Waste sorting and collection arrangements vary locally. Common categories include residual waste (Restmüll), organic waste (Biomüll), paper (Papier), packaging collected through the Gelbe Tonne or Gelber Sack, and glass.",
+      "Search for “Abfallwirtschaft + [your Landkreis or city]” or “Abfallkalender + [your Gemeinde or city]” to find the responsible local service, collection schedules, and the rules that apply where you live.",
+      "Also become familiar with Germany's deposit-return system (Pfand) for many bottles and cans, which are normally returned through shops rather than placed in household recycling.",
+    ],
+    resources: [
+      {
+        label: "Mülltrennung wirkt",
+        description:
+          "Practical guidance on correctly sorting packaging, paper, glass, organic waste, and residual waste in Germany.",
+        url: "https://www.muelltrennung-wirkt.de/en/",
+      },
+    ],
   },
 
   {
@@ -651,8 +749,13 @@ export const questCatalog = [
     estimatedTime: "30–60 min",
     actionLabel: "Explore local food shopping",
     description:
-      "Become familiar with food-shopping options around your new home, including supermarkets, discounters, Biomärkte, Getränkemärkte, bakeries, butchers, markets, and other local or specialist shops that suit your needs.",
-  },
+      "Become familiar with food-shopping options around your new home, including supermarkets, discounters, Biomärkte, Getränkemärkte, bakeries, butchers, markets, and other local or specialty shops that suit your needs.",
+  guidance: [
+  "Food shopping in Germany often involves several kinds of shops rather than one store for everything. Full-range supermarkets include Edeka and Rewe, while Aldi, Lidl, Penny, and Netto are common discounters.",
+  "Biomärkte specialise in organic products, while Getränkemärkte specialise in drinks and often sell beverages by the crate. Local Bäckereien, Metzgereien, Wochenmärkte, Hofläden, and international or specialty shops may also become part of your regular shopping.",
+  "Explore what is near your home and what works for you. Useful map searches include “Supermarkt”, “Biomarkt”, “Getränkemarkt”, “Bäckerei”, “Metzgerei”, and “Wochenmarkt”.",
+],
+    },
 
   {
     id: "vet",

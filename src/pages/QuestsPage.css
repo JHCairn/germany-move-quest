@@ -106,6 +106,95 @@
   white-space: nowrap;
 }
 
+/**
+ * ============================================================
+ * Quest More Info
+ * ============================================================
+ */
+
+.quest-card-more-info {
+  margin-top: 0.75rem;
+}
+
+.quest-card-more-info-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  color: var(--text-light);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 700;
+  list-style: none;
+}
+
+.quest-card-more-info-summary::-webkit-details-marker {
+  display: none;
+}
+
+.quest-card-more-info-summary:hover {
+  color: var(--text);
+}
+
+.quest-card-more-info-chevron {
+  flex-shrink: 0;
+  transition: transform 150ms ease;
+}
+
+.quest-card-more-info[open] .quest-card-more-info-chevron {
+  transform: rotate(180deg);
+}
+
+.quest-card-more-info-content {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--border);
+}
+
+.quest-card-guidance {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.quest-card-guidance p {
+  line-height: 1.5;
+}
+
+.quest-card-resources {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+}
+
+.quest-card-resource {
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.quest-card-resource:hover .quest-card-resource-heading {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.quest-card-resource-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.quest-card-resource-description {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--text-light);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
 .quest-card-meta {
   display: flex;
   flex-wrap: wrap;
@@ -200,4 +289,11 @@
   .quest-card-header {
     flex-direction: column;
   }
+}
+
+.quest-derived-completion-note {
+  max-width: 42rem;
+  color: var(--text-light);
+  font-size: 0.8rem !important;
+  line-height: 1.4;
 }

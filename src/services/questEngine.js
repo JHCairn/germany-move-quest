@@ -154,6 +154,17 @@ function isQuestActionable(quest, user) {
 // Completion Helpers
 // ============================================================
 
+function isQuestCompletionControlledByMilestone(quest) {
+  switch (quest.id) {
+    case "anmeldung":
+      return true;
+
+    default:
+      return false;
+  }
+}
+
+
 function isQuestCompletedByMilestone(quest, user) {
   const milestones = getMilestoneFacts(user);
 
@@ -183,9 +194,18 @@ function getQuestPresentationState({ isCompleted, stageRelation }) {
 function deriveQuest(quest, user, currentStageId) {
   const completedQuestIds = user.completedQuestIds ?? [];
 
-  const isCompleted =
-    completedQuestIds.includes(quest.id) ||
-    isQuestCompletedByMilestone(quest, user);
+  const isCompletionControlledByMilestone =
+  isQuestCompletionControlledByMilestone(quest);
+
+const isCompletedManually =
+  !isCompletionControlledByMilestone &&
+  completedQuestIds.includes(quest.id);
+
+const isCompletedByMilestone =
+  isQuestCompletedByMilestone(quest, user);
+
+const isCompleted =
+  isCompletedManually || isCompletedByMilestone;
 
   const isActionable = isQuestActionable(quest, user);
 
@@ -207,6 +227,9 @@ function deriveQuest(quest, user, currentStageId) {
   return {
     ...quest,
     isCompleted,
+    isCompletedManually,
+    isCompletedByMilestone,
+    isCompletionControlledByMilestone,
     isActionable,
     stageRelation,
     stageOffset,
