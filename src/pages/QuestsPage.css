@@ -31,8 +31,14 @@
   line-height: 1.45;
 }
 
-.quest-resource-note strong {
+.quest-resource-note summary {
   color: var(--text);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.quest-resource-note-content {
+  margin-top: 0.5rem;
 }
 
 /**
@@ -412,4 +418,15 @@
   .quest-search-control {
     max-width: none;
   }
+
+.quest-resource-note {
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+}
+
+.quest-resource-note:not([open]) {
+  padding-bottom: 0.45rem;
+}
+
+
 }

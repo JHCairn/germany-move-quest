@@ -140,12 +140,15 @@ function QuestsPage({
         subtitle="Complete the tasks that move your journey forward."
       />
 
-      <div className="quest-resource-note">
-        <strong>About these resources:</strong>{" "}
-        Resources are provided as helpful starting points and are not exhaustive.
-        We aim to use reliable, current sources, but local requirements and services
-        can vary. Verify important details with the responsible authority or provider.
-      </div>
+      <details className="quest-resource-note">
+        <summary>About these resources</summary>
+
+        <div className="quest-resource-note-content">
+          Resources are provided as helpful starting points and are not exhaustive.
+          We aim to use reliable, current sources, but local requirements and services
+          can vary. Verify important details with the responsible authority or provider.
+        </div>
+      </details>
 
       <div className="quest-search">
         <label htmlFor="quest-search-input">
