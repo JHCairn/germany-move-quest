@@ -242,15 +242,28 @@ const isCompleted =
   };
 }
 
+function sortByStageAndQuestOrder(a, b) {
+  const stageDifference =
+    getStageIndex(a.stage) - getStageIndex(b.stage);
+
+  if (stageDifference !== 0) {
+    return stageDifference;
+  }
+
+  return (a.order ?? 999) - (b.order ?? 999);
+}
+
 function deriveQuests(questCatalog, user, currentStageId) {
   const applicableQuests = getApplicableQuests(
     questCatalog,
     user
   );
 
-  return applicableQuests.map((quest) =>
-    deriveQuest(quest, user, currentStageId)
-  );
+  return applicableQuests
+    .map((quest) =>
+      deriveQuest(quest, user, currentStageId)
+    )
+    .sort(sortByStageAndQuestOrder);
 }
 
 // ============================================================
