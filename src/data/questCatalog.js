@@ -308,21 +308,21 @@ export const questCatalog = [
     actionLabel: "Confirm your employment setup",
     description:
       "Confirm how your employment, self-employment, retirement, study, or other income situation will operate after your move to Germany.",
-  guidance: [
-  "Clarify what your work or income situation will be when you become resident in Germany. This may be German employment, continuing work for a foreign employer, self-employment or freelance work, retirement or pension income, study, job seeking, or a combination of these.",
-  "If you will be employed, understand who your legal employer will be, where the work is performed, how you will be paid, and how German payroll tax and social-security arrangements will be handled.",
-  "If you will be self-employed or freelance, check how your activity should be classified and registered in Germany and what tax, invoicing, insurance, and social-security obligations may apply.",
-  "Cross-border working arrangements can be more complicated than simply continuing an existing job from Germany. If your employer, clients, or business remain in another country, confirm the employment, tax, social-security, and immigration implications before relying on the arrangement.",
-],
-resources: [
-  {
-    label: "Make it in Germany – Working in Germany",
-    description:
-      "Official German government portal in English covering employment, job seeking, self-employment, recognition of qualifications, visas, and practical aspects of working in Germany.",
-    url: "https://www.make-it-in-germany.com/en/",
+    guidance: [
+      "Clarify what your work or income situation will be when you become resident in Germany. This may be German employment, continuing work for a foreign employer, self-employment or freelance work, retirement or pension income, study, job seeking, or a combination of these.",
+      "If you will be employed, understand who your legal employer will be, where the work is performed, how you will be paid, and how German payroll tax and social-security arrangements will be handled.",
+      "If you will be self-employed or freelance, check how your activity should be classified and registered in Germany and what tax, invoicing, insurance, and social-security obligations may apply.",
+      "Cross-border working arrangements can be more complicated than simply continuing an existing job from Germany. If your employer, clients, or business remain in another country, confirm the employment, tax, social-security, and immigration implications before relying on the arrangement.",
+    ],
+    resources: [
+      {
+        label: "Make it in Germany – Working in Germany",
+        description:
+          "Official German government portal in English covering employment, job seeking, self-employment, recognition of qualifications, visas, and practical aspects of working in Germany.",
+        url: "https://www.make-it-in-germany.com/en/",
+      },
+    ],
   },
-],
-},
   {
     id: "german-tax-position",
     title: "Steuerliche Situation klären",
@@ -1226,6 +1226,26 @@ resources: [
     actionLabel: "Plan your German learning",
     description:
       "Choose a realistic way to continue improving your German through classes, apps, tutors, or local practice.",
+    guidance: [
+      "Learning some German can make everyday life, local administration, healthcare, shopping, and social activities considerably easier, even if you can work or manage many initial tasks in English.",
+      "Choose a learning approach that fits your goals and available time. Options include structured language courses, Volkshochschule (VHS) courses, integration courses where eligible, private language schools, online learning, language exchanges, and self-study.",
+      "For local courses, search for “Volkshochschule + [your town or Landkreis]” or “Deutschkurs + [your town or area]”. Course levels commonly follow the CEFR scale from A1 through C2, which can help you choose an appropriate starting point and track progress.",
+      "If you may qualify for a government-supported integration course (Integrationskurs), check the eligibility and application information rather than assuming that every newcomer is automatically entitled or required to attend one.",
+    ],
+    resources: [
+      {
+        label: "BAMF – Integration courses",
+        description:
+          "Official Federal Office for Migration and Refugees information about German integration courses, including eligibility, participation, course content, and how to find a course.",
+        url: "https://www.bamf.de/EN/Themen/Integration/ZugewanderteTeilnehmende/Integrationskurse/integrationskurse-node.html",
+      },
+      {
+        label: "vhs-Lernportal",
+        description:
+          "Free online learning platform from the German Adult Education Association with German courses from beginner through more advanced levels. The learning platform can be used independently or alongside a course.",
+        url: "https://www.vhs-lernportal.de/",
+      },
+    ],
   },
   {
     id: "local-community",
@@ -1240,6 +1260,12 @@ resources: [
     actionLabel: "Explore local community options",
     description:
       "Look for local groups, events, clubs, classes, or activities that help you feel settled.",
+    guidance: [
+      "Getting to know your local area can make a new place feel familiar much more quickly. Look beyond shops and practical services for activities, events, groups, and places where you can participate in local life.",
+      "Useful searches include “Veranstaltungen + [your town or area]” for local events, “Veranstaltungskalender + [your town or Landkreis]” for event calendars, and “Verein + [an activity or interest] + [your area]” for local clubs and associations.",
+      "The local Volkshochschule (VHS) can also be useful beyond German-language learning. Many offer courses and activities covering fitness, cooking, arts, culture, technology, languages, and other interests.",
+      "Check the website of your Gemeinde or Stadt and, where relevant, your Landkreis. Local authorities often publish community information, events, clubs, leisure facilities, and other resources that may not be easy to discover through national websites.",
+    ],
   },
   {
     id: "annual-insurance-review",
