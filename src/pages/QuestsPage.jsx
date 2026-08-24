@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import "./QuestsPage.css";
 
 import PageIntro from "../components/common/PageIntro";
@@ -21,6 +23,9 @@ import QuestSectionNav from "../components/quests/QuestSectionNav";
  *
  * It receives a derived journey model from the Quest Engine and
  * passes user intent back upward through callbacks.
+ *
+ * Quest search is presentation-only. It filters the already
+ * derived quest lists and does not change or persist user data.
  */
 
 function QuestSection({
@@ -79,12 +84,53 @@ function QuestsPage({
   onCompleteQuest,
   onReopenQuest,
 }) {
-  const showCurrent =
-    journey.currentStageQuests.length > 0 ||
-    journey.previousStageQuests.length > 0;
+  const [questSearch, setQuestSearch] = useState("");
 
-  const showUpcoming = journey.upcomingQuests.length > 0;
-  const showCompleted = journey.completedQuests.length > 0;
+  const normalizedQuestSearch = questSearch.trim().toLowerCase();
+
+  const matchesQuestSearch = (quest) => {
+    if (!normalizedQuestSearch) {
+      return true;
+    }
+
+    const guidanceText = Array.isArray(quest.guidance)
+      ? quest.guidance.join(" ")
+      : quest.guidance ?? "";
+
+    const searchableText = [
+      quest.title,
+      quest.subtitle,
+      quest.description,
+      guidanceText,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    return searchableText.includes(normalizedQuestSearch);
+  };
+
+  const filteredCurrentStageQuests =
+    journey.currentStageQuests.filter(matchesQuestSearch);
+
+  const filteredPreviousStageQuests =
+    journey.previousStageQuests.filter(matchesQuestSearch);
+
+  const filteredUpcomingQuests =
+    journey.upcomingQuests.filter(matchesQuestSearch);
+
+  const filteredCompletedQuests =
+    journey.completedQuests.filter(matchesQuestSearch);
+
+  const showCurrent =
+    filteredCurrentStageQuests.length > 0 ||
+    filteredPreviousStageQuests.length > 0;
+
+  const showUpcoming = filteredUpcomingQuests.length > 0;
+  const showCompleted = filteredCompletedQuests.length > 0;
+
+  const hasSearchResults =
+    showCurrent || showUpcoming || showCompleted;
 
   return (
     <section className="quests-page">
@@ -101,12 +147,45 @@ function QuestsPage({
         can vary. Verify important details with the responsible authority or provider.
       </div>
 
+      <div className="quest-search">
+        <label htmlFor="quest-search-input">
+          Find a quest
+        </label>
+
+        <div className="quest-search-control">
+          <input
+            id="quest-search-input"
+            type="search"
+            value={questSearch}
+            onChange={(event) => setQuestSearch(event.target.value)}
+            placeholder="Search quests..."
+          />
+
+          {questSearch && (
+            <button
+              type="button"
+              onClick={() => setQuestSearch("")}
+              aria-label="Clear quest search"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+      </div>
+
+      {normalizedQuestSearch && !hasSearchResults && (
+        <div className="quest-search-empty">
+          <strong>No matching quests</strong>
+          <span>Try another search term.</span>
+        </div>
+      )}
+
       <QuestSection
         id="current-quests"
         navSection="current"
         title="Current Stage"
         description="Erledigt? (Completed?) Tap Erledigen once you've completed this task."
-        quests={journey.currentStageQuests}
+        quests={filteredCurrentStageQuests}
         onCompleteQuest={onCompleteQuest}
         onReopenQuest={onReopenQuest}
         showCurrent={showCurrent}
@@ -118,7 +197,7 @@ function QuestsPage({
       <QuestSection
         title="Previous Stages"
         description="Erledigt? (Completed?) Tap Erledigen once you've completed this task."
-        quests={journey.previousStageQuests}
+        quests={filteredPreviousStageQuests}
         onCompleteQuest={onCompleteQuest}
         onReopenQuest={onReopenQuest}
         showCurrent={showCurrent}
@@ -131,7 +210,7 @@ function QuestsPage({
         navSection="upcoming"
         title="Upcoming"
         description="Erledigt? (Completed?) Tap Erledigen once you've completed this task."
-        quests={journey.upcomingQuests}
+        quests={filteredUpcomingQuests}
         onCompleteQuest={onCompleteQuest}
         onReopenQuest={onReopenQuest}
         showCurrent={showCurrent}
@@ -145,7 +224,7 @@ function QuestsPage({
         navSection="completed"
         title="Completed"
         description="Nicht mehr erledigt? (No longer completed?) Tap Wieder öffnen if it still needs your attention."
-        quests={journey.completedQuests}
+        quests={filteredCompletedQuests}
         onCompleteQuest={onCompleteQuest}
         onReopenQuest={onReopenQuest}
         showCurrent={showCurrent}

@@ -27,13 +27,110 @@
   border-left: 3px solid var(--border);
 
   color: var(--text-light);
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   line-height: 1.45;
 }
 
 .quest-resource-note strong {
   color: var(--text);
 }
+
+/**
+ * ============================================================
+ * Quest Search
+ * ============================================================
+ */
+
+.quest-search {
+  margin: 0 0 1.5rem;
+}
+
+.quest-search label {
+  display: block;
+  margin-bottom: 0.4rem;
+
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.quest-search-control {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  max-width: 32rem;
+}
+
+.quest-search-control input {
+  min-width: 0;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  background: var(--surface);
+  color: var(--text);
+
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.quest-search-control input::placeholder {
+  color: var(--text-light);
+}
+
+.quest-search-control input:focus {
+  border-color: #2563eb;
+  outline: 2px solid rgba(37, 99, 235, 0.15);
+  outline-offset: 1px;
+}
+
+.quest-search-control button {
+  flex-shrink: 0;
+
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  padding: 0.65rem 0.75rem;
+
+  background: var(--surface);
+  color: var(--text-light);
+
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.quest-search-control button:hover {
+  color: var(--text);
+}
+
+.quest-search-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+
+  margin: 0 0 1.5rem;
+  padding: 1rem;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.quest-search-empty strong {
+  color: var(--text);
+}
+
+/**
+ * ============================================================
+ * Quest Sections
+ * ============================================================
+ */
 
 .quest-section {
   margin-top: 1.5rem;
@@ -266,9 +363,9 @@
   font-size: 0.85rem;
   font-weight: 700;
   line-height: 1.1;
-   display: inline-flex;
-   align-items: center;
-   gap: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .quest-action-translation {
@@ -295,6 +392,13 @@
   background: #475569;
 }
 
+.quest-derived-completion-note {
+  max-width: 42rem;
+  color: var(--text-light);
+  font-size: 0.8rem !important;
+  line-height: 1.4;
+}
+
 @media (max-width: 768px) {
   .quest-section-header {
     align-items: flex-start;
@@ -304,11 +408,8 @@
   .quest-card-header {
     flex-direction: column;
   }
-}
 
-.quest-derived-completion-note {
-  max-width: 42rem;
-  color: var(--text-light);
-  font-size: 0.8rem !important;
-  line-height: 1.4;
+  .quest-search-control {
+    max-width: none;
+  }
 }
