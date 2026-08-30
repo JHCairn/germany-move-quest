@@ -29,3 +29,6 @@ docs/field-notes.md
 
 # local variables
 .env.local
+
+# Local staging / temporary files
+temp/
