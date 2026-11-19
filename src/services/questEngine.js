@@ -480,7 +480,17 @@ export function buildJourneyModel({
   questCatalog,
   stages,
 }) {
-  const currentStageId = user.currentStageId;
+  const arrivalDate = user.facts?.milestones?.moveDate?.actualDate;
+const today = new Date().toLocaleDateString("en-CA", {
+  timeZone: "Europe/Berlin",
+});
+
+const hasArrived = Boolean(arrivalDate && arrivalDate <= today);
+
+const currentStageId =
+  hasArrived && user.currentStageId === "preparing"
+    ? "just-arrived"
+    : user.currentStageId;
 
   if (!isKnownStage(currentStageId)) {
     console.warn(
